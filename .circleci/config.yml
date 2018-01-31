@@ -54,6 +54,7 @@ jobs:
           name: Install Dependencies
           command: |
             apk add --update --no-cache make
+            make dep
       - run:
           name: Build Docker Image
           command: |
