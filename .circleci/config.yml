@@ -53,7 +53,7 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
-            apk add --update --no-cache make
+            apk add --update --no-cache go musl-dev make
             make dep
       - run:
           name: Build Docker Image
