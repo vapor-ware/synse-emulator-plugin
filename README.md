@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/vapor-ware/synse-emulator-plugin.svg?style=svg&circle-token=98265e10d13f79a921d20f4c2fbd53188f3abc97)](https://circleci.com/gh/vapor-ware/synse-emulator-plugin)
+
 # Synse Emulator Plugin
 The emulator plugin for Synse Server. This is the source repo for the emulator
 that is built into the Synse Server Docker image and run via the `enable-emulator`
