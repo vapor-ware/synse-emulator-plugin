@@ -54,7 +54,9 @@ jobs:
           name: Install Dependencies
           command: |
             apk add --update --no-cache go musl-dev make
-            make dep
+            go get -v github.com/golang/dep/cmd/dep
+            go install github.com/golang/dep/cmd/dep
+            /go/bin/dep ensure -v
       - run:
           name: Build Docker Image
           command: |
