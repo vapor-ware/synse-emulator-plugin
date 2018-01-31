@@ -1,0 +1,71 @@
+version: 2
+jobs:
+  build:
+    working_directory: /go/src/github.com/vapor-ware/synse-emulator-plugin
+    docker:
+      - image: circleci/golang:1.8
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - emulator-vendor-{{ checksum "Gopkg.toml" }}-{{ checksum "Gopkg.lock" }}
+            - emulator-vendor-{{ checksum "Gopkg.toml" }}
+      - run:
+          name: Install Vendored Dependencies
+          command: |
+            make dep
+      - run:
+          name: Lint
+          command: |
+            make lint
+      - run:
+          name: Format
+          command: |
+            fmt="$(find . -name '*.go' -not -wholename './vendor/*' | while read -r file; do goimports -d "$file"; done)"
+            if [ "$fmt" != "" ]; then
+              echo "$fmt"
+              exit 1
+            fi
+      - run:
+          name: Build Binary
+          command: |
+            make build
+      - setup_remote_docker
+      - run:
+          name: Build Docker Image
+          command: |
+            make docker
+      - save_cache:
+          when: on_success
+          key: emulator-vendor-{{ checksum "Gopkg.toml" }}-{{ checksum "Gopkg.lock" }}
+          paths:
+            - vendor/
+
+    push:
+      working_directory: /go/src/github.com/vapor-ware/synse-emulator-plugin
+      docker:
+        - image: docker:17.11.0-ce-git
+      environment:
+        - GOPATH: /go
+      steps:
+        - checkout
+        - setup_remote_docker
+        - deploy:
+            name: Push to DockerHub
+            command: |
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
+              version=$(make version)
+              docker push vaporio/emulator-plugin:latest
+              docker push vaporio/emulator-plugin:$version
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build
+      - push:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master

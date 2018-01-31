@@ -47,8 +47,8 @@ endif
 .PHONY: docker
 docker:  ## Build the docker image
 	docker build -f Dockerfile \
-		-t vaporio/plugin-$(PLUGIN_NAME):latest \
-		-t vaporio/plugin-$(PLUGIN_NAME):$(PLUGIN_VERSION) .
+		-t vaporio/$(PLUGIN_NAME)-plugin:latest \
+		-t vaporio/$(PLUGIN_NAME)-plugin:$(PLUGIN_VERSION) .
 
 .PHONY: fmt
 fmt:  ## Run goimports on all go files
@@ -65,10 +65,13 @@ endif
 		--disable=gotype
 
 .PHONY: setup
-setup:  ## Install the build and development dependencies
+setup:  ## Install the build and development dependencies and set up vendoring
 	go get -u github.com/alecthomas/gometalinter
 	go get -u github.com/golang/dep/cmd/dep
 	gometalinter --install
+ifeq (,$(wildcard ./Gopkg.toml))
+	dep init
+endif
 	@$(MAKE) dep
 
 .PHONY: version
