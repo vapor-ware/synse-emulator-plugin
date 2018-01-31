@@ -1,0 +1,39 @@
+# Emulator Plugin + Synse Server via Unix Socket
+version: "3.3"
+services:
+
+  # Synse Server
+  # note that this uses the 2.0 build. this image does not exist
+  # on dockerhub so it must be built locally via the synse-server-internal
+  # v2.0-dev branch.
+  synse-server:
+    container_name: synse-server
+    image: vaporio/synse-server:2.0
+    ports:
+      - 5000:5000
+    # Unix-based plugins are registered with Synse Server when Synse Server
+    # detects the socket file in a well-known path. Here, we mount a shared
+    # volume to that path so that Synse Server can access the plugin's socket.
+    volumes:
+      - type: volume
+        source: plugin_sockets
+        target: /synse/procs
+
+  # Emulator Plugin
+  # while it is unnecessary to run this externally (as it is built-in to
+  # the Synse Server image), doing so here provides an example of how
+  # to set up plugins with Synse Server that is testable without any
+  # hardware dependencies.
+  plugin-emulator:
+    container_name: plugin-emulator
+    image: vaporio/plugin-emulator
+    environment:
+      PLUGIN_CONFIG: /tmp/config/unix.yml
+    volumes:
+      - ./config:/tmp/config/
+      - type: volume
+        source: plugin_sockets
+        target: /synse/procs
+
+volumes:
+  plugin_sockets:

@@ -1,0 +1,8 @@
+version: 1.0
+name: emulator
+debug: true
+network:
+  type: tcp
+  address: ":5001"
+settings:
+  loop_delay: 1000

@@ -1,0 +1,34 @@
+# Emulator Plugin + Synse Server via TCP
+version: "3"
+services:
+
+  # Synse Server
+  # note that this uses the 2.0 build. this image does not exist
+  # on dockerhub so it must be built locally via the synse-server-internal
+  # v2.0-dev branch.
+  synse-server:
+    container_name: synse-server
+    image: vaporio/synse-server:2.0
+    ports:
+      - 5000:5000
+    # TCP-based plugins are registered with Synse Server via
+    # environment variables, so we must specify the plugin here
+    environment:
+      SYNSE_PLUGIN_EMULATOR: plugin-emulator:5001
+    links:
+      - plugin-emulator
+
+  # Emulator Plugin
+  # while it is unnecessary to run this externally (as it is built-in to
+  # the Synse Server image), doing so here provides an example of how
+  # to set up plugins with Synse Server that is testable without any
+  # hardware dependencies.
+  plugin-emulator:
+    container_name: plugin-emulator
+    image: vaporio/plugin-emulator
+    volumes:
+      - ./config:/tmp/config/
+    ports:
+      - 5001:5001
+    environment:
+      PLUGIN_CONFIG: /tmp/config/tcp.yml

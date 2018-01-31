@@ -41,22 +41,22 @@ jobs:
           paths:
             - vendor/
 
-    push:
-      working_directory: /go/src/github.com/vapor-ware/synse-emulator-plugin
-      docker:
-        - image: docker:17.11.0-ce-git
-      environment:
-        - GOPATH: /go
-      steps:
-        - checkout
-        - setup_remote_docker
-        - deploy:
-            name: Push to DockerHub
-            command: |
-              docker login -u $DOCKER_USER -p $DOCKER_PASS
-              version=$(make version)
-              docker push vaporio/emulator-plugin:latest
-              docker push vaporio/emulator-plugin:$version
+  push:
+    working_directory: /go/src/github.com/vapor-ware/synse-emulator-plugin
+    docker:
+      - image: docker:17.11.0-ce-git
+    environment:
+      - GOPATH: /go
+    steps:
+      - checkout
+      - setup_remote_docker
+      - deploy:
+          name: Push to DockerHub
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            version=$(make version)
+            docker push vaporio/emulator-plugin:latest
+            docker push vaporio/emulator-plugin:$version
 
 workflows:
   version: 2
