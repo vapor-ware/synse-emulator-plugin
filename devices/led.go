@@ -55,6 +55,12 @@ func ledWrite(in *sdk.Device, data *sdk.WriteData) error {
 	action := data.Action
 	raw := data.Raw
 
+	// We always expect the action to come with raw data, so if it
+	// doesn't exist, error.
+	if len(raw) == 0 {
+		return fmt.Errorf("no values specified for 'raw', but required")
+	}
+
 	if action == "color" {
 		color = string(raw[0])
 
