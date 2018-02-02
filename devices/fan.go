@@ -1,11 +1,11 @@
 package devices
 
 import (
+	"fmt"
 	"strconv"
 	"time"
 
 	"github.com/vapor-ware/synse-sdk/sdk"
-	"fmt"
 )
 
 var speed int
