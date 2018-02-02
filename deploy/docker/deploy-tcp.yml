@@ -14,7 +14,7 @@ services:
     # TCP-based plugins are registered with Synse Server via
     # environment variables, so we must specify the plugin here
     environment:
-      SYNSE_PLUGIN_EMULATOR: plugin-emulator:5001
+      SYNSE_PLUGIN_TCP_EMULATOR: plugin-emulator:5001
     links:
       - plugin-emulator
 
@@ -27,8 +27,9 @@ services:
     container_name: plugin-emulator
     image: vaporio/plugin-emulator
     volumes:
-      - ./config:/tmp/config/
+      - ./config/tcp:/tmp/config/
+      - ../../config:/etc/synse/plugin/config
     ports:
       - 5001:5001
     environment:
-      PLUGIN_CONFIG: /tmp/config/tcp.yml
+      PLUGIN_CONFIG: /tmp/config
