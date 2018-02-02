@@ -17,7 +17,7 @@ services:
     volumes:
       - type: volume
         source: plugin_sockets
-        target: /synse/procs
+        target: /tmp/synse/procs
 
   # Emulator Plugin
   # while it is unnecessary to run this externally (as it is built-in to
@@ -28,12 +28,13 @@ services:
     container_name: plugin-emulator
     image: vaporio/plugin-emulator
     environment:
-      PLUGIN_CONFIG: /tmp/config/unix.yml
+      PLUGIN_CONFIG: /tmp/config
     volumes:
-      - ./config:/tmp/config/
+      - ../../config:/etc/synse/plugin/config
+      - ./config/unix:/tmp/config/
       - type: volume
         source: plugin_sockets
-        target: /synse/procs
+        target: /tmp/synse/procs
 
 volumes:
   plugin_sockets:
