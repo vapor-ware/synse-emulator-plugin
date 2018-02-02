@@ -1,6 +1,7 @@
 package devices
 
 import (
+	"encoding/hex"
 	"fmt"
 	"time"
 
@@ -62,6 +63,13 @@ func ledWrite(in *sdk.Device, data *sdk.WriteData) error {
 	}
 
 	if action == "color" {
+		decoded, err := hex.DecodeString(string(raw[0]))
+		if err != nil {
+			return err
+		}
+		if len(decoded) != 3 {
+			return fmt.Errorf("color value should be a 3-byte (RGB) hex string")
+		}
 		color = string(raw[0])
 
 	} else if action == "blink" {
