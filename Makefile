@@ -62,7 +62,7 @@ ifndef HAS_LINT
 endif
 	@ # disable gotype: https://github.com/alecthomas/gometalinter/issues/40
 	gometalinter ./... --tests --vendor --deadline=5m \
-		--disable=gotype
+		--disable=gotype --disable=gocyclo
 
 .PHONY: setup
 setup:  ## Install the build and development dependencies and set up vendoring

@@ -1,6 +1,7 @@
 package devices
 
 import (
+	"encoding/hex"
 	"fmt"
 	"time"
 
@@ -55,7 +56,20 @@ func ledWrite(in *sdk.Device, data *sdk.WriteData) error {
 	action := data.Action
 	raw := data.Raw
 
+	// We always expect the action to come with raw data, so if it
+	// doesn't exist, error.
+	if len(raw) == 0 {
+		return fmt.Errorf("no values specified for 'raw', but required")
+	}
+
 	if action == "color" {
+		decoded, err := hex.DecodeString(string(raw[0]))
+		if err != nil {
+			return err
+		}
+		if len(decoded) != 3 {
+			return fmt.Errorf("color value should be a 3-byte (RGB) hex string")
+		}
 		color = string(raw[0])
 
 	} else if action == "blink" {
