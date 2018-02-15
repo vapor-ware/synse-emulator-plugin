@@ -3,7 +3,6 @@ package devices
 import (
 	"fmt"
 	"strconv"
-	"time"
 
 	"github.com/vapor-ware/synse-sdk/sdk"
 )
@@ -19,9 +18,8 @@ var EmulatedFan = sdk.DeviceHandler{
 }
 
 func fanRead(device *sdk.Device) ([]*sdk.Reading, error) {
-	now := time.Now().String()
 	ret := []*sdk.Reading{
-		{now, "fan_speed", strconv.Itoa(speed)},
+		sdk.NewReading("fan_speed", strconv.Itoa(speed)),
 	}
 	return ret, nil
 }
@@ -43,6 +41,5 @@ func fanWrite(device *sdk.Device, data *sdk.WriteData) error {
 		}
 		speed = s
 	}
-
 	return nil
 }
