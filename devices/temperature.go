@@ -16,9 +16,6 @@ var EmulatedTemp = sdk.DeviceHandler{
 }
 
 func temperatureRead(device *sdk.Device) ([]*sdk.Reading, error) {
-
-	now := time.Now().String()
-
 	var readings []*sdk.Reading
 	for _, output := range device.Output {
 		min := output.Range.Min
@@ -28,12 +25,8 @@ func temperatureRead(device *sdk.Device) ([]*sdk.Reading, error) {
 		r1 := rand.New(s1)
 		val := r1.Int31n(max-min) + min
 
-		r := sdk.Reading{
-			Timestamp: now,
-			Type:      device.Type,
-			Value:     strconv.Itoa(int(val)),
-		}
-		readings = append(readings, &r)
+		r := sdk.NewReading(device.Type, strconv.Itoa(int(val)))
+		readings = append(readings, r)
 	}
 	return readings, nil
 }

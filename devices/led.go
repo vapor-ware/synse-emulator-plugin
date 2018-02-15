@@ -3,7 +3,6 @@ package devices
 import (
 	"encoding/hex"
 	"fmt"
-	"time"
 
 	"github.com/vapor-ware/synse-sdk/sdk"
 )
@@ -41,14 +40,11 @@ func ledRead(device *sdk.Device) ([]*sdk.Reading, error) {
 		blink = blinkSteady
 	}
 
-	now := time.Now().String()
-
 	ret := []*sdk.Reading{
-		{now, "state", state},
-		{now, "color", color},
-		{now, "blink", blink},
+		sdk.NewReading("state", state),
+		sdk.NewReading("color", color),
+		sdk.NewReading("blink", blink),
 	}
-
 	return ret, nil
 }
 
@@ -92,6 +88,5 @@ func ledWrite(in *sdk.Device, data *sdk.WriteData) error {
 			return fmt.Errorf("unsupported command for state action: %v", cmd)
 		}
 	}
-
 	return nil
 }
