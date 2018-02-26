@@ -35,6 +35,9 @@ func main() {
 		&devices.EmulatedFan,
 		&devices.EmulatedLED,
 		&devices.EmulatedTemp,
+		&devices.EmulatedAirflow,
+		&devices.EmulatedHumidity,
+		&devices.EmulatedPressure,
 	)
 
 	// Set build-time version info

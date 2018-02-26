@@ -8,14 +8,14 @@ import (
 	"github.com/vapor-ware/synse-sdk/sdk"
 )
 
-// EmulatedTemp is the handler for the Emulated temperature device.
-var EmulatedTemp = sdk.DeviceHandler{
-	Type:  "temperature",
-	Model: "emul8-temp",
-	Read:  temperatureRead,
+// EmulatedPressure is the handler for the Emulated pressure device.
+var EmulatedPressure = sdk.DeviceHandler{
+	Type:  "differential_pressure",
+	Model: "emul8-pressure",
+	Read:  pressureRead,
 }
 
-func temperatureRead(device *sdk.Device) ([]*sdk.Reading, error) {
+func pressureRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	var readings []*sdk.Reading
 	for _, output := range device.Output {
 		min := output.Range.Min
