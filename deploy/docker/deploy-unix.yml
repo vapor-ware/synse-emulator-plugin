@@ -26,7 +26,7 @@ services:
   # hardware dependencies.
   plugin-emulator:
     container_name: plugin-emulator
-    image: vaporio/plugin-emulator
+    image: vaporio/emulator-plugin
     environment:
       PLUGIN_CONFIG: /tmp/config
     volumes:
