@@ -1,0 +1,15 @@
+version: 1.0
+prototypes:
+  - type: airflow
+    model: emul8-air
+    manufacturer: Vapor IO
+    protocol: emulator
+    output:
+      - type: airflow
+        unit:
+          name: millimeters per second
+          symbol: mm/s
+        precision: 3
+        range:
+          min: -100
+          max: 100
