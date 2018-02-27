@@ -17,20 +17,27 @@ var (
 )
 
 // ProtocolIdentifier defines the emulator-specific way of uniquely identifying a device
-// through its device configuration.
+// through its device configuration. For emulator devices, it expects to find an "id"
+// field in the instance configuration and will use that to help construct the unique
+// device ID.
 func ProtocolIdentifier(data map[string]string) string {
 	return data["id"]
 }
 
 func main() {
-	// Create a new Plugin and configure it.
-	plugin := sdk.NewPlugin()
-	err := plugin.Configure()
+	// Create the protocol identifier for the emulator.
+	handlers, err := sdk.NewHandlers(ProtocolIdentifier, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	plugin.RegisterDeviceIdentifier(ProtocolIdentifier)
+	// Create a new Plugin with the configuration from the default paths.
+	plugin, err := sdk.NewPlugin(handlers, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Register the devices with the plugin
 	plugin.RegisterDeviceHandlers(
 		&devices.EmulatedFan,
 		&devices.EmulatedLED,

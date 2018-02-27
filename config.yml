@@ -1,6 +1,6 @@
 version: 1.0
 name: emulator
-debug: true
+debug: false
 network:
   type: unix
   address: emulator.sock

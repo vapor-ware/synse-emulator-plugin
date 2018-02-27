@@ -9,7 +9,7 @@ import (
 
 var speed int
 
-// EmulatedFan is the handler for the Emulated fan device.
+// EmulatedFan is the handler for the emulated fan device.
 var EmulatedFan = sdk.DeviceHandler{
 	Type:  "fan",
 	Model: "emul8-fan",
@@ -17,6 +17,8 @@ var EmulatedFan = sdk.DeviceHandler{
 	Write: fanWrite,
 }
 
+// fanRead is the read handler for the emulated fan devices(s). It
+// returns the `speed` state for the device.
 func fanRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	ret := []*sdk.Reading{
 		sdk.NewReading("fan_speed", strconv.Itoa(speed)),
@@ -24,6 +26,8 @@ func fanRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	return ret, nil
 }
 
+// airflowWrite is the write handler for the emulated fan device(s). It
+// sets the `speed` state based on the values written to the device.
 func fanWrite(device *sdk.Device, data *sdk.WriteData) error {
 	action := data.Action
 	raw := data.Raw

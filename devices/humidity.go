@@ -8,13 +8,15 @@ import (
 	"github.com/vapor-ware/synse-sdk/sdk"
 )
 
-// EmulatedHumidity is the handler for the Emulated humidity device.
+// EmulatedHumidity is the handler for the emulated humidity device.
 var EmulatedHumidity = sdk.DeviceHandler{
 	Type:  "humidity",
 	Model: "emul8-humidity",
 	Read:  humidityRead,
 }
 
+// humidityRead is the read handler for the emulated humidity device(s). It
+// returns random values between the device's min and max range.
 func humidityRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	var readings []*sdk.Reading
 	for _, output := range device.Output {
