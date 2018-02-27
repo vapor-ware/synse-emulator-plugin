@@ -8,13 +8,15 @@ import (
 	"github.com/vapor-ware/synse-sdk/sdk"
 )
 
-// EmulatedPressure is the handler for the Emulated pressure device.
+// EmulatedPressure is the handler for the emulated pressure device.
 var EmulatedPressure = sdk.DeviceHandler{
 	Type:  "differential_pressure",
 	Model: "emul8-pressure",
 	Read:  pressureRead,
 }
 
+// pressureRead is the read handler for the emulated pressure device(s). It
+// returns random values between the device's min and max range.
 func pressureRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	var readings []*sdk.Reading
 	for _, output := range device.Output {

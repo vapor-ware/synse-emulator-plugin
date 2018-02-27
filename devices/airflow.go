@@ -8,13 +8,15 @@ import (
 	"github.com/vapor-ware/synse-sdk/sdk"
 )
 
-// EmulatedAirflow is the handler for the Emulated airflow device.
+// EmulatedAirflow is the handler for the emulated airflow device.
 var EmulatedAirflow = sdk.DeviceHandler{
 	Type:  "airflow",
 	Model: "emul8-air",
 	Read:  airflowRead,
 }
 
+// airflowRead is the read handler for the emulated airflow device(s). It
+// returns random values between the device's min and max range.
 func airflowRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	var readings []*sdk.Reading
 	for _, output := range device.Output {

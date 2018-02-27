@@ -8,13 +8,15 @@ import (
 	"github.com/vapor-ware/synse-sdk/sdk"
 )
 
-// EmulatedTemp is the handler for the Emulated temperature device.
+// EmulatedTemp is the handler for the emulated temperature device.
 var EmulatedTemp = sdk.DeviceHandler{
 	Type:  "temperature",
 	Model: "emul8-temp",
 	Read:  temperatureRead,
 }
 
+// temperatureRead is the read handler for the emulated temperature device(s).
+// It returns random values between the device's min and max range.
 func temperatureRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	var readings []*sdk.Reading
 	for _, output := range device.Output {

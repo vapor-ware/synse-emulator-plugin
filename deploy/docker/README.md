@@ -14,50 +14,42 @@ the examples here a good place to get started.
 There are two docker-compose based deployments here. The only difference between
 the two is how Synse Server and the Plugin are configured to communicate. Currently,
 we support communication via
-- TCP port
+- TCP
 - UNIX socket
 
 The two deployments here give an example of how to run a plugin with Synse Server
 in those cases.
 
-The difference is entirely a configuration difference. See the compose files and
+The difference is entirely in the configuration. See the compose files and
 the corresponding configuration files in the `config/` subdirectory to see how
 the two deployments differ.
 
 
 ## Setup
-Note that the images required for these examples are not available pre-built.
-They must be built locally. See the sections below for how to build the two
-required images.
 
-### vaporio/synse-server:2.0
-For the Synse Server 2.0 image:
+You will need the Synse Server image and the plugin emulator image. These can
+either be built locally, or can be pulled from DockerHub.
+```shell
+# synse server
+docker pull vaporio/synse-server
 
-- checkout the `v2.0-dev` branch of `vapor-ware/synse-server-internal`
-- do a `make build`
-- create a `vaporio/synse-server:2.0` tag from the results of that build
+# plugin emulator
+docker pull vaporio/emulator-plugin
+```
 
-### vaporio/plugin-emulator
-for the Emulator Plugin image:
-
-- checkout `master` of `vapor-ware/synse-plugins-internal` and make sure it
-  is up to date
-- `cd` into the `emulator/` subdirectory
-- do a `make docker` to build the image 
-- *(note: as of writing this, the changes for containerizing the emulator are
-  still in a PR but they should make it into master shortly.)*
-
+If these images do not exist locally, `docker-compose` will pull them when the
+example compose files are run.
 
 ## Usage
-Running either of the example is pretty straightforward. There are Makefile
+Running either of the examples is pretty straightforward; there are Makefile
 targets to make it easy. To run the deployment that uses TCP-based communication
-between Synse Server and the plugin, run
+between Synse Server and the plugin, use
 ```
 make tcp
 ```
 
 To run the deployment that uses UNIX socket-based communication between 
-Synse Server and the plugin, run
+Synse Server and the plugin, use
 ```
 make unix
 ```
@@ -78,7 +70,13 @@ that is available via the plugin:
 curl localhost:5000/synse/2.0/scan
 ```
 
-This should give back a set of devices - in particular, a fake fan device,
-two fake LED devices, and a bunch of fake temperature devices. If you look at the
-log output of the Emulator Plugin , you should see that these results match up
-with what that plugin had registered on startup. 
+This should give back a set of devices - in particular:
+- 1 fan device
+- 2 LED devices
+- 1 airflow device
+- 1 humidity device
+- 2 pressure devices
+- 5 temperature devices
+
+If you look at the log output of the Emulator Plugin , you should see that
+these results match up with what that plugin had registered on startup. 

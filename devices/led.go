@@ -20,7 +20,7 @@ var (
 	blink string
 )
 
-// EmulatedLED is the handler for the Emulated LED device.
+// EmulatedLED is the handler for the emulated LED device.
 var EmulatedLED = sdk.DeviceHandler{
 	Type:  "led",
 	Model: "emul8-led",
@@ -28,6 +28,8 @@ var EmulatedLED = sdk.DeviceHandler{
 	Write: ledWrite,
 }
 
+// ledRead is the read handler for the emulated LED device(s). It
+// returns the state, color, and blink values for the device.
 func ledRead(device *sdk.Device) ([]*sdk.Reading, error) {
 
 	if state == "" {
@@ -48,7 +50,9 @@ func ledRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	return ret, nil
 }
 
-func ledWrite(in *sdk.Device, data *sdk.WriteData) error {
+// ledWrite is the write handler for the emulated LED device(s). It
+// sets the state, color, and blink values for the device.
+func ledWrite(device *sdk.Device, data *sdk.WriteData) error {
 	action := data.Action
 	raw := data.Raw
 

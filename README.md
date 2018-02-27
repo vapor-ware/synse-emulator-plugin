@@ -2,21 +2,23 @@
 
 # Synse Emulator Plugin
 The emulator plugin for Synse Server. This is the source repo for the emulator
-that is built into the Synse Server Docker image and run via the `enable-emulator`
-flag.
+that is built into Synse Server Docker images and run via the `enable-emulator`
+flag (e.g. `docker run vaporio/synse-server enable-emulator`)
 
-This plugin is a simple plugin which has no dependencies on any backend hardware
+This plugin is designed to be simple and have no dependencies on any backend hardware
 or protocol. It is meant to be a standalone plugin that can run with Synse Server
-out of the box allowing you to quickly experiment and develop with Synse Server
-without any other dependencies. It may also serve as an example on how to write
-plugins of your own.
+out of the box allowing you to quickly experiment and develop with Synse Server. It
+may also serve as an example on how to write plugins of your own.
 
-This plugin supports three devices:
+This plugin supports six devices:
 - Temperature (type: `temperature`, model: `emul8-temp`)
 - LED (type: `led`, model: `emul8-led`)
 - Fan (type: `fan`, model: `emul8-fan`)
+- Airflow (type: `airflow`, model: `emul8-air`)
+- Humidity (type: `humidity`, model: `emul8-humidity`)
+- Pressure (type: `differential_pressure`, model: `emul8-pressure`)
 
-All three return dummy data for their reading values. All three support reading,
+All six return dummy data for their reading values. All six support reading,
 but only the LED and Fan devices support writing. State is maintained for writable
 devices, so any state you set should be readable back out.
 
@@ -50,8 +52,9 @@ docker pull vaporio/emulator-plugin
 
 **Synse Server**
 
-This plugin comes built into the Synse Server image as well, where it can be run alongside
-Synse Server with the `enable-emulator` command. See the [Synse Server]() repo for more information.
+This plugin comes built into some Synse Server images as well, where it can be run alongside
+Synse Server with the `enable-emulator` command. See the [Synse Server](https://github.com/vapor-ware/synse-server)
+repo for more information.
 
 ### Building
 If you are using the emulator via Docker image, this is already done for you. Otherwise,
@@ -59,7 +62,7 @@ you will need to build the emulator binary. This can be done simply via the Make
 ```
 make build
 ```
-See the Makefile for other available targets.
+See the Makefile for other available targets, or use `make help`.
 
 ### Running
 If you are using the emulator as part of Synse Server, you only need to pass `enable-emulator`
@@ -67,9 +70,10 @@ to the docker run command for Synse Server.
 
 If you just want to run the binary, `make build` will output the `emulator` binary into the
 `build/` subdirectory. The plugin will need some configuration before it can run successfully.
-To find out more on how plugins are configued, see the [Synse SDK](). The configurations you
-need are provided here in the `config/` directory. While there are multiple ways that the
-configuration can be passed to the plugin, the easiest way is simply via environment variable
+To find out more on how plugins are configured, see the [Synse SDK](https://github.com/vapor-ware/synse-sdk).
+The configurations you need are provided here in the `config/` directory. While there are multiple
+ways that the configuration can be passed to the plugin, the easiest way is simply via environment
+variable
 ```
 PLUGIN_DEVICE_CONFIG=config ./build/emulator
 ```
@@ -104,16 +108,17 @@ INFO[0000] listening on network unix with address /tmp/synse/procs/emulator.sock
 INFO[0000] serving
 ```
 
-To use the emulator external to Synse Server, you will need to hit its [gRPC API](). The [Synse CLI]()
-provides capabilities for easily interacting with plugins in this way.
+To use the emulator external to Synse Server, you will need to hit its [gRPC API](https://github.com/vapor-ware/synse-server-grpc).
+The [Synse CLI](https://github.com/vapor-ware/synse-cli) provides capabilities for easily
+interacting with plugins in this way.
 
 # Developing
 The Makefile provides targets to simplify the development workflow. Use `make help` to list
 all available targets, or see the [Makefile](Makefile).
 
 ## Setup
-When you first get the source (see the Getting Started section), you may need some additional tooling
-and the project will need to be vendored. Running
+When you first get the source (see the [Getting Started](#getting-started) section), you may
+need some additional tooling and the project will need to be vendored. Running
 ```
 make setup
 ```
@@ -126,7 +131,7 @@ The emulator binary can be built for your OS/Arch with
 make build
 ```
 
-To build for Linux/AMD64
+To build for Linux/AMD64 (this is what is used for the version within Synse Server)
 ```
 make build-linux
 ```

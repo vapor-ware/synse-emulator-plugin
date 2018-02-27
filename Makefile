@@ -1,3 +1,6 @@
+#
+# Synse Emulator Plugin
+#
 
 PLUGIN_NAME := emulator
 PLUGIN_VERSION=1.0
@@ -5,25 +8,26 @@ PLUGIN_VERSION=1.0
 PKG_CTX=main
 BUILD_DATE := $(shell date -u +%Y-%m-%dT%T 2> /dev/null)
 GIT_COMMIT := $(shell git rev-parse --short HEAD 2> /dev/null || true)
-GIT_TAG := $(shell git describe --tags 2> /dev/null || true)
+GIT_TAG    := $(shell git describe --tags 2> /dev/null || true)
 GO_VERSION := $(shell go version | awk '{ print $$3 }')
 
 LDFLAGS="-X ${PKG_CTX}.BuildDate=${BUILD_DATE} \
-		 -X ${PKG_CTX}.GitCommit=${GIT_COMMIT} \
-		 -X ${PKG_CTX}.GitTag=${GIT_TAG} \
-		 -X ${PKG_CTX}.GoVersion=${GO_VERSION} \
-         -X ${PKG_CTX}.VersionString=${PLUGIN_VERSION}"
+	-X ${PKG_CTX}.GitCommit=${GIT_COMMIT} \
+	-X ${PKG_CTX}.GitTag=${GIT_TAG} \
+	-X ${PKG_CTX}.GoVersion=${GO_VERSION} \
+	-X ${PKG_CTX}.VersionString=${PLUGIN_VERSION}"
 
-# the names of the packages in the project - used for getting coverage info
-TEST_PKG := $(shell find . -name '*.go' -not -wholename './vendor/*' -not -wholename './plugin.go' | sed -e 's/\/[a-zA-Z0-9_]*.go$$//' | uniq)
-
-HAS_LINT := $(shell command -v gometalinter)
-HAS_DEP  := $(shell command -v dep)
+HAS_LINT := $(shell which gometalinter)
+HAS_DEP  := $(shell which dep)
 
 
 .PHONY: build
 build:  ## Build the plugin Go binary
 	go build -ldflags ${LDFLAGS} -o build/emulator
+
+.PHONY: build-linux
+build-linux:  ## Build the plugin for linux amd64
+	GOOS=linux GOARCH=amd64 go build -ldflags ${LDFLAGS} -o build/emulator .
 
 .PHONY: ci
 ci:  ## Run CI checks locally (build, lint)
@@ -32,10 +36,6 @@ ci:  ## Run CI checks locally (build, lint)
 .PHONY: clean
 clean:  ## Remove temporary files
 	go clean -v
-
-.PHONY: build-linux
-build-linux:  ## Build the plugin for linux amd64
-	GOOS=linux GOARCH=amd64 go build -ldflags ${LDFLAGS} -o build/emulator .
 
 .PHONY: dep
 dep:  ## Ensure and prune dependencies
