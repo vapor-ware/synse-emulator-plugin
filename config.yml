@@ -1,8 +1,15 @@
 version: 1.0
 name: emulator
-debug: false
+debug: true
 network:
   type: unix
   address: emulator.sock
 settings:
-  loop_delay: 1000 # run the loop on a 1s delay
+  mode: parallel
+  # for the sake of example, the read and write intervals
+  # are set to different values, though they should be fine
+  # if set to the same value.
+  read:
+    interval: 1s
+  write:
+    interval: 2s
