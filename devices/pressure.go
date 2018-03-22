@@ -10,7 +10,7 @@ import (
 
 // EmulatedPressure is the handler for the emulated pressure device.
 var EmulatedPressure = sdk.DeviceHandler{
-	Type:  "differential_pressure",
+	Type:  "pressure",
 	Model: "emul8-pressure",
 	Read:  pressureRead,
 }
