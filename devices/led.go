@@ -8,16 +8,14 @@ import (
 )
 
 const (
-	stateOn     = "on"
-	stateOff    = "off"
-	blinkBlink  = "blink"
-	blinkSteady = "steady"
+	stateOn    = "on"
+	stateOff   = "off"
+	stateBlink = "blink"
 )
 
 var (
 	state string
 	color string
-	blink string
 )
 
 // EmulatedLED is the handler for the emulated LED device.
@@ -29,7 +27,7 @@ var EmulatedLED = sdk.DeviceHandler{
 }
 
 // ledRead is the read handler for the emulated LED device(s). It
-// returns the state, color, and blink values for the device.
+// returns the state and color values for the device.
 func ledRead(device *sdk.Device) ([]*sdk.Reading, error) {
 
 	if state == "" {
@@ -38,20 +36,16 @@ func ledRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	if color == "" {
 		color = "000000"
 	}
-	if blink == "" {
-		blink = blinkSteady
-	}
 
 	ret := []*sdk.Reading{
 		sdk.NewReading("state", state),
 		sdk.NewReading("color", color),
-		sdk.NewReading("blink", blink),
 	}
 	return ret, nil
 }
 
 // ledWrite is the write handler for the emulated LED device(s). It
-// sets the state, color, and blink values for the device.
+// sets the state and color values for the device.
 func ledWrite(device *sdk.Device, data *sdk.WriteData) error {
 	action := data.Action
 	raw := data.Raw
@@ -72,22 +66,14 @@ func ledWrite(device *sdk.Device, data *sdk.WriteData) error {
 		}
 		color = string(raw[0])
 
-	} else if action == "blink" {
-		cmd := string(raw[0])
-		if cmd == blinkSteady {
-			blink = blinkSteady
-		} else if cmd == blinkBlink {
-			blink = blinkBlink
-		} else {
-			return fmt.Errorf("unsupported command for blink action: %v", cmd)
-		}
-
 	} else if action == "state" {
 		cmd := string(raw[0])
 		if cmd == stateOn {
 			state = stateOn
 		} else if cmd == stateOff {
 			state = stateOff
+		} else if cmd == stateBlink {
+			state = stateBlink
 		} else {
 			return fmt.Errorf("unsupported command for state action: %v", cmd)
 		}
