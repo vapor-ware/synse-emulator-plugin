@@ -11,6 +11,6 @@ WORKDIR /plugin
 
 COPY --from=builder /go/src/github.com/vapor-ware/synse-emulator-plugin/build/emulator ./plugin
 COPY config.yml .
-COPY config/ ./config/
+COPY config/proto /etc/synse/plugin/config/proto
 
 CMD ["./plugin"]
