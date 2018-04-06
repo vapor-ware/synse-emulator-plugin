@@ -69,6 +69,55 @@ jobs:
             docker push vaporio/emulator-plugin:latest
             docker push vaporio/emulator-plugin:$version
 
+  # release creates a GitHub release draft for a tag
+  release:
+    working_directory: /go/src/github.com/vapor-ware/synse-emulator-plugin
+    docker:
+      - image: circleci/golang:1.8
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - checkout
+      - run:
+          name: Check Version matches Tag
+          command: |
+            version=$(make version)
+            if [ "${version}" != "${CIRCLE_TAG}" ]; then
+              echo "Version ${version} does not match Tag ${CIRCLE_TAG}"
+              exit 1
+            fi
+      - run:
+          name: Install Vendored Dependencies
+          command: |
+            make dep
+      - run:
+          name: Get GHR Distributor
+          command: |
+            go get -v github.com/tcnksm/ghr
+      - run:
+          name: "Generate Changelog"
+          command: |
+            docker pull timfallmk/github-changelog-generator
+            docker run --name changelog timfallmk/github-changelog-generator \
+              -u vapor-ware \
+              -p synse-emulator-plugin \
+              --since-tag $(git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`) \
+              -t ${GITHUB_TOKEN}
+            docker cp changelog:/usr/local/src/your-app/CHANGELOG.md ./
+      - run:
+          name: Create Release
+          command: |
+            if git describe --exact-match --tags HEAD; then
+              CIRCLE_TAG=$(git describe --exact-match --tags HEAD)
+            fi
+            ghr \
+              -u ${GITHUB_USER} \
+              -t ${GITHUB_TOKEN} \
+              -b "$(cat ./CHANGELOG.md)" \
+              -replace \
+              -draft \
+              ${CIRCLE_TAG}
+
 workflows:
   version: 2
   build:
@@ -80,3 +129,9 @@ workflows:
           filters:
             branches:
               only: master
+      - release:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^[0-9]*(\.[0-9]*)*$/
