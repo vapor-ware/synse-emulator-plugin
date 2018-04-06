@@ -91,11 +91,17 @@ jobs:
           command: |
             make dep
       - run:
-          name: Get GHR Distributor
+          name: Get Builder and Distributor
           command: |
+            go get -v github.com/mitchellh/gox
             go get -v github.com/tcnksm/ghr
       - run:
-          name: "Generate Changelog"
+          name: Building Artifacts
+          command: |
+            cd cmd/
+            gox --output="build/emulator_{{.OS}}_{{.Arch}}" -osarch='!darwin/386' -os='darwin linux'
+      - run:
+          name: Generate Changelog
           command: |
             docker pull timfallmk/github-changelog-generator
             docker run --name changelog timfallmk/github-changelog-generator \
@@ -116,7 +122,7 @@ jobs:
               -b "$(cat ./CHANGELOG.md)" \
               -replace \
               -draft \
-              ${CIRCLE_TAG}
+              ${CIRCLE_TAG} build/
 
 workflows:
   version: 2
