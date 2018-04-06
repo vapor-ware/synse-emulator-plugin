@@ -98,7 +98,7 @@ jobs:
       - run:
           name: Building Artifacts
           command: |
-            gox --output="build/emulator_{{.OS}}_{{.Arch}}" -osarch='!darwin/386' -os='darwin linux'
+            gox --output="build/emulator_{{.OS}}_{{.Arch}}" -osarch='!darwin/386 !darwin/arm !darwin/arm64' -os='darwin linux'
       - run:
           name: Generate Changelog
           command: |
