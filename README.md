@@ -161,4 +161,4 @@ If you experience a bug, would like to ask a question, or request a feature open
 context as possible.
 
 # License
-The Synse Emulator Plugin is licensed under GPLv2. See [LICENSE](LICENSE) for more info.
+The Synse Emulator Plugin is licensed under GPLv3. See [LICENSE](LICENSE) for more info.
