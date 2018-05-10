@@ -3,7 +3,7 @@
 #
 
 PLUGIN_NAME := emulator
-PLUGIN_VERSION=1.0
+PLUGIN_VERSION=1.0.1
 
 PKG_CTX=main
 BUILD_DATE := $(shell date -u +%Y-%m-%dT%T 2> /dev/null)
@@ -53,6 +53,11 @@ docker:  ## Build the docker image
 .PHONY: fmt
 fmt:  ## Run goimports on all go files
 	find . -name '*.go' -not -wholename './vendor/*' | while read -r file; do goimports -w "$$file"; done
+
+.PHONY: github-tag
+github-tag:  ## Create and push a tag with the current plugin version
+	git tag -a ${PLUGIN_VERSION} -m "${PLUGIN_NAME} version ${PLUGIN_VERSION}"
+	git push -u origin ${PLUGIN_VERSION}
 
 .PHONY: lint
 lint:  ## Lint project source files
