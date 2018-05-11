@@ -6,6 +6,9 @@ PLUGIN_NAME    := emulator
 PLUGIN_VERSION := 1.0.1
 IMAGE_NAME     := vaporio/emulator-plugin
 
+# In CI, git commit is CIRCLE_SHA1 and git tag
+# is CIRCLE_TAG -- perhaps we could consolidate
+# so we prefer those and use this as a fallback?
 GIT_COMMIT ?= $(shell git rev-parse --short HEAD 2> /dev/null || true)
 GIT_TAG    ?= $(shell git describe --tags 2> /dev/null || true)
 BUILD_DATE := $(shell date -u +%Y-%m-%dT%T 2> /dev/null)
