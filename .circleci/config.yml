@@ -5,7 +5,6 @@ defaults: &defaults
     - image: circleci/golang:latest
   environment:
     IMAGE_NAME: "vaporio/emulator-plugin"
-    GIT_TAG: "$CIRCLE_TAG"
 
 
 # Common config for tag-triggered workflows
@@ -37,13 +36,6 @@ jobs:
           keys:
             - v1-vendor-{{ checksum "Gopkg.toml" }}-{{ checksum "Gopkg.lock" }}
             - v1-vendor-{{ checksum "Gopkg.toml" }}
-      - run:
-          name: Print Environment
-          command: |
-            echo "image name: $IMAGE_NAME"
-            echo "git commit: $GIT_COMMIT"
-            echo "git tag:    $GIT_TAG"
-            echo "circle tag: $CIRCLE_TAG"
       - run:
           name: Install Vendored Dependencies
           command: make dep
@@ -110,12 +102,7 @@ jobs:
           command: make dep
       - run:
           name: Check Version matches Tag
-          command: |
-            version=$(make version)
-            if [ "${version}" != "${CIRCLE_TAG}" ]; then
-              echo "Version '${version}' does not match Tag '${CIRCLE_TAG}'"
-              exit 1
-            fi
+          command: make ci-check-version
       - run:
           name: Build and Publish Docker Images
           command: |
@@ -135,20 +122,13 @@ jobs:
           docker_layer_caching: true
       - run:
           name: Check Version matches Tag
-          command: |
-            version=$(make version)
-            if [ "${version}" != "${CIRCLE_TAG}" ]; then
-              echo "Version '${version}' does not match Tag '${CIRCLE_TAG}'"
-              exit 1
-            fi
+          command: make ci-check-version
       - run:
           name: Install Vendored Dependencies
           command: make dep
       - run:
           name: Building Artifacts
-          command: |
-            go get -v github.com/mitchellh/gox
-            gox --output="build/emulator_{{.OS}}_{{.Arch}}" -osarch='!darwin/386 !darwin/arm !darwin/arm64' -os='darwin linux' --parallel=10
+          command: make ci-build
       - run:
           name: Generate Changelog
           command: |

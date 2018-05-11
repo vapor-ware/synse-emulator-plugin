@@ -2,40 +2,40 @@
 # Synse Emulator Plugin
 #
 
-PLUGIN_NAME		:= emulator
-PLUGIN_VERSION	:= 1.0.1
-
-IMAGE_NAME		:= vaporio/emulator-plugin
+PLUGIN_NAME    := emulator
+PLUGIN_VERSION := 1.0.1
+IMAGE_NAME     := vaporio/emulator-plugin
 
 GIT_COMMIT ?= $(shell git rev-parse --short HEAD 2> /dev/null || true)
 GIT_TAG    ?= $(shell git describe --tags 2> /dev/null || true)
-
-
-PKG_CTX    := main
 BUILD_DATE := $(shell date -u +%Y-%m-%dT%T 2> /dev/null)
-#GIT_COMMIT := $(shell git rev-parse --short HEAD 2> /dev/null || true)
-#GIT_TAG    := $(shell git describe --tags 2> /dev/null || true)
 GO_VERSION := $(shell go version | awk '{ print $$3 }')
 
-LDFLAGS="-w \
+PKG_CTX    := main
+LDFLAGS	   := -w \
 	-X ${PKG_CTX}.BuildDate=${BUILD_DATE} \
 	-X ${PKG_CTX}.GitCommit=${GIT_COMMIT} \
 	-X ${PKG_CTX}.GitTag=${GIT_TAG} \
 	-X ${PKG_CTX}.GoVersion=${GO_VERSION} \
-	-X ${PKG_CTX}.VersionString=${PLUGIN_VERSION} \
-	${LDFLAGS}"
+	-X ${PKG_CTX}.VersionString=${PLUGIN_VERSION}
+
 
 HAS_LINT := $(shell which gometalinter)
 HAS_DEP  := $(shell which dep)
+HAS_GOX  := $(shell which gox)
 
+
+#
+# Local Targets
+#
 
 .PHONY: build
 build:  ## Build the plugin Go binary
-	go build -ldflags ${LDFLAGS} -o build/emulator
+	go build -ldflags "${LDFLAGS}" -o build/emulator
 
 .PHONY: build-linux
 build-linux:  ## Build the plugin for linux amd64
-	GOOS=linux GOARCH=amd64 go build -ldflags ${LDFLAGS} -o build/emulator .
+	GOOS=linux GOARCH=amd64 go build -ldflags "${LDFLAGS}" -o build/emulator .
 
 .PHONY: ci
 ci:  ## Run CI checks locally (build, lint)
@@ -96,3 +96,23 @@ help:  ## Print usage information
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-15s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST) | sort
 
 .DEFAULT_GOAL := help
+
+
+#
+# CI Targets
+#
+
+.PHONY: ci-check-version
+ci-check-version:
+	PLUGIN_VERSION=$(PLUGIN_VERSION) ./bin/ci/check_version.sh
+
+.PHONY: ci-build
+ci-build:
+ifndef HAS_GOX
+	go get -v github.com/mitchellh/gox
+endif
+	gox --output="build/${PLUGIN_NAME}_{{.OS}}_{{.Arch}}" \
+		--ldflags "${LDFLAGS}" \
+		--parallel=10 \
+		--os='darwin linux' \
+		--osarch='!darwin/386 !darwin/arm !darwin/arm64'
