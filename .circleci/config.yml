@@ -5,6 +5,7 @@ defaults: &defaults
     - image: circleci/golang:latest
   environment:
     IMAGE_NAME: "vaporio/emulator-plugin"
+    GIT_TAG: "$CIRCLE_TAG"
 
 
 # Common config for tag-triggered workflows
@@ -36,6 +37,13 @@ jobs:
           keys:
             - v1-vendor-{{ checksum "Gopkg.toml" }}-{{ checksum "Gopkg.lock" }}
             - v1-vendor-{{ checksum "Gopkg.toml" }}
+      - run:
+          name: Print Environment
+          command: |
+            echo "image name: $IMAGE_NAME"
+            echo "git commit: $GIT_COMMIT"
+            echo "git tag:    $GIT_TAG"
+            echo "circle tag: $CIRCLE_TAG"
       - run:
           name: Install Vendored Dependencies
           command: make dep

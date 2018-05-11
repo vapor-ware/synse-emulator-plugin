@@ -2,20 +2,28 @@
 # Synse Emulator Plugin
 #
 
-PLUGIN_NAME := emulator
-PLUGIN_VERSION=1.0.1
+PLUGIN_NAME		:= emulator
+PLUGIN_VERSION	:= 1.0.1
 
-PKG_CTX=main
+IMAGE_NAME		:= vaporio/emulator-plugin
+
+GIT_COMMIT ?= $(shell git rev-parse --short HEAD 2> /dev/null || true)
+GIT_TAG    ?= $(shell git describe --tags 2> /dev/null || true)
+
+
+PKG_CTX    := main
 BUILD_DATE := $(shell date -u +%Y-%m-%dT%T 2> /dev/null)
-GIT_COMMIT := $(shell git rev-parse --short HEAD 2> /dev/null || true)
-GIT_TAG    := $(shell git describe --tags 2> /dev/null || true)
+#GIT_COMMIT := $(shell git rev-parse --short HEAD 2> /dev/null || true)
+#GIT_TAG    := $(shell git describe --tags 2> /dev/null || true)
 GO_VERSION := $(shell go version | awk '{ print $$3 }')
 
-LDFLAGS="-X ${PKG_CTX}.BuildDate=${BUILD_DATE} \
+LDFLAGS="-w \
+	-X ${PKG_CTX}.BuildDate=${BUILD_DATE} \
 	-X ${PKG_CTX}.GitCommit=${GIT_COMMIT} \
 	-X ${PKG_CTX}.GitTag=${GIT_TAG} \
 	-X ${PKG_CTX}.GoVersion=${GO_VERSION} \
-	-X ${PKG_CTX}.VersionString=${PLUGIN_VERSION}"
+	-X ${PKG_CTX}.VersionString=${PLUGIN_VERSION} \
+	${LDFLAGS}"
 
 HAS_LINT := $(shell which gometalinter)
 HAS_DEP  := $(shell which dep)
@@ -47,8 +55,8 @@ endif
 .PHONY: docker
 docker:  ## Build the docker image
 	docker build -f Dockerfile \
-		-t vaporio/$(PLUGIN_NAME)-plugin:latest \
-		-t vaporio/$(PLUGIN_NAME)-plugin:$(PLUGIN_VERSION) .
+		-t $(IMAGE_NAME):latest \
+		-t $(IMAGE_NAME):$(PLUGIN_VERSION) .
 
 .PHONY: fmt
 fmt:  ## Run goimports on all go files
