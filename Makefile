@@ -14,8 +14,8 @@ GIT_TAG    ?= $(shell git describe --tags 2> /dev/null || true)
 BUILD_DATE := $(shell date -u +%Y-%m-%dT%T 2> /dev/null)
 GO_VERSION := $(shell go version | awk '{ print $$3 }')
 
-PKG_CTX    := main
-LDFLAGS	   := -w \
+PKG_CTX := main
+LDFLAGS := -w \
 	-X ${PKG_CTX}.BuildDate=${BUILD_DATE} \
 	-X ${PKG_CTX}.GitCommit=${GIT_COMMIT} \
 	-X ${PKG_CTX}.GitTag=${GIT_TAG} \
@@ -56,10 +56,10 @@ endif
 	dep ensure -v
 
 .PHONY: docker
-docker:  ## Build the docker image
+docker:  ## Build the docker image locally
 	docker build -f Dockerfile \
 		-t $(IMAGE_NAME):latest \
-		-t $(IMAGE_NAME):$(PLUGIN_VERSION) .
+		-t $(IMAGE_NAME):local .
 
 .PHONY: fmt
 fmt:  ## Run goimports on all go files

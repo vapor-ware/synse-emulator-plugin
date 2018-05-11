@@ -147,7 +147,7 @@ jobs:
               CIRCLE_TAG=$(git describe --exact-match --tags HEAD)
             fi
             ghr \
-              -u ${CIRCLE_PROJECT_USERNAME} \
+              -u ${GITHUB_USER} \
               -t ${GITHUB_TOKEN} \
               -b "$(cat ./CHANGELOG.md)" \
               -replace \
