@@ -3,7 +3,7 @@
 #
 
 PLUGIN_NAME    := emulator
-PLUGIN_VERSION := 1.0.1
+PLUGIN_VERSION := 1.0.2
 IMAGE_NAME     := vaporio/emulator-plugin
 
 # In CI, git commit is CIRCLE_SHA1 and git tag
