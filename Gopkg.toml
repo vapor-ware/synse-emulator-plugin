@@ -26,7 +26,7 @@
 
 
 [[constraint]]
-  branch = "master"
+  branch = "etd-test"
   name = "github.com/vapor-ware/synse-sdk"
 
 [prune]

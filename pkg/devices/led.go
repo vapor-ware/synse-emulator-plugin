@@ -18,10 +18,9 @@ var (
 	color string
 )
 
-// EmulatedLED is the handler for the emulated LED device.
-var EmulatedLED = sdk.DeviceHandler{
-	Type:  "led",
-	Model: "emul8-led",
+// LED is the handler for the emulated LED device(s).
+var LED = sdk.DeviceHandler{
+	Name:  "led",
 	Read:  ledRead,
 	Write: ledWrite,
 }
@@ -29,7 +28,6 @@ var EmulatedLED = sdk.DeviceHandler{
 // ledRead is the read handler for the emulated LED device(s). It
 // returns the state and color values for the device.
 func ledRead(device *sdk.Device) ([]*sdk.Reading, error) {
-
 	if state == "" {
 		state = stateOff
 	}
@@ -37,37 +35,36 @@ func ledRead(device *sdk.Device) ([]*sdk.Reading, error) {
 		color = "000000"
 	}
 
-	ret := []*sdk.Reading{
-		sdk.NewReading("state", state),
-		sdk.NewReading("color", color),
-	}
-	return ret, nil
+	return []*sdk.Reading{
+		device.GetOutput("led.state").MakeReading(state),
+		device.GetOutput("led.color").MakeReading(color),
+	}, nil
 }
 
 // ledWrite is the write handler for the emulated LED device(s). It
 // sets the state and color values for the device.
-func ledWrite(device *sdk.Device, data *sdk.WriteData) error {
+func ledWrite(_ *sdk.Device, data *sdk.WriteData) error {
 	action := data.Action
-	raw := data.Raw
+	raw := data.Data
 
 	// We always expect the action to come with raw data, so if it
 	// doesn't exist, error.
 	if len(raw) == 0 {
-		return fmt.Errorf("no values specified for 'raw', but required")
+		return fmt.Errorf("no values specified for 'data', but required")
 	}
 
 	if action == "color" {
-		decoded, err := hex.DecodeString(string(raw[0]))
+		decoded, err := hex.DecodeString(string(raw))
 		if err != nil {
 			return err
 		}
 		if len(decoded) != 3 {
 			return fmt.Errorf("color value should be a 3-byte (RGB) hex string")
 		}
-		color = string(raw[0])
+		color = string(raw)
 
 	} else if action == "state" {
-		cmd := string(raw[0])
+		cmd := string(raw)
 		if cmd == stateOn {
 			state = stateOn
 		} else if cmd == stateOff {

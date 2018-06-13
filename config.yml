@@ -1,5 +1,4 @@
 version: 1.0
-name: emulator
 debug: true
 network:
   type: unix
@@ -7,7 +6,7 @@ network:
 settings:
   mode: parallel
   # for the sake of example, the read and write intervals
-  # are set to different values, though they should be fine
+  # are set to different values, though they would be fine
   # if set to the same value.
   read:
     interval: 1s
