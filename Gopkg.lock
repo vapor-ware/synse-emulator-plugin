@@ -38,7 +38,7 @@
   version = "v1.2.0"
 
 [[projects]]
-  branch = "etd-test"
+  branch = "updates"
   name = "github.com/vapor-ware/synse-sdk"
   packages = [
     "sdk",
@@ -46,7 +46,7 @@
     "sdk/health",
     "sdk/policies"
   ]
-  revision = "6cf1352e6c3e72f2606272ed421f218089855d2c"
+  revision = "769d1d138e398d2625dde52627200337602ca82c"
 
 [[projects]]
   branch = "sdk-1.0"
@@ -58,7 +58,7 @@
   branch = "master"
   name = "golang.org/x/crypto"
   packages = ["ssh/terminal"]
-  revision = "8ac0e0d97ce45cd83d1d7243c060cb8461dda5e9"
+  revision = "37a17fe027db43f76fd88b056ddf588563fc8722"
 
 [[projects]]
   branch = "master"
@@ -81,7 +81,7 @@
     "unix",
     "windows"
   ]
-  revision = "8ee9f3e146b708d082f4bab861e5759d1edf8c00"
+  revision = "8883426083c04a2627e6e59d84d5f6fb63d16c91"
 
 [[projects]]
   name = "golang.org/x/text"
@@ -156,6 +156,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "e99ab8bd95f84c638a8f07a860e15a3fe60f56b8c6ae425f1d15c8feb1154de2"
+  inputs-digest = "f4178046125f860e42886bee676e81f3e62de63234a36260e4dd7542de0d511c"
   solver-name = "gps-cdcl"
   solver-version = 1
