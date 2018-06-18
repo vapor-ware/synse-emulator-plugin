@@ -11,12 +11,15 @@ out of the box allowing you to quickly experiment and develop with Synse Server.
 may also serve as an example on how to write plugins of your own.
 
 This plugin supports six devices:
-- Temperature (type: `temperature`, model: `emul8-temp`)
-- LED (type: `led`, model: `emul8-led`)
-- Fan (type: `fan`, model: `emul8-fan`)
-- Airflow (type: `airflow`, model: `emul8-air`)
-- Humidity (type: `humidity`, model: `emul8-humidity`)
-- Pressure (type: `pressure`, model: `emul8-pressure`)
+
+Device | Type | Model | Capabilities
+--- | --- | --- | ---
+Temperature | `temperature` | `emul8-temp` | read
+LED | `led` | `emul8-led` | read + write
+Fan | `fan` | `emul8-fan` | read + write
+Airflow | `airflow`| `emul8-air` | read
+Humidity |`humidity` | `emul8-humidity` | read
+Pressure | `pressure` | `emul8-pressure` | read
 
 All six return dummy data for their reading values. All six support reading,
 but only the LED and Fan devices support writing. State is maintained for writable
