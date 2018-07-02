@@ -19,8 +19,13 @@ var Fan = sdk.DeviceHandler{
 // fanRead is the read handler for the emulated fan devices(s). It
 // returns the `speed` state for the device.
 func fanRead(device *sdk.Device) ([]*sdk.Reading, error) {
+	fanSpeed, err := device.GetOutput("fan.speed").MakeReading(speed)
+	if err != nil {
+		return nil, err
+	}
+
 	return []*sdk.Reading{
-		device.GetOutput("fan.speed").MakeReading(speed),
+		fanSpeed,
 	}, nil
 }
 

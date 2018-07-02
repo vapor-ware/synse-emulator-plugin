@@ -14,8 +14,18 @@ var Humidity = sdk.DeviceHandler{
 // humidityRead is the read handler for the emulated humidity device(s). It
 // returns random values between 0 and 100.
 func humidityRead(device *sdk.Device) ([]*sdk.Reading, error) {
+	humidity, err := device.GetOutput("humidity").MakeReading(utils.RandIntInRange(0, 100))
+	if err != nil {
+		return nil, err
+	}
+
+	temperature, err := device.GetOutput("temperature").MakeReading(utils.RandIntInRange(0, 100))
+	if err != nil {
+		return nil, err
+	}
+
 	return []*sdk.Reading{
-		device.GetOutput("humidity").MakeReading(utils.RandIntInRange(0, 100)),
-		device.GetOutput("temperature").MakeReading(utils.RandIntInRange(0, 100)),
+		humidity,
+		temperature,
 	}, nil
 }

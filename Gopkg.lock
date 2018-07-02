@@ -46,7 +46,7 @@
     "sdk/health",
     "sdk/policies"
   ]
-  revision = "9c76be77fb7b308afb2bc247c89ec72ed4875930"
+  revision = "b02b9075b047fcd1567d60c453d4a0ce8fedc15b"
 
 [[projects]]
   name = "github.com/vapor-ware/synse-server-grpc"
@@ -72,7 +72,7 @@
     "internal/timeseries",
     "trace"
   ]
-  revision = "afe8f62b1d6bbd81f31868121a50b06d8188e1f9"
+  revision = "4cb1c02c05b0e749b0365f61ae859a8e0cfceed9"
 
 [[projects]]
   branch = "master"
@@ -81,7 +81,7 @@
     "unix",
     "windows"
   ]
-  revision = "63fc586f45fe72d95d5240a5d5eb95e6503907d3"
+  revision = "7138fd3d9dc8335c567ca206f4333fb75eb05d56"
 
 [[projects]]
   name = "golang.org/x/text"
@@ -114,7 +114,7 @@
   branch = "master"
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
-  revision = "80063a038e333bbe006c878e4c5ce4c74d055498"
+  revision = "ff3583edef7de132f219f0efc00e097cabcc0ec0"
 
 [[projects]]
   name = "google.golang.org/grpc"

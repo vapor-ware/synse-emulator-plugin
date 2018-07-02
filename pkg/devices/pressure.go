@@ -14,7 +14,12 @@ var Pressure = sdk.DeviceHandler{
 // pressureRead is the read handler for the emulated pressure device(s). It
 // returns random values between -5 and 5
 func pressureRead(device *sdk.Device) ([]*sdk.Reading, error) {
+	pressure, err := device.GetOutput("pressure").MakeReading(utils.RandIntInRange(-5, 5))
+	if err != nil {
+		return nil, err
+	}
+
 	return []*sdk.Reading{
-		device.GetOutput("pressure").MakeReading(utils.RandIntInRange(-5, 5)),
+		pressure,
 	}, nil
 }

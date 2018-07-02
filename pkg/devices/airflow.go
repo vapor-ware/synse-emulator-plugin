@@ -14,7 +14,12 @@ var Airflow = sdk.DeviceHandler{
 // airflowRead is the read handler for the emulated airflow device(s). It
 // returns random values between -100 and 100.
 func airflowRead(device *sdk.Device) ([]*sdk.Reading, error) {
+	airflow, err := device.GetOutput("airflow").MakeReading(utils.RandIntInRange(-100, 100))
+	if err != nil {
+		return nil, err
+	}
+
 	return []*sdk.Reading{
-		device.GetOutput("airflow").MakeReading(utils.RandIntInRange(-100, 100)),
+		airflow,
 	}, nil
 }

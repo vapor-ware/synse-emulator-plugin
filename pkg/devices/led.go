@@ -35,9 +35,19 @@ func ledRead(device *sdk.Device) ([]*sdk.Reading, error) {
 		color = "000000"
 	}
 
+	stateReading, err := device.GetOutput("led.state").MakeReading(state)
+	if err != nil {
+		return nil, err
+	}
+
+	colorReading, err := device.GetOutput("led.color").MakeReading(color)
+	if err != nil {
+		return nil, err
+	}
+
 	return []*sdk.Reading{
-		device.GetOutput("led.state").MakeReading(state),
-		device.GetOutput("led.color").MakeReading(color),
+		stateReading,
+		colorReading,
 	}, nil
 }
 
