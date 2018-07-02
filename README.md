@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/vapor-ware/synse-emulator-plugin.svg?style=svg&circle-token=98265e10d13f79a921d20f4c2fbd53188f3abc97)](https://circleci.com/gh/vapor-ware/synse-emulator-plugin)
+[![CircleCI](https://circleci.com/gh/vapor-ware/synse-emulator-plugin.svg?style=shield)](https://circleci.com/gh/vapor-ware/synse-emulator-plugin)
 
 # Synse Emulator Plugin
 The emulator plugin for Synse Server. This is the source repo for the emulator
@@ -10,17 +10,49 @@ or protocol. It is meant to be a standalone plugin that can run with Synse Serve
 out of the box allowing you to quickly experiment and develop with Synse Server. It
 may also serve as an example on how to write plugins of your own.
 
-This plugin supports six devices:
-- Temperature (type: `temperature`, model: `emul8-temp`)
-- LED (type: `led`, model: `emul8-led`)
-- Fan (type: `fan`, model: `emul8-fan`)
-- Airflow (type: `airflow`, model: `emul8-air`)
-- Humidity (type: `humidity`, model: `emul8-humidity`)
-- Pressure (type: `pressure`, model: `emul8-pressure`)
+## Plugin Support
+All devices supported by the emulator plugin return dummy data. For writable devices,
+state is maintained, so if you set state, you should be able to get the same state
+back with a read.
 
-All six return dummy data for their reading values. All six support reading,
-but only the LED and Fan devices support writing. State is maintained for writable
-devices, so any state you set should be readable back out.
+### Outputs
+Outputs should be referenced by name. A single device can have more than one instance
+of an output type. A value of `-` in the table below indicates that there is no value
+set for that field.
+
+| Name | Description | Unit | Precision | Scaling Factor |
+| ---- | ----------- | ---- | --------- | -------------- |
+| airflow | An output type for airflow readings. | mm/s | 3 | - |
+| fan.speed | An output type for fan speed. | RPM | 1 | - |
+| humidity | An output type for humidity readings. | % | 3 | - |
+| temperature | An output type for temperature readings. | C | 3 | - |
+| pressure | An output type for pressure readings. | Pa | 3 | - |
+| led.state | An output type for LED on/off state. | - | - | - |
+| led.color | An output type for LED color. | - | - | - |
+
+
+### Device Handlers
+Device Handlers should be referenced by name.
+
+| Name | Description | Read | Write | Bulk Read |
+| ---- | ----------- | ---- | ----- | --------- |
+| airflow | A handler for emulated airflow devices. | ✓ | ✗ | ✗ |
+| fan | A handler for emulated fan devices. | ✓ | ✓ | ✗ |
+| humidity | A handler for emulated humidity devices. | ✓ | ✗ | ✗ |
+| led | A handler for emulated LED devices. | ✓ | ✓ | ✗ |
+| pressure | A handler for emulated pressure devices. | ✓ | ✗ | ✗ |
+| temperature | A handler for emulated temperature devices. | ✓ | ✗ | ✗ |
+
+
+### Write Values
+This plugin supports the following values when writing to a device via a handler.
+
+| Handler | Write Action | Write Data |
+| ------- | ------------ | ---------- |
+| fan | `speed` | integer value |
+| led | `state` | `on`, `off`, `blink` |
+|     | `color` | RGB Hex color string |
+
 
 ## Getting Started
 

@@ -3,7 +3,7 @@
 #
 
 PLUGIN_NAME    := emulator
-PLUGIN_VERSION := 1.0.2
+PLUGIN_VERSION := 2.0.0
 IMAGE_NAME     := vaporio/emulator-plugin
 
 # In CI, git commit is CIRCLE_SHA1 and git tag
@@ -14,13 +14,13 @@ GIT_TAG    ?= $(shell git describe --tags 2> /dev/null || true)
 BUILD_DATE := $(shell date -u +%Y-%m-%dT%T 2> /dev/null)
 GO_VERSION := $(shell go version | awk '{ print $$3 }')
 
-PKG_CTX := main
+PKG_CTX := github.com/vapor-ware/synse-emulator-plugin/vendor/github.com/vapor-ware/synse-sdk/sdk
 LDFLAGS := -w \
 	-X ${PKG_CTX}.BuildDate=${BUILD_DATE} \
 	-X ${PKG_CTX}.GitCommit=${GIT_COMMIT} \
 	-X ${PKG_CTX}.GitTag=${GIT_TAG} \
 	-X ${PKG_CTX}.GoVersion=${GO_VERSION} \
-	-X ${PKG_CTX}.VersionString=${PLUGIN_VERSION}
+	-X ${PKG_CTX}.PluginVersion=${PLUGIN_VERSION}
 
 
 HAS_LINT := $(shell which gometalinter)
@@ -78,10 +78,10 @@ ifndef HAS_LINT
 endif
 	@ # disable gotype: https://github.com/alecthomas/gometalinter/issues/40
 	gometalinter ./... \
-		--disable=gotype --disable=gocyclo \
+		--disable=gotype \
 		--tests \
 		--vendor \
-		--sort=severity \
+		--sort=path --sort=line \
 		--aggregate \
 		--deadline=5m
 
