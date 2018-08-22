@@ -1,4 +1,5 @@
 [![CircleCI](https://circleci.com/gh/vapor-ware/synse-emulator-plugin.svg?style=shield)](https://circleci.com/gh/vapor-ware/synse-emulator-plugin)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fvapor-ware%2Fsynse-emulator-plugin.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fvapor-ware%2Fsynse-emulator-plugin?ref=badge_shield)
 
 # Synse Emulator Plugin
 The emulator plugin for Synse Server. This is the source repo for the emulator
@@ -194,3 +195,6 @@ context as possible.
 
 # License
 The Synse Emulator Plugin is licensed under GPLv3. See [LICENSE](LICENSE) for more info.
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fvapor-ware%2Fsynse-emulator-plugin.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fvapor-ware%2Fsynse-emulator-plugin?ref=badge_large)
