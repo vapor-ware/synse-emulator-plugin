@@ -48,8 +48,8 @@
   version = "v1.2.1"
 
 [[projects]]
-  branch = "grpc-creds"
-  digest = "1:c8477c09176ae4f138a958db9c92de59da06183cc2866ac935e39eae1e868365"
+  branch = "master"
+  digest = "1:718950f28a3902b3a3abf93c8cfca0ebfc8521748e432cc34c4220045a55f5ea"
   name = "github.com/vapor-ware/synse-sdk"
   packages = [
     "sdk",
@@ -58,7 +58,7 @@
     "sdk/policies",
   ]
   pruneopts = "UT"
-  revision = "29b109bffe1a9d4d138561b6f53946912345b18d"
+  revision = "95a2deff1260171cbcd5d58a12b3cdbe6159b4e9"
 
 [[projects]]
   branch = "master"
@@ -140,7 +140,7 @@
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
   pruneopts = "UT"
-  revision = "c66870c02cf823ceb633bcd05be3c7cda29976f4"
+  revision = "11092d34479b07829b72e10713b159248caf5dad"
 
 [[projects]]
   digest = "1:74f4a872f90f363778088654a2edea7101d62e6fc0784945d38b0ef85e1828d8"

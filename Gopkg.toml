@@ -27,7 +27,7 @@
 
 [[constraint]]
   name = "github.com/vapor-ware/synse-sdk"
-  branch = "grpc-creds"
+  branch = "master"
 
 [prune]
   go-tests = true
