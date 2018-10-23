@@ -1,8 +1,8 @@
 version: 1.0
 debug: true
 network:
-  type: unix
-  address: emulator.sock
+  type: tcp
+  address: ":5001"
 settings:
   mode: parallel
   # for the sake of example, the read and write intervals
@@ -12,3 +12,6 @@ settings:
     interval: 1s
   write:
     interval: 2s
+  cache:
+    enabled: true
+    ttl: 5m

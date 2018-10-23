@@ -27,7 +27,7 @@
 
 [[constraint]]
   name = "github.com/vapor-ware/synse-sdk"
-  branch = "master"
+  version = "1.2.0"
 
 [prune]
   go-tests = true

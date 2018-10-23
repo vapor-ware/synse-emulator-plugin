@@ -1,0 +1,26 @@
+#
+# compose.yml
+#
+# a simple compose file to run a dockerized emulator plugin
+# instance with synse server, both in debug mode.
+#
+
+version: "3"
+services:
+  synse:
+    container_name: synse
+    image: vaporio/synse-server
+    ports:
+    - 5000:5000
+    links:
+    - emulator
+    environment:
+      SYNSE_LOGGING: debug
+      SYNSE_PLUGIN_TCP: emulator:5001
+
+  emulator:
+    container_name: emulator
+    image: vaporio/emulator-plugin
+    command: ["--debug"]
+    ports:
+    - 5001:5001
