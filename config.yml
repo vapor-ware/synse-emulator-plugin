@@ -12,3 +12,6 @@ settings:
     interval: 1s
   write:
     interval: 2s
+  cache:
+    enabled: true
+    ttl: 5m

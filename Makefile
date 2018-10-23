@@ -3,7 +3,7 @@
 #
 
 PLUGIN_NAME    := emulator
-PLUGIN_VERSION := 2.2.0
+PLUGIN_VERSION := 2.3.0
 IMAGE_NAME     := vaporio/emulator-plugin
 
 # In CI, git commit is CIRCLE_SHA1 and git tag
@@ -83,7 +83,8 @@ endif
 		--vendor \
 		--sort=path --sort=line \
 		--aggregate \
-		--deadline=5m
+		--deadline=5m \
+		-e $$(go env GOROOT)
 
 .PHONY: setup
 setup:  ## Install the build and development dependencies and set up vendoring
