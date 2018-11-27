@@ -41,6 +41,7 @@ func lockRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	}
 
 	stateReading, err := device.GetOutput("lock.state").MakeReading(lockState)
+	fmt.Println("stateReading", stateReading)
 	if err != nil {
 		return nil, err
 	}
@@ -62,11 +63,11 @@ func lockWrite(_ *sdk.Device, data *sdk.WriteData) error {
 	case actionUnlock:
 		lockState = "unlock"
 	case actionPulseUnlock:
-		// Unlocks the device for 75ms (3 seconds) then lock it.
+		// Unlock the device for 5 seconds then lock it.
 		lockState = "unlock"
 
 		go func() {
-			time.Sleep(75 * time.Millisecond)
+			time.Sleep(5 * time.Second)
 
 			mux.Lock()
 			defer mux.Unlock()
