@@ -9,6 +9,11 @@ import (
 )
 
 const (
+	// Valid states of a lock device.
+	stateLock   = "locked"
+	stateUnlock = "unlocked_electrically"
+
+	// Valid actions of a lock device.
 	actionLock        = "lock"
 	actionUnlock      = "unlock"
 	actionPulseUnlock = "pulseUnlock"
@@ -58,12 +63,12 @@ func lockWrite(_ *sdk.Device, data *sdk.WriteData) error {
 
 	switch action := data.Action; action {
 	case actionLock:
-		lockState = "lock"
+		lockState = stateLock
 	case actionUnlock:
-		lockState = "unlock"
+		lockState = stateUnlock
 	case actionPulseUnlock:
 		// Unlock the device for 5 seconds then lock it.
-		lockState = "unlock"
+		lockState = stateUnlock
 
 		go func() {
 			time.Sleep(5 * time.Second)
@@ -71,7 +76,7 @@ func lockWrite(_ *sdk.Device, data *sdk.WriteData) error {
 			mux.Lock()
 			defer mux.Unlock()
 
-			lockState = "lock"
+			lockState = stateLock
 		}()
 	default:
 		return fmt.Errorf("unsupported command for state action: %v", action)
