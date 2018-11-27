@@ -36,13 +36,13 @@ var Lock = sdk.DeviceHandler{
 
 // lockRead is the read handler for the emulated Lock device(s). It
 // returns the state values for the device. If no state has previously
-// been set, this will set the state to 'lock'
+// been set, this will set the state to 'locked'.
 func lockRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	mux.Lock()
 	defer mux.Unlock()
 
 	if lockState == "" {
-		lockState = actionLock
+		lockState = lockState
 	}
 
 	stateReading, err := device.GetOutput("lock.state").MakeReading(lockState)
