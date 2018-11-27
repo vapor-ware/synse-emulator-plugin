@@ -62,4 +62,9 @@ var (
 			Symbol: "Pa",
 		},
 	}
+
+	// LockState is the output type for Lock state readings (lock/unlock/pulseUnlock).
+	LockState = sdk.OutputType{
+		Name: "lock.state",
+	}
 )
