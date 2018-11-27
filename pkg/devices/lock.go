@@ -42,7 +42,7 @@ func lockRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	defer mux.Unlock()
 
 	if lockState == "" {
-		lockState = lockState
+		lockState = stateLock
 	}
 
 	stateReading, err := device.GetOutput("lock.state").MakeReading(lockState)
