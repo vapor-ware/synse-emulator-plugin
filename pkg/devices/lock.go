@@ -20,9 +20,6 @@ var (
 
 	// mux provides mutual exclusion for reading/writing to lock state.
 	mux sync.Mutex
-
-	// pulseInterval is the time duration for pulseUnlock, in seconds.
-	pulseInterval time.Duration = 5 * time.Second
 )
 
 // Lock is the handler for the emulated Lock device(s).
@@ -61,19 +58,20 @@ func lockWrite(_ *sdk.Device, data *sdk.WriteData) error {
 
 	switch action := data.Action; action {
 	case actionLock:
-		lockState = actionLock
+		lockState = "lock"
 	case actionUnlock:
-		lockState = actionUnlock
+		lockState = "unlock"
 	case actionPulseUnlock:
-		lockState = actionUnlock
+		// Unlocks the device for 75ms (3 seconds) then lock it.
+		lockState = "unlock"
 
 		go func() {
-			time.Sleep(pulseInterval)
+			time.Sleep(75 * time.Millisecond)
 
 			mux.Lock()
 			defer mux.Unlock()
 
-			lockState = actionLock
+			lockState = "lock"
 		}()
 	default:
 		return fmt.Errorf("unsupported command for state action: %v", action)
