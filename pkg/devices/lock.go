@@ -41,7 +41,6 @@ func lockRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	}
 
 	stateReading, err := device.GetOutput("lock.state").MakeReading(lockState)
-	fmt.Println("stateReading", stateReading)
 	if err != nil {
 		return nil, err
 	}
