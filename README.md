@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/vapor-ware/synse-emulator-plugin.svg?style=shield)](https://circleci.com/gh/vapor-ware/synse-emulator-plugin)
+[![Build Status](https://build.vio.sh/buildStatus/icon?job=vapor-ware/synse-emulator-plugin/master)](https://build.vio.sh/blue/organizations/jenkins/vapor-ware%2Fsynse-emulator-plugin/activity)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fvapor-ware%2Fsynse-emulator-plugin.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fvapor-ware%2Fsynse-emulator-plugin?ref=badge_shield)
 
 # Synse Emulator Plugin
