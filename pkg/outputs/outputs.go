@@ -63,7 +63,7 @@ var (
 		},
 	}
 
-	// LockState is the output type for Lock state readings (lock/unlock/pulseUnlock).
+	// LockState is the output type for Lock state readings (locked/unlocked_electrically).
 	LockState = sdk.OutputType{
 		Name: "lock.state",
 	}
