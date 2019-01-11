@@ -55,7 +55,7 @@ This plugin supports the following values when writing to a device via a handler
 | fan | `speed` | integer value |
 | led | `state` | `on`, `off`, `blink` |
 |     | `color` | RGB Hex color string |
-| lock | `state` | `lock`, `unlock`, `pulseUnlock` |
+| lock | `lock`, `unlock`, `pulseUnlock` | - |
 
 
 ## Getting Started
