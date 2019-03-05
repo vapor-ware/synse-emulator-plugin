@@ -19,13 +19,18 @@ var Pressure = sdk.DeviceHandler{
 // returns random values between -5 and 5
 func pressureRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	// Default reading ranges
-	var min int = -5
-	var max int = 5
+	var min = -5
+	var max = 5
 
 	dState, ok := deviceState[device.ID()]
 	if ok {
-		min = dState["min"].(int)
-		max = dState["max"].(int)
+		if _, ok := dState[MIN]; ok {
+			min = dState[MIN].(int)
+		}
+
+		if _, ok := dState[MAX]; ok {
+			max = dState[MAX].(int)
+		}
 	}
 
 	// In the event that we change the min value before the max value to
@@ -57,7 +62,7 @@ func pressureWrite(device *sdk.Device, data *sdk.WriteData) error {
 		return fmt.Errorf("no values specified for 'data', but required")
 	}
 
-	if action == "min" {
+	if action == MIN {
 		// This could get dicey, but since `raw` is bytes and synse server basically just
 		// encodes it as a string, the int value we expect here is actually the bytes for
 		// the string representation of the int...
@@ -67,12 +72,12 @@ func pressureWrite(device *sdk.Device, data *sdk.WriteData) error {
 		}
 		dataMap, ok := deviceState[device.ID()]
 		if !ok {
-			deviceState[device.ID()] = map[string]interface{}{"min": min}
+			deviceState[device.ID()] = map[string]interface{}{MIN: min}
 		} else {
-			dataMap["min"] = min
+			dataMap[MIN] = min
 		}
 
-	} else if action == "max" {
+	} else if action == MAX {
 		// This could get dicey, but since `raw` is bytes and synse server basically just
 		// encodes it as a string, the int value we expect here is actually the bytes for
 		// the string representation of the int...
@@ -82,9 +87,9 @@ func pressureWrite(device *sdk.Device, data *sdk.WriteData) error {
 		}
 		dataMap, ok := deviceState[device.ID()]
 		if !ok {
-			deviceState[device.ID()] = map[string]interface{}{"max": max}
+			deviceState[device.ID()] = map[string]interface{}{MAX: max}
 		} else {
-			dataMap["max"] = max
+			dataMap[MAX] = max
 		}
 	}
 	return nil
