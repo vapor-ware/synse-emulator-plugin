@@ -24,6 +24,7 @@ pipeline {
       agent {
         docker {
           image 'vaporio/golang:1.11'
+          reuseNode true
         }
       }
       steps {
@@ -50,6 +51,7 @@ pipeline {
       agent {
         docker {
           image 'vaporio/golang:1.11'
+          reuseNode true
         }
       }
       steps {
@@ -90,6 +92,7 @@ pipeline {
       agent {
         docker {
           image 'vaporio/golang:1.11'
+          reuseNode true
         }
       }
       when {
