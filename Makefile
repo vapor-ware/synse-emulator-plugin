@@ -47,6 +47,7 @@ ci:  ## Run CI checks locally (build, lint)
 .PHONY: clean
 clean:  ## Remove temporary files
 	go clean -v
+	rm -rf dist
 
 .PHONY: dep
 dep:  ## Ensure and prune dependencies
