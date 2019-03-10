@@ -94,7 +94,7 @@ pipeline {
       }
       steps {
         withDockerRegistry(registry: [credentialsId: 'vio-docker-hub']) {
-          sh "GOVERSION=$(go version | awk '{print $3}') goreleaser --snapshot --rm-dist"
+          sh 'GOVERSION=$(go version | awk \'{print $3}\') goreleaser --snapshot --rm-dist'
         }
       }
     }
