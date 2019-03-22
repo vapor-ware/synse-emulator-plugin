@@ -20,9 +20,6 @@ const (
 )
 
 var (
-	// lockState holds the lock state.
-	lockState string
-
 	// mux provides mutual exclusion for reading/writing to lock state.
 	mux sync.Mutex
 )
@@ -41,6 +38,17 @@ func lockRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	mux.Lock()
 	defer mux.Unlock()
 
+	var lockState string
+
+	dState, ok := deviceState[device.ID()]
+
+	if ok {
+		if _, ok := dState[lockState]; ok {
+			lockState = dState["lockState"].(string)
+		}
+	}
+
+	// if we have no stored device lock state, default to "locked"
 	if lockState == "" {
 		lockState = stateLock
 	}
@@ -57,18 +65,32 @@ func lockRead(device *sdk.Device) ([]*sdk.Reading, error) {
 
 // lockWrite is the write handler for the emulated Lock device(s). It
 // sets the state values for the device.
-func lockWrite(_ *sdk.Device, data *sdk.WriteData) error {
+func lockWrite(device *sdk.Device, data *sdk.WriteData) error {
 	mux.Lock()
 	defer mux.Unlock()
 
+	dState, ok := deviceState[device.ID()]
+
 	switch action := data.Action; action {
 	case actionLock:
-		lockState = stateLock
+		if !ok {
+			deviceState[device.ID()] = map[string]interface{}{"lockState": stateLock}
+		} else {
+			dState["lockState"] = stateLock
+		}
 	case actionUnlock:
-		lockState = stateUnlock
+		if !ok {
+			deviceState[device.ID()] = map[string]interface{}{"lockState": stateUnlock}
+		} else {
+			dState["lockState"] = stateUnlock
+		}
 	case actionPulseUnlock:
 		// Unlock the device for 5 seconds then lock it.
-		lockState = stateUnlock
+		if !ok {
+			deviceState[device.ID()] = map[string]interface{}{"lockState": stateUnlock}
+		} else {
+			dState["lockState"] = stateUnlock
+		}
 
 		go func() {
 			time.Sleep(5 * time.Second)
@@ -76,7 +98,11 @@ func lockWrite(_ *sdk.Device, data *sdk.WriteData) error {
 			mux.Lock()
 			defer mux.Unlock()
 
-			lockState = stateLock
+			if !ok {
+				deviceState[device.ID()] = map[string]interface{}{"lockState": stateLock}
+			} else {
+				dState["lockState"] = stateLock
+			}
 		}()
 	default:
 		return fmt.Errorf("unsupported command for state action: %v", action)
