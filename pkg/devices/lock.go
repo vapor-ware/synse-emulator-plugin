@@ -43,7 +43,7 @@ func lockRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	dState, ok := deviceState[device.ID()]
 
 	if ok {
-		if _, ok := dState[lockState]; ok {
+		if _, ok := dState["lockState"]; ok {
 			lockState = dState["lockState"].(string)
 		}
 	}
