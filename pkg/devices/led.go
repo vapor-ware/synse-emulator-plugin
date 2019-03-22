@@ -13,11 +13,6 @@ const (
 	stateBlink = "blink"
 )
 
-var (
-	state string
-	color string
-)
-
 // LED is the handler for the emulated LED device(s).
 var LED = sdk.DeviceHandler{
 	Name:  "led",
@@ -28,23 +23,29 @@ var LED = sdk.DeviceHandler{
 // ledRead is the read handler for the emulated LED device(s). It
 // returns the state and color values for the device.
 func ledRead(device *sdk.Device) ([]*sdk.Reading, error) {
-	if state == "" {
-		state = stateOff
-	}
-	if color == "" {
-		color = "000000"
-	}
+	var state, color string
 
 	dState, ok := deviceState[device.ID()]
 
 	if ok {
-		if _, ok := dState[state]; ok {
-			state = dState[state].(string)
+		if _, ok := dState["color"]; ok {
+			color = dState["color"].(string)
 		}
 
-		if _, ok := dState[color]; ok {
-			color = dState[color].(string)
+		if _, ok := dState["state"]; ok {
+			state = dState["state"].(string)
 		}
+
+	}
+
+	// if we have no stored device led state, default to off
+	if state == "" {
+		state = stateOff
+	}
+
+	// if we have no stored device led color, default to black
+	if color == "" {
+		color = "000000"
 	}
 
 	stateReading, err := device.GetOutput("led.state").MakeReading(state)
@@ -86,9 +87,9 @@ func ledWrite(device *sdk.Device, data *sdk.WriteData) error { // nolint: gocycl
 
 		dState, ok := deviceState[device.ID()]
 		if !ok {
-			deviceState[device.ID()] = map[string]interface{}{color: decoded}
+			deviceState[device.ID()] = map[string]interface{}{"color": string(raw)}
 		} else {
-			dState[color] = decoded
+			dState["color"] = string(raw)
 		}
 
 	} else if action == "state" {
@@ -97,21 +98,21 @@ func ledWrite(device *sdk.Device, data *sdk.WriteData) error { // nolint: gocycl
 
 		if cmd == stateOn {
 			if !ok {
-				deviceState[device.ID()] = map[string]interface{}{state: stateOn}
+				deviceState[device.ID()] = map[string]interface{}{"state": stateOn}
 			} else {
-				dState[state] = stateOn
+				dState["state"] = stateOn
 			}
 		} else if cmd == stateOff {
 			if !ok {
-				deviceState[device.ID()] = map[string]interface{}{state: stateOff}
+				deviceState[device.ID()] = map[string]interface{}{"state": stateOff}
 			} else {
-				dState[state] = stateOff
+				dState["state"] = stateOff
 			}
 		} else if cmd == stateBlink {
 			if !ok {
-				deviceState[device.ID()] = map[string]interface{}{state: stateBlink}
+				deviceState[device.ID()] = map[string]interface{}{"state": stateBlink}
 			} else {
-				dState[state] = stateBlink
+				dState["state"] = stateBlink
 			}
 		} else {
 			return fmt.Errorf("unsupported command for state action: %v", cmd)
