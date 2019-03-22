@@ -35,6 +35,18 @@ func ledRead(device *sdk.Device) ([]*sdk.Reading, error) {
 		color = "000000"
 	}
 
+	dState, ok := deviceState[device.ID()]
+
+	if ok {
+		if _, ok := dState[state]; ok {
+			state = dState[state].(string)
+		}
+
+		if _, ok := dState[color]; ok {
+			color = dState[color].(string)
+		}
+	}
+
 	stateReading, err := device.GetOutput("led.state").MakeReading(state)
 	if err != nil {
 		return nil, err
@@ -53,7 +65,7 @@ func ledRead(device *sdk.Device) ([]*sdk.Reading, error) {
 
 // ledWrite is the write handler for the emulated LED device(s). It
 // sets the state and color values for the device.
-func ledWrite(_ *sdk.Device, data *sdk.WriteData) error {
+func ledWrite(device *sdk.Device, data *sdk.WriteData) error { // nolint: gocyclo
 	action := data.Action
 	raw := data.Data
 
@@ -71,16 +83,36 @@ func ledWrite(_ *sdk.Device, data *sdk.WriteData) error {
 		if len(decoded) != 3 {
 			return fmt.Errorf("color value should be a 3-byte (RGB) hex string")
 		}
-		color = string(raw)
+
+		dState, ok := deviceState[device.ID()]
+		if !ok {
+			deviceState[device.ID()] = map[string]interface{}{color: decoded}
+		} else {
+			dState[color] = decoded
+		}
 
 	} else if action == "state" {
 		cmd := string(raw)
+		dState, ok := deviceState[device.ID()]
+
 		if cmd == stateOn {
-			state = stateOn
+			if !ok {
+				deviceState[device.ID()] = map[string]interface{}{state: stateOn}
+			} else {
+				dState[state] = stateOn
+			}
 		} else if cmd == stateOff {
-			state = stateOff
+			if !ok {
+				deviceState[device.ID()] = map[string]interface{}{state: stateOff}
+			} else {
+				dState[state] = stateOff
+			}
 		} else if cmd == stateBlink {
-			state = stateBlink
+			if !ok {
+				deviceState[device.ID()] = map[string]interface{}{state: stateBlink}
+			} else {
+				dState[state] = stateBlink
+			}
 		} else {
 			return fmt.Errorf("unsupported command for state action: %v", cmd)
 		}
