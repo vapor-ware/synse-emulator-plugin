@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/vapor-ware/synse-emulator-plugin/pkg/outputs"
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/utils"
 	"github.com/vapor-ware/synse-sdk/sdk"
+	"github.com/vapor-ware/synse-sdk/sdk/output"
 )
 
 // Airflow is the handler for the emulated airflow device(s).
@@ -17,12 +19,12 @@ var Airflow = sdk.DeviceHandler{
 
 // airflowRead is the read handler for the emulated airflow device(s). It
 // returns random values between -100 and 100.
-func airflowRead(device *sdk.Device) ([]*sdk.Reading, error) {
+func airflowRead(device *sdk.Device) ([]*output.Reading, error) {
 	// Default reading ranges
 	var min = -100
 	var max = 100
 
-	dState, ok := deviceState[device.GUID()]
+	dState, ok := deviceState[device.GetID()]
 	if ok {
 		if _, ok := dState[MIN]; ok {
 			min = dState[MIN].(int)
@@ -40,13 +42,8 @@ func airflowRead(device *sdk.Device) ([]*sdk.Reading, error) {
 		max = min + 1
 	}
 
-	airflow, err := device.GetOutput("airflow").MakeReading(utils.RandIntInRange(min, max))
-	if err != nil {
-		return nil, err
-	}
-
-	return []*sdk.Reading{
-		airflow,
+	return []*output.Reading{
+		outputs.Airflow.MakeReading(utils.RandIntInRange(min, max)),
 	}, nil
 }
 
@@ -70,9 +67,9 @@ func airflowWrite(device *sdk.Device, data *sdk.WriteData) error {
 		if err != nil {
 			return err
 		}
-		dataMap, ok := deviceState[device.GUID()]
+		dataMap, ok := deviceState[device.GetID()]
 		if !ok {
-			deviceState[device.GUID()] = map[string]interface{}{MIN: min}
+			deviceState[device.GetID()] = map[string]interface{}{MIN: min}
 		} else {
 			dataMap[MIN] = min
 		}
@@ -85,9 +82,9 @@ func airflowWrite(device *sdk.Device, data *sdk.WriteData) error {
 		if err != nil {
 			return err
 		}
-		dataMap, ok := deviceState[device.GUID()]
+		dataMap, ok := deviceState[device.GetID()]
 		if !ok {
-			deviceState[device.GUID()] = map[string]interface{}{MAX: max}
+			deviceState[device.GetID()] = map[string]interface{}{MAX: max}
 		} else {
 			dataMap[MAX] = max
 		}

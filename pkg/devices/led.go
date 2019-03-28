@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/vapor-ware/synse-sdk/sdk"
+	"github.com/vapor-ware/synse-sdk/sdk/output"
 )
 
 const (
@@ -22,10 +23,10 @@ var LED = sdk.DeviceHandler{
 
 // ledRead is the read handler for the emulated LED device(s). It
 // returns the state and color values for the device.
-func ledRead(device *sdk.Device) ([]*sdk.Reading, error) {
+func ledRead(device *sdk.Device) ([]*output.Reading, error) {
 	var state, color string
 
-	dState, ok := deviceState[device.GUID()]
+	dState, ok := deviceState[device.GetID()]
 
 	if ok {
 		if _, ok := dState["color"]; ok {
@@ -48,19 +49,9 @@ func ledRead(device *sdk.Device) ([]*sdk.Reading, error) {
 		color = "000000"
 	}
 
-	stateReading, err := device.GetOutput("led.state").MakeReading(state)
-	if err != nil {
-		return nil, err
-	}
-
-	colorReading, err := device.GetOutput("led.color").MakeReading(color)
-	if err != nil {
-		return nil, err
-	}
-
-	return []*sdk.Reading{
-		stateReading,
-		colorReading,
+	return []*output.Reading{
+		output.State.MakeReading(state),
+		output.Color.MakeReading(color),
 	}, nil
 }
 
@@ -85,32 +76,32 @@ func ledWrite(device *sdk.Device, data *sdk.WriteData) error { // nolint: gocycl
 			return fmt.Errorf("color value should be a 3-byte (RGB) hex string")
 		}
 
-		dState, ok := deviceState[device.GUID()]
+		dState, ok := deviceState[device.GetID()]
 		if !ok {
-			deviceState[device.GUID()] = map[string]interface{}{"color": string(raw)}
+			deviceState[device.GetID()] = map[string]interface{}{"color": string(raw)}
 		} else {
 			dState["color"] = string(raw)
 		}
 
 	} else if action == "state" {
 		cmd := string(raw)
-		dState, ok := deviceState[device.GUID()]
+		dState, ok := deviceState[device.GetID()]
 
 		if cmd == stateOn {
 			if !ok {
-				deviceState[device.GUID()] = map[string]interface{}{"state": stateOn}
+				deviceState[device.GetID()] = map[string]interface{}{"state": stateOn}
 			} else {
 				dState["state"] = stateOn
 			}
 		} else if cmd == stateOff {
 			if !ok {
-				deviceState[device.GUID()] = map[string]interface{}{"state": stateOff}
+				deviceState[device.GetID()] = map[string]interface{}{"state": stateOff}
 			} else {
 				dState["state"] = stateOff
 			}
 		} else if cmd == stateBlink {
 			if !ok {
-				deviceState[device.GUID()] = map[string]interface{}{"state": stateBlink}
+				deviceState[device.GetID()] = map[string]interface{}{"state": stateBlink}
 			} else {
 				dState["state"] = stateBlink
 			}

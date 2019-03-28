@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/vapor-ware/synse-sdk/sdk"
+	"github.com/vapor-ware/synse-sdk/sdk/output"
 )
 
 var speed int
@@ -18,14 +19,9 @@ var Fan = sdk.DeviceHandler{
 
 // fanRead is the read handler for the emulated fan devices(s). It
 // returns the `speed` state for the device.
-func fanRead(device *sdk.Device) ([]*sdk.Reading, error) {
-	fanSpeed, err := device.GetOutput("fan.speed").MakeReading(speed)
-	if err != nil {
-		return nil, err
-	}
-
-	return []*sdk.Reading{
-		fanSpeed,
+func fanRead(_ *sdk.Device) ([]*output.Reading, error) {
+	return []*output.Reading{
+		output.RPM.MakeReading(speed),
 	}, nil
 }
 

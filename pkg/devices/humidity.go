@@ -6,6 +6,7 @@ import (
 
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/utils"
 	"github.com/vapor-ware/synse-sdk/sdk"
+	"github.com/vapor-ware/synse-sdk/sdk/output"
 )
 
 // Humidity is the handler for the emulated humidity device(s).
@@ -17,12 +18,12 @@ var Humidity = sdk.DeviceHandler{
 
 // humidityRead is the read handler for the emulated humidity device(s). It
 // returns random values between 0 and 100.
-func humidityRead(device *sdk.Device) ([]*sdk.Reading, error) {
+func humidityRead(device *sdk.Device) ([]*output.Reading, error) {
 	// Default reading ranges
 	var min = 0
 	var max = 100
 
-	dState, ok := deviceState[device.GUID()]
+	dState, ok := deviceState[device.GetID()]
 	if ok {
 		if _, ok := dState[MIN]; ok {
 			min = dState[MIN].(int)
@@ -40,19 +41,9 @@ func humidityRead(device *sdk.Device) ([]*sdk.Reading, error) {
 		max = min + 1
 	}
 
-	humidity, err := device.GetOutput("humidity").MakeReading(utils.RandIntInRange(min, max))
-	if err != nil {
-		return nil, err
-	}
-
-	temperature, err := device.GetOutput("temperature").MakeReading(utils.RandIntInRange(min, max))
-	if err != nil {
-		return nil, err
-	}
-
-	return []*sdk.Reading{
-		humidity,
-		temperature,
+	return []*output.Reading{
+		output.Humidity.MakeReading(utils.RandIntInRange(min, max)),
+		output.Temperature.MakeReading(utils.RandIntInRange(min, max)),
 	}, nil
 }
 
@@ -76,9 +67,9 @@ func humidityWrite(device *sdk.Device, data *sdk.WriteData) error {
 		if err != nil {
 			return err
 		}
-		dataMap, ok := deviceState[device.GUID()]
+		dataMap, ok := deviceState[device.GetID()]
 		if !ok {
-			deviceState[device.GUID()] = map[string]interface{}{MIN: min}
+			deviceState[device.GetID()] = map[string]interface{}{MIN: min}
 		} else {
 			dataMap[MIN] = min
 		}
@@ -91,9 +82,9 @@ func humidityWrite(device *sdk.Device, data *sdk.WriteData) error {
 		if err != nil {
 			return err
 		}
-		dataMap, ok := deviceState[device.GUID()]
+		dataMap, ok := deviceState[device.GetID()]
 		if !ok {
-			deviceState[device.GUID()] = map[string]interface{}{MAX: max}
+			deviceState[device.GetID()] = map[string]interface{}{MAX: max}
 		} else {
 			dataMap[MAX] = max
 		}
