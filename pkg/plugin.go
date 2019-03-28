@@ -10,33 +10,20 @@ import (
 
 // MakePlugin creates a new instance of the Synse Emulator Plugin.
 func MakePlugin() *sdk.Plugin {
-	plugin := sdk.NewPlugin()
+	plugin, err := sdk.NewPlugin()
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	// Register the output types
-	err := plugin.RegisterOutputTypes(
+	err = plugin.RegisterOutputs(
 		&outputs.Airflow,
-		&outputs.FanSpeed,
-		&outputs.Humidity,
-		&outputs.LedColor,
-		&outputs.LedState,
-		&outputs.Pressure,
-		&outputs.Temperature,
-		&outputs.LockStatus,
-		&outputs.PowerWatts,
-		&outputs.KWH,
-		&outputs.Voltage,
-		&outputs.Hertz,
-		&outputs.Amperage,
-		&outputs.Position,
-		&outputs.State,
-		&outputs.Status,
 	)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// Register device handlers
-	plugin.RegisterDeviceHandlers(
+	err = plugin.RegisterDeviceHandlers(
 		&devices.Airflow,
 		&devices.Fan,
 		&devices.Humidity,
@@ -44,13 +31,10 @@ func MakePlugin() *sdk.Plugin {
 		&devices.Pressure,
 		&devices.Temperature,
 		&devices.Lock,
-		&devices.Power,
-		&devices.Voltage,
-		&devices.KiloWattHours,
-		&devices.Frequency,
-		&devices.Current,
-		&devices.Carousel,
 	)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	return plugin
 }

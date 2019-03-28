@@ -6,6 +6,7 @@ import (
 
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/utils"
 	"github.com/vapor-ware/synse-sdk/sdk"
+	"github.com/vapor-ware/synse-sdk/sdk/output"
 )
 
 // Pressure is the handler for the emulated pressure device(s).
@@ -17,12 +18,12 @@ var Pressure = sdk.DeviceHandler{
 
 // pressureRead is the read handler for the emulated pressure device(s). It
 // returns random values between -5 and 5
-func pressureRead(device *sdk.Device) ([]*sdk.Reading, error) {
+func pressureRead(device *sdk.Device) ([]*output.Reading, error) {
 	// Default reading ranges
 	var min = -5
 	var max = 5
 
-	dState, ok := deviceState[device.GUID()]
+	dState, ok := deviceState[device.GetID()]
 	if ok {
 		if _, ok := dState[MIN]; ok {
 			min = dState[MIN].(int)
@@ -40,13 +41,8 @@ func pressureRead(device *sdk.Device) ([]*sdk.Reading, error) {
 		max = min + 1
 	}
 
-	pressure, err := device.GetOutput("pressure").MakeReading(utils.RandIntInRange(min, max))
-	if err != nil {
-		return nil, err
-	}
-
-	return []*sdk.Reading{
-		pressure,
+	return []*output.Reading{
+		output.Pressure.MakeReading(utils.RandIntInRange(min, max)),
 	}, nil
 }
 
@@ -70,9 +66,9 @@ func pressureWrite(device *sdk.Device, data *sdk.WriteData) error {
 		if err != nil {
 			return err
 		}
-		dataMap, ok := deviceState[device.GUID()]
+		dataMap, ok := deviceState[device.GetID()]
 		if !ok {
-			deviceState[device.GUID()] = map[string]interface{}{MIN: min}
+			deviceState[device.GetID()] = map[string]interface{}{MIN: min}
 		} else {
 			dataMap[MIN] = min
 		}
@@ -85,9 +81,9 @@ func pressureWrite(device *sdk.Device, data *sdk.WriteData) error {
 		if err != nil {
 			return err
 		}
-		dataMap, ok := deviceState[device.GUID()]
+		dataMap, ok := deviceState[device.GetID()]
 		if !ok {
-			deviceState[device.GUID()] = map[string]interface{}{MAX: max}
+			deviceState[device.GetID()] = map[string]interface{}{MAX: max}
 		} else {
 			dataMap[MAX] = max
 		}

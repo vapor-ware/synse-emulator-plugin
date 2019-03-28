@@ -14,7 +14,7 @@ func RandIntInRange(min, max int) int {
 	return int(rand.Int63n(int64(max-min))) + min
 }
 
-// Min returns the minimum of the two ints.
+// Min returns the minimum of the two integers.
 func Min(a, b int) int {
 	if a < b {
 		return a

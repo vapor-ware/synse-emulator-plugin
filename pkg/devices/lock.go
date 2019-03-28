@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/vapor-ware/synse-sdk/sdk"
+	"github.com/vapor-ware/synse-sdk/sdk/output"
 )
 
 const (
@@ -34,13 +35,13 @@ var Lock = sdk.DeviceHandler{
 // lockRead is the read handler for the emulated Lock device(s). It
 // returns the status values for the device. If no status has previously
 // been set, this will set the status to 'locked'.
-func lockRead(device *sdk.Device) ([]*sdk.Reading, error) {
+func lockRead(device *sdk.Device) ([]*output.Reading, error) {
 	mux.Lock()
 	defer mux.Unlock()
 
 	var lockStatus string
 
-	dState, ok := deviceState[device.GUID()]
+	dState, ok := deviceState[device.GetID()]
 
 	if ok {
 		if _, ok := dState["lockStatus"]; ok {
@@ -53,13 +54,8 @@ func lockRead(device *sdk.Device) ([]*sdk.Reading, error) {
 		lockStatus = statusLock
 	}
 
-	statusReading, err := device.GetOutput("lock.status").MakeReading(lockStatus)
-	if err != nil {
-		return nil, err
-	}
-
-	return []*sdk.Reading{
-		statusReading,
+	return []*output.Reading{
+		output.Status.MakeReading(lockStatus),
 	}, nil
 }
 
@@ -69,25 +65,25 @@ func lockWrite(device *sdk.Device, data *sdk.WriteData) error {
 	mux.Lock()
 	defer mux.Unlock()
 
-	dState, ok := deviceState[device.GUID()]
+	dState, ok := deviceState[device.GetID()]
 
 	switch action := data.Action; action {
 	case actionLock:
 		if !ok {
-			deviceState[device.GUID()] = map[string]interface{}{"lockStatus": statusLock}
+			deviceState[device.GetID()] = map[string]interface{}{"lockState": statusLock}
 		} else {
 			dState["lockStatus"] = statusLock
 		}
 	case actionUnlock:
 		if !ok {
-			deviceState[device.GUID()] = map[string]interface{}{"lockStatus": statusUnlock}
+			deviceState[device.GetID()] = map[string]interface{}{"lockState": statusUnlock}
 		} else {
 			dState["lockStatus"] = statusUnlock
 		}
 	case actionPulseUnlock:
 		// Unlock the device for 5 seconds then lock it.
 		if !ok {
-			deviceState[device.GUID()] = map[string]interface{}{"lockStatus": statusUnlock}
+			deviceState[device.GetID()] = map[string]interface{}{"lockState": statusUnlock}
 		} else {
 			dState["lockStatus"] = statusUnlock
 		}
@@ -99,7 +95,7 @@ func lockWrite(device *sdk.Device, data *sdk.WriteData) error {
 			defer mux.Unlock()
 
 			if !ok {
-				deviceState[device.GUID()] = map[string]interface{}{"lockStatus": statusLock}
+				deviceState[device.GetID()] = map[string]interface{}{"lockState": statusLock}
 			} else {
 				dState["lockStatus"] = statusLock
 			}
