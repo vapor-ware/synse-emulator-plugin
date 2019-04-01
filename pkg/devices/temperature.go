@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/utils"
 	"github.com/vapor-ware/synse-sdk/sdk"
 )
@@ -40,12 +39,6 @@ func temperatureRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	if min > max {
 		max = min + 1
 	}
-
-	logrus.WithFields(logrus.Fields{
-		"device": device.ID(),
-		"min":    min,
-		"max":    max,
-	}).Info("reading temp")
 
 	temperature, err := device.GetOutput("temperature").MakeReading(utils.RandIntInRange(min, max))
 	if err != nil {
