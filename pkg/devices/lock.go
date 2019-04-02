@@ -9,9 +9,9 @@ import (
 )
 
 const (
-	// Valid states of a lock device.
-	stateLock   = "locked"
-	stateUnlock = "unlocked_electrically"
+	// Valid statuses of a lock device.
+	statusLock   = "locked"
+	statusUnlock = "unlocked_electrically"
 
 	// Valid actions of a lock device.
 	actionLock        = "lock"
@@ -20,7 +20,7 @@ const (
 )
 
 var (
-	// mux provides mutual exclusion for reading/writing to lock state.
+	// mux provides mutual exclusion for reading/writing to lock status.
 	mux sync.Mutex
 )
 
@@ -32,39 +32,39 @@ var Lock = sdk.DeviceHandler{
 }
 
 // lockRead is the read handler for the emulated Lock device(s). It
-// returns the state values for the device. If no state has previously
-// been set, this will set the state to 'locked'.
+// returns the status values for the device. If no status has previously
+// been set, this will set the status to 'locked'.
 func lockRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	mux.Lock()
 	defer mux.Unlock()
 
-	var lockState string
+	var lockStatus string
 
 	dState, ok := deviceState[device.GUID()]
 
 	if ok {
-		if _, ok := dState["lockState"]; ok {
-			lockState = dState["lockState"].(string)
+		if _, ok := dState["lockStatus"]; ok {
+			lockStatus = dState["lockStatus"].(string)
 		}
 	}
 
-	// if we have no stored device lock state, default to "locked"
-	if lockState == "" {
-		lockState = stateLock
+	// if we have no stored device lock status, default to "locked"
+	if lockStatus == "" {
+		lockStatus = statusLock
 	}
 
-	stateReading, err := device.GetOutput("lock.state").MakeReading(lockState)
+	statusReading, err := device.GetOutput("lock.status").MakeReading(lockStatus)
 	if err != nil {
 		return nil, err
 	}
 
 	return []*sdk.Reading{
-		stateReading,
+		statusReading,
 	}, nil
 }
 
 // lockWrite is the write handler for the emulated Lock device(s). It
-// sets the state values for the device.
+// sets the status values for the device.
 func lockWrite(device *sdk.Device, data *sdk.WriteData) error {
 	mux.Lock()
 	defer mux.Unlock()
@@ -74,22 +74,22 @@ func lockWrite(device *sdk.Device, data *sdk.WriteData) error {
 	switch action := data.Action; action {
 	case actionLock:
 		if !ok {
-			deviceState[device.GUID()] = map[string]interface{}{"lockState": stateLock}
+			deviceState[device.GUID()] = map[string]interface{}{"lockStatus": statusLock}
 		} else {
-			dState["lockState"] = stateLock
+			dState["lockStatus"] = statusLock
 		}
 	case actionUnlock:
 		if !ok {
-			deviceState[device.GUID()] = map[string]interface{}{"lockState": stateUnlock}
+			deviceState[device.GUID()] = map[string]interface{}{"lockStatus": statusUnlock}
 		} else {
-			dState["lockState"] = stateUnlock
+			dState["lockStatus"] = statusUnlock
 		}
 	case actionPulseUnlock:
 		// Unlock the device for 5 seconds then lock it.
 		if !ok {
-			deviceState[device.GUID()] = map[string]interface{}{"lockState": stateUnlock}
+			deviceState[device.GUID()] = map[string]interface{}{"lockStatus": statusUnlock}
 		} else {
-			dState["lockState"] = stateUnlock
+			dState["lockStatus"] = statusUnlock
 		}
 
 		go func() {
@@ -99,13 +99,13 @@ func lockWrite(device *sdk.Device, data *sdk.WriteData) error {
 			defer mux.Unlock()
 
 			if !ok {
-				deviceState[device.GUID()] = map[string]interface{}{"lockState": stateLock}
+				deviceState[device.GUID()] = map[string]interface{}{"lockStatus": statusLock}
 			} else {
-				dState["lockState"] = stateLock
+				dState["lockStatus"] = statusLock
 			}
 		}()
 	default:
-		return fmt.Errorf("unsupported command for state action: %v", action)
+		return fmt.Errorf("unsupported command for status action: %v", action)
 	}
 
 	return nil
