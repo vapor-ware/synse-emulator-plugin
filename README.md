@@ -30,7 +30,7 @@ set for that field.
 | pressure | An output type for pressure readings. | Pa | 3 | - |
 | led.state | An output type for LED on/off state. | - | - | - |
 | led.color | An output type for LED color. | - | - | - |
-| lock.state | An output type for lock state. | - | - | - |
+| lock.status | An output type for lock status. | - | - | - |
 
 
 ### Device Handlers
