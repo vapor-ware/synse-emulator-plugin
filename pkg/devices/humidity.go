@@ -22,7 +22,7 @@ func humidityRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	var min = 0
 	var max = 100
 
-	dState, ok := deviceState[device.ID()]
+	dState, ok := deviceState[device.GUID()]
 	if ok {
 		if _, ok := dState[MIN]; ok {
 			min = dState[MIN].(int)
@@ -76,9 +76,9 @@ func humidityWrite(device *sdk.Device, data *sdk.WriteData) error {
 		if err != nil {
 			return err
 		}
-		dataMap, ok := deviceState[device.ID()]
+		dataMap, ok := deviceState[device.GUID()]
 		if !ok {
-			deviceState[device.ID()] = map[string]interface{}{MIN: min}
+			deviceState[device.GUID()] = map[string]interface{}{MIN: min}
 		} else {
 			dataMap[MIN] = min
 		}
@@ -91,9 +91,9 @@ func humidityWrite(device *sdk.Device, data *sdk.WriteData) error {
 		if err != nil {
 			return err
 		}
-		dataMap, ok := deviceState[device.ID()]
+		dataMap, ok := deviceState[device.GUID()]
 		if !ok {
-			deviceState[device.ID()] = map[string]interface{}{MAX: max}
+			deviceState[device.GUID()] = map[string]interface{}{MAX: max}
 		} else {
 			dataMap[MAX] = max
 		}

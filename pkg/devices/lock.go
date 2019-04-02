@@ -40,7 +40,7 @@ func lockRead(device *sdk.Device) ([]*sdk.Reading, error) {
 
 	var lockState string
 
-	dState, ok := deviceState[device.ID()]
+	dState, ok := deviceState[device.GUID()]
 
 	if ok {
 		if _, ok := dState["lockState"]; ok {
@@ -69,25 +69,25 @@ func lockWrite(device *sdk.Device, data *sdk.WriteData) error {
 	mux.Lock()
 	defer mux.Unlock()
 
-	dState, ok := deviceState[device.ID()]
+	dState, ok := deviceState[device.GUID()]
 
 	switch action := data.Action; action {
 	case actionLock:
 		if !ok {
-			deviceState[device.ID()] = map[string]interface{}{"lockState": stateLock}
+			deviceState[device.GUID()] = map[string]interface{}{"lockState": stateLock}
 		} else {
 			dState["lockState"] = stateLock
 		}
 	case actionUnlock:
 		if !ok {
-			deviceState[device.ID()] = map[string]interface{}{"lockState": stateUnlock}
+			deviceState[device.GUID()] = map[string]interface{}{"lockState": stateUnlock}
 		} else {
 			dState["lockState"] = stateUnlock
 		}
 	case actionPulseUnlock:
 		// Unlock the device for 5 seconds then lock it.
 		if !ok {
-			deviceState[device.ID()] = map[string]interface{}{"lockState": stateUnlock}
+			deviceState[device.GUID()] = map[string]interface{}{"lockState": stateUnlock}
 		} else {
 			dState["lockState"] = stateUnlock
 		}
@@ -99,7 +99,7 @@ func lockWrite(device *sdk.Device, data *sdk.WriteData) error {
 			defer mux.Unlock()
 
 			if !ok {
-				deviceState[device.ID()] = map[string]interface{}{"lockState": stateLock}
+				deviceState[device.GUID()] = map[string]interface{}{"lockState": stateLock}
 			} else {
 				dState["lockState"] = stateLock
 			}

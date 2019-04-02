@@ -25,7 +25,7 @@ var LED = sdk.DeviceHandler{
 func ledRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	var state, color string
 
-	dState, ok := deviceState[device.ID()]
+	dState, ok := deviceState[device.GUID()]
 
 	if ok {
 		if _, ok := dState["color"]; ok {
@@ -85,32 +85,32 @@ func ledWrite(device *sdk.Device, data *sdk.WriteData) error { // nolint: gocycl
 			return fmt.Errorf("color value should be a 3-byte (RGB) hex string")
 		}
 
-		dState, ok := deviceState[device.ID()]
+		dState, ok := deviceState[device.GUID()]
 		if !ok {
-			deviceState[device.ID()] = map[string]interface{}{"color": string(raw)}
+			deviceState[device.GUID()] = map[string]interface{}{"color": string(raw)}
 		} else {
 			dState["color"] = string(raw)
 		}
 
 	} else if action == "state" {
 		cmd := string(raw)
-		dState, ok := deviceState[device.ID()]
+		dState, ok := deviceState[device.GUID()]
 
 		if cmd == stateOn {
 			if !ok {
-				deviceState[device.ID()] = map[string]interface{}{"state": stateOn}
+				deviceState[device.GUID()] = map[string]interface{}{"state": stateOn}
 			} else {
 				dState["state"] = stateOn
 			}
 		} else if cmd == stateOff {
 			if !ok {
-				deviceState[device.ID()] = map[string]interface{}{"state": stateOff}
+				deviceState[device.GUID()] = map[string]interface{}{"state": stateOff}
 			} else {
 				dState["state"] = stateOff
 			}
 		} else if cmd == stateBlink {
 			if !ok {
-				deviceState[device.ID()] = map[string]interface{}{"state": stateBlink}
+				deviceState[device.GUID()] = map[string]interface{}{"state": stateBlink}
 			} else {
 				dState["state"] = stateBlink
 			}

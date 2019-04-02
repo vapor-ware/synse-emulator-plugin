@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/utils"
 	"github.com/vapor-ware/synse-sdk/sdk"
 )
@@ -23,7 +22,7 @@ func temperatureRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	var min = 0
 	var max = 100
 
-	dState, ok := deviceState[device.ID()]
+	dState, ok := deviceState[device.GUID()]
 	if ok {
 		if _, ok := dState[MIN]; ok {
 			min = dState[MIN].(int)
@@ -40,12 +39,6 @@ func temperatureRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	if min > max {
 		max = min + 1
 	}
-
-	logrus.WithFields(logrus.Fields{
-		"device": device.ID(),
-		"min":    min,
-		"max":    max,
-	}).Info("reading temp")
 
 	temperature, err := device.GetOutput("temperature").MakeReading(utils.RandIntInRange(min, max))
 	if err != nil {
@@ -77,9 +70,9 @@ func temperatureWrite(device *sdk.Device, data *sdk.WriteData) error {
 		if err != nil {
 			return err
 		}
-		dataMap, ok := deviceState[device.ID()]
+		dataMap, ok := deviceState[device.GUID()]
 		if !ok {
-			deviceState[device.ID()] = map[string]interface{}{MIN: min}
+			deviceState[device.GUID()] = map[string]interface{}{MIN: min}
 		} else {
 			dataMap[MIN] = min
 		}
@@ -92,9 +85,9 @@ func temperatureWrite(device *sdk.Device, data *sdk.WriteData) error {
 		if err != nil {
 			return err
 		}
-		dataMap, ok := deviceState[device.ID()]
+		dataMap, ok := deviceState[device.GUID()]
 		if !ok {
-			deviceState[device.ID()] = map[string]interface{}{MAX: max}
+			deviceState[device.GUID()] = map[string]interface{}{MAX: max}
 		} else {
 			dataMap[MAX] = max
 		}
