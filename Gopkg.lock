@@ -89,7 +89,7 @@
 
 [[projects]]
   branch = "v3/staging"
-  digest = "1:ae1886fc5b06ce0e1c13bf7ff9fcaf81b0e3d257d2fbba79ba3846450a7c15db"
+  digest = "1:5ff16b0badd9ddfea766c667f5161c274a312967adf2813287d16643388a7a1d"
   name = "github.com/vapor-ware/synse-sdk"
   packages = [
     "sdk",
@@ -102,15 +102,15 @@
     "sdk/utils",
   ]
   pruneopts = "UT"
-  revision = "ce8933303ebed4baf5ec802cbe9b8e308183fd43"
+  revision = "f1978fbabc43b58cbabdd88f1aa83cb41e8fd3ae"
 
 [[projects]]
   branch = "v3/staging"
-  digest = "1:afd016f7632697cb3455c9e50cbb5331bcc07a1e2f041c71f7ede7f01a0dc584"
+  digest = "1:a2f2b268785d6354cf3c501dcde39275dad3a9b4f37c5ff1b0c8d73a9d61dcdb"
   name = "github.com/vapor-ware/synse-server-grpc"
   packages = ["go"]
   pruneopts = "UT"
-  revision = "bbdc0f9329fe619843159f0c8001cd0cb8b4959f"
+  revision = "667a84247b384bc508fd826c8ab928d7b7dbb0e9"
 
 [[projects]]
   branch = "master"
@@ -177,7 +177,7 @@
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
   pruneopts = "UT"
-  revision = "f467c93bbac2133ff463e1f93d18d8f9f3f04451"
+  revision = "64821d5d210748c883cd2b809589555ae4654203"
 
 [[projects]]
   digest = "1:c00eb80d7b152379c3e94c38d82b29deca98b1d0f53e4e20362589b7fcbffa07"
