@@ -29,7 +29,7 @@ release:
   github:
     owner: vapor-ware
     name: synse-emulator-plugin
-  draft: true
+  draft: false
   prerelease: auto
   name_template: "{{ .Version }}"
 dockers:

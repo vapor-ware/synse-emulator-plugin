@@ -7,6 +7,8 @@ pipeline {
   environment {
     PROJ_PATH = '/go/src/github.com/vapor-ware/synse-emulator-plugin'
     IMAGE_NAME = 'vaporio/emulator-plugin'
+    GOPATH = $JOBDIR
+
   }
 
   stages {
@@ -15,6 +17,24 @@ pipeline {
         checkout scm
       }
     }
+
+    stage('Snapshot') {
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // Verify that the binary and Docker image build successfully.
     // The binary build is done as a dependency to the 'docker'
@@ -42,42 +62,6 @@ pipeline {
         }
 
         sh 'make docker'
-      }
-    }
-
-    // Build the image with the 'edge' tag and publish it to DockerHub. This
-    // should only be run on the master branch (e.g. PR merge)
-    stage('Publish Edge Image') {
-      when {
-        branch 'master'
-      }
-      steps {
-        script {
-          docker.image('vaporio/golang:1.11').inside() {
-            // Set up the project in the docker container. The project must be
-            // on the GOPATH (/go) in order to correctly vendor dependencies and
-            // build the project artifacts.
-            sh 'mkdir -p ${PROJ_PATH} && cp -r ${WORKSPACE}/* ${PROJ_PATH}'
-
-            // The pipeline's 'dir()' directive is broken when run inside a docker
-            // container, so we need to 'cd' into the project directory prior to
-            // running the required commands.
-            sh 'go get -u github.com/golang/dep/cmd/dep'
-            sh 'cd ${PROJ_PATH} && make dep'
-            sh 'cd ${PROJ_PATH} && make build'
-
-            // Copy the build artifact down so we can access it later in the stage
-            // via the volume mount.
-            sh 'cp ${PROJ_PATH}/synse-emulator-plugin .'
-          }
-        }
-
-        sh 'make docker'
-
-        withDockerRegistry(registry: [credentialsId: 'vio-docker-hub']) {
-          sh 'docker tag ${IMAGE_NAME}:local ${IMAGE_NAME}:edge'
-          sh 'docker push ${IMAGE_NAME}:edge'
-        }
       }
     }
 
