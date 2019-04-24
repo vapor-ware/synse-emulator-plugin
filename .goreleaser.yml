@@ -39,10 +39,10 @@ dockers:
    binaries:
      - synse-emulator-plugin
    image_templates:
-    - vaporio/synse-emulator-plugin:{{ .Tag }}
-    - vaporio/synse-emulator-plugin:{{ .Major }}
-    - vaporio/synse-emulator-plugin:{{ .Major }}.{{ .Minor }}
-    - vaporio/synse-emulator-plugin:latest
+    - vaporio/emulator-plugin:{{ .Tag }}
+    - vaporio/emulator-plugin:{{ .Major }}
+    - vaporio/emulator-plugin:{{ .Major }}.{{ .Minor }}
+    - vaporio/emulator-plugin:latest
    build_flag_templates:
     - "--label=org.label-schema.schema-version=1.0"
     - "--label=org.label-schema.version={{ .Version }}"
