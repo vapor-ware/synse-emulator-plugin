@@ -7,8 +7,6 @@ import (
 	"github.com/vapor-ware/synse-sdk/sdk"
 )
 
-var speed int
-
 // Fan is the handler for the emulated fan device(s).
 var Fan = sdk.DeviceHandler{
 	Name:  "fan",
@@ -19,6 +17,15 @@ var Fan = sdk.DeviceHandler{
 // fanRead is the read handler for the emulated fan devices(s). It
 // returns the `speed` state for the device.
 func fanRead(device *sdk.Device) ([]*sdk.Reading, error) {
+	var speed int
+
+	dState, ok := deviceState[device.GUID()]
+	if ok {
+		if _, ok := dState["speed"]; ok {
+			speed = dState["speed"].(int)
+		}
+	}
+
 	fanSpeed, err := device.GetOutput("fan.speed").MakeReading(speed)
 	if err != nil {
 		return nil, err
@@ -31,7 +38,9 @@ func fanRead(device *sdk.Device) ([]*sdk.Reading, error) {
 
 // fanWrite is the write handler for the emulated fan device(s). It
 // sets the `speed` state based on the values written to the device.
-func fanWrite(_ *sdk.Device, data *sdk.WriteData) error {
+func fanWrite(device *sdk.Device, data *sdk.WriteData) error {
+	dState, ok := deviceState[device.GUID()]
+
 	action := data.Action
 	raw := data.Data
 
@@ -46,7 +55,12 @@ func fanWrite(_ *sdk.Device, data *sdk.WriteData) error {
 		if err != nil {
 			return err
 		}
-		speed = s
+
+		if !ok {
+			deviceState[device.GUID()] = map[string]interface{}{"speed": s}
+		} else {
+			dState["speed"] = s
+		}
 	}
 	return nil
 }
