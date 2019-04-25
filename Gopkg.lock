@@ -196,9 +196,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  input-imports = [
-    "github.com/Sirupsen/logrus",
-    "github.com/vapor-ware/synse-sdk/sdk",
-  ]
+  input-imports = ["github.com/vapor-ware/synse-sdk/sdk"]
   solver-name = "gps-cdcl"
   solver-version = 1
