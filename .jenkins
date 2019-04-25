@@ -64,7 +64,7 @@ pipeline {
         tag pattern: '(0|[1-9]*)\\.(0|[1-9]*)\\.(0|[1-9]*)(-(\\S*))?$', comparator: "REGEXP"
       }
       environment {
-        GITHUB_TOKEN = credential('vio-bot-gh-token')
+        GITHUB_TOKEN = credentials('vio-bot-gh-token')
       }
       steps {
         script {
