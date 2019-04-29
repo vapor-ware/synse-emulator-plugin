@@ -72,14 +72,6 @@
   version = "v2.1.0"
 
 [[projects]]
-  digest = "1:2e76a73cb51f42d63a2a1a85b3dc5731fd4faf6821b434bd0ef2c099186031d6"
-  name = "github.com/rs/xid"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "15d26544def341f036c5f8dca987a4cbe575032c"
-  version = "v1.2.1"
-
-[[projects]]
   digest = "1:fd61cf4ae1953d55df708acb6b91492d538f49c305b364a014049914495db426"
   name = "github.com/sirupsen/logrus"
   packages = ["."]
@@ -88,8 +80,8 @@
   version = "v1.4.1"
 
 [[projects]]
-  branch = "v3/staging"
-  digest = "1:5ff16b0badd9ddfea766c667f5161c274a312967adf2813287d16643388a7a1d"
+  branch = "v3/updates-1"
+  digest = "1:c863023eed94282457152fa355136a666608a96686bc18b776b033ead58b6d62"
   name = "github.com/vapor-ware/synse-sdk"
   packages = [
     "sdk",
@@ -102,19 +94,19 @@
     "sdk/utils",
   ]
   pruneopts = "UT"
-  revision = "f1978fbabc43b58cbabdd88f1aa83cb41e8fd3ae"
+  revision = "afc9bbf08b43e4ddbbeb383cfb04c13803d8a2be"
 
 [[projects]]
   branch = "v3/staging"
-  digest = "1:a2f2b268785d6354cf3c501dcde39275dad3a9b4f37c5ff1b0c8d73a9d61dcdb"
+  digest = "1:6d9ca8b731aa3670630134b156c462d0708e1e4ea6e503c7416ff140b22e57ac"
   name = "github.com/vapor-ware/synse-server-grpc"
   packages = ["go"]
   pruneopts = "UT"
-  revision = "667a84247b384bc508fd826c8ab928d7b7dbb0e9"
+  revision = "e8ad6f4a99155376bc49f8351a4dd270b0f46fdb"
 
 [[projects]]
   branch = "master"
-  digest = "1:a7550c619a7f9701bc2f0b2c866668a207cfb693a2834796f723d2c78b514372"
+  digest = "1:07c70ed7db30e61c8e28f5139a426deef24d6be14a16a679f2c38e89b1704475"
   name = "golang.org/x/net"
   packages = [
     "context",
@@ -126,11 +118,11 @@
     "trace",
   ]
   pruneopts = "UT"
-  revision = "b630fd6fe46bcfc98f989005d8b8ec1400e60a6e"
+  revision = "4829fb13d2c62012c17688fa7f629f371014946d"
 
 [[projects]]
   branch = "master"
-  digest = "1:015369e20c1faa5f24c10104e1330afcb517455ceb58d835a8136f34c5ad3746"
+  digest = "1:5228e1bbb96cf664e481b1b254d94fd88305477495a7f591310acf77c1956b14"
   name = "golang.org/x/sys"
   packages = [
     "unix",
@@ -138,16 +130,18 @@
     "windows/registry",
   ]
   pruneopts = "UT"
-  revision = "81d4e9dc473e5e8c933f2aaeba2a3d81efb9aed2"
+  revision = "2cc0cad0ac78f3ede1f4d2b6ca16ea3038641af4"
 
 [[projects]]
-  digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"
+  digest = "1:8d8faad6b12a3a4c819a3f9618cb6ee1fa1cfc33253abeeea8b55336721e3405"
   name = "golang.org/x/text"
   packages = [
     "collate",
     "collate/build",
     "internal/colltab",
     "internal/gen",
+    "internal/language",
+    "internal/language/compact",
     "internal/tag",
     "internal/triegen",
     "internal/ucd",
@@ -160,8 +154,8 @@
     "unicode/rangetable",
   ]
   pruneopts = "UT"
-  revision = "f21a4dfb5e38f5895301dc265a8def02365cc3d0"
-  version = "v0.3.0"
+  revision = "342b2e1fbaa52c93f31447ad2c6abc048c63e475"
+  version = "v0.3.2"
 
 [[projects]]
   branch = "master"
@@ -177,10 +171,10 @@
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
   pruneopts = "UT"
-  revision = "64821d5d210748c883cd2b809589555ae4654203"
+  revision = "357c62f0e4bbba7e6cc403ae09edcf3e2b9028fe"
 
 [[projects]]
-  digest = "1:c00eb80d7b152379c3e94c38d82b29deca98b1d0f53e4e20362589b7fcbffa07"
+  digest = "1:707c3a5d10ed430ea767d73df122d9eb3dfb6312bbacc9f2e39204390686d1d0"
   name = "google.golang.org/grpc"
   packages = [
     ".",
@@ -197,6 +191,7 @@
     "grpclog",
     "internal",
     "internal/backoff",
+    "internal/balancerload",
     "internal/binarylog",
     "internal/channelz",
     "internal/envconfig",
@@ -216,8 +211,8 @@
     "tap",
   ]
   pruneopts = "UT"
-  revision = "3507fb8e1a5ad030303c106fef3a47c9fdad16ad"
-  version = "v1.19.1"
+  revision = "25c4f928eaa6d96443009bd842389fb4fa48664e"
+  version = "v1.20.1"
 
 [[projects]]
   digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"
