@@ -1,5 +1,7 @@
-version: 1.0
+version: 3
 debug: true
+id:
+  useMachineID: false
 network:
   type: tcp
   address: ":5001"

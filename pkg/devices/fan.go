@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/vapor-ware/synse-emulator-plugin/pkg/outputs"
 	"github.com/vapor-ware/synse-sdk/sdk"
 	"github.com/vapor-ware/synse-sdk/sdk/output"
 )
