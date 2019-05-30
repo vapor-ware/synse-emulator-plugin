@@ -42,13 +42,9 @@ dockers:
     - vaporio/emulator-plugin:{{ .Major }}.{{ .Minor }}
     - vaporio/emulator-plugin:latest
    build_flag_templates:
-    - "--label=org.label-schema.schema-version=1.0"
     - "--label=org.label-schema.version={{ .Version }}"
     - "--label=org.label-schema.build-date={{ .Date }}"
-    - "--label=org.label-schema.name=vaporio/emulator-plugin"
-    - "--label=org.label-schema.vcs-url=https://github.com/vapor-ware/synse-emulator-plugin"
     - "--label=org.label-schema.vcs-ref={{ .ShortCommit }}"
-    - "--label=org.label-schema.vendor=Vapor IO"
    extra_files:
     - config/device
     - config.yml

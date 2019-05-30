@@ -7,10 +7,10 @@ PLUGIN_VERSION := 3.0.0
 IMAGE_NAME     := vaporio/emulator-plugin
 BIN_NAME       := synse-emulator-plugin
 
-GIT_COMMIT ?= $(shell git rev-parse --short HEAD 2> /dev/null || true)
-GIT_TAG    ?= $(shell git describe --tags 2> /dev/null || true)
-BUILD_DATE := $(shell date -u +%Y-%m-%dT%T 2> /dev/null)
-GO_VERSION := $(shell go version | awk '{ print $$3 }')
+GIT_COMMIT     ?= $(shell git rev-parse --short HEAD 2> /dev/null || true)
+GIT_TAG        ?= $(shell git describe --tags 2> /dev/null || true)
+BUILD_DATE     := $(shell date -u +%Y-%m-%dT%T 2> /dev/null)
+GO_VERSION     := $(shell go version | awk '{ print $$3 }')
 
 PKG_CTX := github.com/vapor-ware/synse-emulator-plugin/vendor/github.com/vapor-ware/synse-sdk/sdk
 LDFLAGS := -w \
@@ -22,11 +22,11 @@ LDFLAGS := -w \
 
 
 .PHONY: build
-build:  ## Build the plugin Go binary
+build:  ## Build the plugin binary
 	go build -ldflags "${LDFLAGS}" -o ${BIN_NAME}
 
 .PHONY: build-linux
-build-linux:  ## Build the plugin for linux amd64
+build-linux:  ## Build the plugin binarry for linux amd64
 	GOOS=linux GOARCH=amd64 go build -ldflags "${LDFLAGS}" -o ${BIN_NAME} .
 
 .PHONY: clean
@@ -39,10 +39,13 @@ dep:  ## Ensure and prune dependencies
 	dep ensure -v
 
 .PHONY: docker
-docker:  ## Build the docker image locally
+docker:  ## Build the docker image
 	docker build -f Dockerfile \
-		-t $(IMAGE_NAME):latest \
-		-t $(IMAGE_NAME):local .
+		--label "org.label-schema.build-date=${BUILD_DATE}" \
+		--label "org.label-schema.vcs-ref=${GIT_COMMIT}" \
+		--label "org.label-schema.version=${PLUGIN_VERSION}" \
+		-t ${IMAGE_NAME}:latest \
+		-t ${IMAGE_NAME}:local .
 
 .PHONY: fmt
 fmt:  ## Run goimports on all go files
@@ -55,19 +58,11 @@ github-tag:  ## Create and push a tag with the current plugin version
 
 .PHONY: lint
 lint:  ## Lint project source files
-	@ # disable gotype: https://github.com/alecthomas/gometalinter/issues/40
-	gometalinter ./... \
-		--disable=gotype \
-		--tests \
-		--vendor \
-		--sort=path --sort=line \
-		--aggregate \
-		--deadline=5m \
-		-e $$(go env GOROOT)
+	golint -set_exit_status ./pkg/...
 
 .PHONY: version
 version:  ## Print the version of the plugin
-	@echo "$(PLUGIN_VERSION)"
+	@echo "${PLUGIN_VERSION}"
 
 .PHONY: help
 help:  ## Print usage information

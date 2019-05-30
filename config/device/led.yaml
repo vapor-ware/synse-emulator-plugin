@@ -5,8 +5,12 @@ devices:
       model: emul8-led
     instances:
       - info: Synse LED
+        alias:
+          name: emulator-led
         data:
           id: 1
       - info: Synse Backup LED
+        alias:
+          name: emulator-backup-led
         data:
           id: 2

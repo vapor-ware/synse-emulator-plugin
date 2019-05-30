@@ -21,17 +21,3 @@ func Min(a, b int) int {
 	}
 	return b
 }
-
-// PadOrTrim pads or trims a byte array to the specified size.
-func PadOrTrim(bb []byte, size int) []byte {
-	l := len(bb)
-	if l == size {
-		return bb
-	}
-	if l > size {
-		return bb[l-size:]
-	}
-	tmp := make([]byte, size)
-	copy(tmp[size-l:], bb)
-	return tmp
-}
