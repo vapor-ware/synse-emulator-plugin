@@ -15,6 +15,7 @@ func MakePlugin() *sdk.Plugin {
 		log.Fatal(err)
 	}
 
+	// Register custom output types.
 	err = plugin.RegisterOutputs(
 		&outputs.Airflow,
 	)

@@ -44,8 +44,7 @@ docker:  ## Build the docker image
 		--label "org.label-schema.build-date=${BUILD_DATE}" \
 		--label "org.label-schema.vcs-ref=${GIT_COMMIT}" \
 		--label "org.label-schema.version=${PLUGIN_VERSION}" \
-		-t ${IMAGE_NAME}:latest \
-		-t ${IMAGE_NAME}:local .
+		-t ${IMAGE_NAME}:latest .
 
 .PHONY: fmt
 fmt:  ## Run goimports on all go files
