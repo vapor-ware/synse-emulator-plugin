@@ -29,6 +29,7 @@ pipeline {
         }
       }
     }
+
     stage('Snapshot Build') {
       steps {
         script {
@@ -48,6 +49,7 @@ pipeline {
         }
       }
     }
+
     stage('Publish Latest') {
       when {
         branch 'master'
@@ -58,6 +60,7 @@ pipeline {
         }
       }
     }
+
     stage('Tagged Release') {
       when {
         // example matches: 1.2.3, 1.2.3-dev
@@ -75,7 +78,7 @@ pipeline {
           }
         }
       }
-
     }
+
   }
 }
