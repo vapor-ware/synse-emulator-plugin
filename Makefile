@@ -38,6 +38,10 @@ clean:  ## Remove temporary files
 dep:  ## Ensure and prune dependencies
 	dep ensure -v
 
+.PHONY: deploy
+deploy:  ## Run a local deployment of the plugin with Synse Server
+	docker-compose -f compose.yml up -d
+
 .PHONY: docker
 docker:  ## Build the docker image
 	docker build -f Dockerfile \
