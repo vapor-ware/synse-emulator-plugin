@@ -2,7 +2,7 @@
 # compose.yml
 #
 # A simple compose file to run a dockerized emulator plugin
-# instance with synse server, both in debug mode.
+# instance with Synse Server, both in debug mode.
 #
 # To run:
 #    docker-compose -f compose.yml up -d
