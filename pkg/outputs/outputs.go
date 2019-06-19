@@ -70,7 +70,7 @@ var (
 
 	// PowerWatts is the output type for power devices in Watts.
 	PowerWatts = sdk.OutputType{
-		Name:      "power.watt",
+		Name:      "power",
 		Precision: 3,
 		Unit: sdk.Unit{
 			Name:   "watt",
