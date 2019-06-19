@@ -10,7 +10,7 @@ devices:
     metadata:
       model: emul8-power
     outputs:
-      - type: power.watt
+      - type: power
     instances:
       - info: Zone 1 Power
         location: r1vec
