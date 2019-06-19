@@ -31,6 +31,7 @@ set for that field.
 | led.state | An output type for LED on/off state. | - | - | - |
 | led.color | An output type for LED color. | - | - | - |
 | lock.status | An output type for lock status. | - | - | - |
+| power.watt | An output type for power, in watts. | W | 3 | - |
 
 
 ### Device Handlers
@@ -45,6 +46,7 @@ Device Handlers should be referenced by name.
 | pressure | A handler for emulated pressure devices. | ✓ | ✗ | ✗ |
 | temperature | A handler for emulated temperature devices. | ✓ | ✗ | ✗ |
 | lock | A handler for emulated lock devices. | ✓ | ✓ | ✗ |
+| power | A handler for emulated power devices. | ✓ | ✓ | ✗ |
 
 
 ### Write Values
@@ -56,6 +58,7 @@ This plugin supports the following values when writing to a device via a handler
 | led | `state` | `on`, `off`, `blink` |
 |     | `color` | RGB Hex color string |
 | lock | `lock`, `unlock`, `pulseUnlock` | - |
+| power | `min`, `max` | integer value |
 
 
 ## Getting Started

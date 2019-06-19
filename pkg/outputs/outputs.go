@@ -67,4 +67,14 @@ var (
 	LockStatus = sdk.OutputType{
 		Name: "lock.status",
 	}
+
+	// PowerWatts is the output type for power devices in Watts.
+	PowerWatts = sdk.OutputType{
+		Name:      "power.watt",
+		Precision: 3,
+		Unit: sdk.Unit{
+			Name:   "watt",
+			Symbol: "W",
+		},
+	}
 )
