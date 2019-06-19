@@ -40,7 +40,7 @@ func powerRead(device *sdk.Device) ([]*sdk.Reading, error) {
 		max = min + 1
 	}
 
-	power, err := device.GetOutput("power.watt").MakeReading(utils.RandIntInRange(min, max))
+	power, err := device.GetOutput("power").MakeReading(utils.RandIntInRange(min, max))
 	if err != nil {
 		return nil, err
 	}
