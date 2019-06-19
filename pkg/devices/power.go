@@ -19,8 +19,8 @@ var Power = sdk.DeviceHandler{
 // It returns random values between 0 and 100.
 func powerRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	// Default reading ranges
-	var min = 0
-	var max = 100
+	var min = 1000
+	var max = 3000
 
 	dState, ok := deviceState[device.GUID()]
 	if ok {
@@ -51,7 +51,7 @@ func powerRead(device *sdk.Device) ([]*sdk.Reading, error) {
 }
 
 // powerWrite is the write handler for the emulated power device(s).
-// Typically, temperature devices are not writable, but since this is an emulator
+// Typically, power devices are not writable, but since this is an emulator
 // and we may want to change the returned value(s) of a device at runtime, we can
 // reset the min and max values.
 func powerWrite(device *sdk.Device, data *sdk.WriteData) error {
