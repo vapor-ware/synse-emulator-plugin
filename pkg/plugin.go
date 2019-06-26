@@ -25,6 +25,7 @@ func MakePlugin() *sdk.Plugin {
 		&outputs.PowerWatts,
 		&outputs.KWH,
 		&outputs.Voltage,
+		&outputs.Hertz,
 	)
 	if err != nil {
 		log.Fatal(err)
@@ -41,7 +42,8 @@ func MakePlugin() *sdk.Plugin {
 		&devices.Lock,
 		&devices.Power,
 		&devices.Voltage,
-		&devices.KillaWattHours,
+		&devices.KiloWattHours,
+		&devices.Frequency,
 	)
 
 	return plugin
