@@ -23,6 +23,8 @@ func MakePlugin() *sdk.Plugin {
 		&outputs.Temperature,
 		&outputs.LockStatus,
 		&outputs.PowerWatts,
+		&outputs.KWH,
+		&outputs.Voltage,
 	)
 	if err != nil {
 		log.Fatal(err)
@@ -38,6 +40,8 @@ func MakePlugin() *sdk.Plugin {
 		&devices.Temperature,
 		&devices.Lock,
 		&devices.Power,
+		&devices.Voltage,
+		&devices.KillaWattHours,
 	)
 
 	return plugin

@@ -77,4 +77,23 @@ var (
 			Symbol: "W",
 		},
 	}
+	// Voltage is the output type for voltage devices in voltage.
+	Voltage = sdk.OutputType{
+		Name:      "voltage",
+		Precision: 3,
+		Unit: sdk.Unit{
+			Name:   "volt",
+			Symbol: "V",
+		},
+	}
+
+	// KWH is the output type for voltage devices in kwh.power.
+	KWH = sdk.OutputType{
+		Name:      "kwh.power",
+		Precision: 5,
+		Unit: sdk.Unit{
+			Name:   "kilowatt hour",
+			Symbol: "kWh",
+		},
+	}
 )
