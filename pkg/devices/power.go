@@ -44,11 +44,11 @@ var Voltage = sdk.DeviceHandler{
 }
 
 // currentRead is the read handler for the emulated current device(s).
-// It returns random values between 0 and 60.
+// It returns random values between 0 and 30.
 func currentRead(device *sdk.Device) ([]*sdk.Reading, error) {
 	// Default reading ranges
 	var min = 0
-	var max = 60
+	var max = 30 // breakers per zone are 20 amp max.
 
 	dState, ok := deviceState[device.GUID()]
 	if ok {
