@@ -106,4 +106,14 @@ var (
 			Symbol: "Hz",
 		},
 	}
+
+	// Amperage is the output type for amperage devices in ampere.
+	Amperage = sdk.OutputType{
+		Name:      "amperage",
+		Precision: 2,
+		Unit: sdk.Unit{
+			Name:   "ampere",
+			Symbol: "A",
+		},
+	}
 )

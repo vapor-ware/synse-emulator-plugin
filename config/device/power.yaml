@@ -62,4 +62,14 @@ devices:
         location: r1vec
         data:
           id: 1
+  - name: current
+    metadata:
+      model: emul8-current
+    outputs:
+      - type: amperage
+    instances:
+      - info: Zone 1 Current
+        location: r1vec
+        data:
+          id: 1
 

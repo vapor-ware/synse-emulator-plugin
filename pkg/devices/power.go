@@ -8,6 +8,13 @@ import (
 	"github.com/vapor-ware/synse-sdk/sdk"
 )
 
+// Current is the handler for the emulated Amperage device(s).
+var Current = sdk.DeviceHandler{
+	Name:  "current",
+	Read:  currentRead,
+	Write: currentWrite,
+}
+
 // Frequency is the handler for the emulated frequency device(s).
 var Frequency = sdk.DeviceHandler{
 	Name:  "frequency",
@@ -34,6 +41,86 @@ var Voltage = sdk.DeviceHandler{
 	Name:  "voltage",
 	Read:  voltageRead,
 	Write: voltageWrite,
+}
+
+// currentRead is the read handler for the emulated current device(s).
+// It returns random values between 0 and 60.
+func currentRead(device *sdk.Device) ([]*sdk.Reading, error) {
+	// Default reading ranges
+	var min = 0
+	var max = 60
+
+	dState, ok := deviceState[device.GUID()]
+	if ok {
+		if _, ok := dState[MIN]; ok {
+			min = dState[MIN].(int)
+		}
+
+		if _, ok := dState[MAX]; ok {
+			max = dState[MAX].(int)
+		}
+	}
+
+	// In the event that we change the min value before the max value to
+	// something greater than what the max value was, make the max value
+	// bigger so we dont panic when generating a random val.
+	if min > max {
+		max = min + 1
+	}
+
+	power, err := device.GetOutput("amperage").MakeReading(utils.RandIntInRange(min, max))
+	if err != nil {
+		return nil, err
+	}
+
+	return []*sdk.Reading{
+		power,
+	}, nil
+}
+
+// currentWrite is the write handler for the emulated Current device(s).
+// Typically, Current devices are not writable, but since this is an emulator
+// and we may want to change the returned value(s) of a device at runtime, we can
+// reset the min and max values.
+func currentWrite(device *sdk.Device, data *sdk.WriteData) error {
+	action := data.Action
+	raw := data.Data
+
+	if len(raw) == 0 {
+		return fmt.Errorf("no values specified for 'data', but required")
+	}
+
+	if action == MIN {
+		// This could get dicey, but since `raw` is bytes and synse server basically just
+		// encodes it as a string, the int value we expect here is actually the bytes for
+		// the string representation of the int...
+		min, err := strconv.Atoi(string(raw))
+		if err != nil {
+			return err
+		}
+		dataMap, ok := deviceState[device.GUID()]
+		if !ok {
+			deviceState[device.GUID()] = map[string]interface{}{MIN: min}
+		} else {
+			dataMap[MIN] = min
+		}
+
+	} else if action == MAX {
+		// This could get dicey, but since `raw` is bytes and synse server basically just
+		// encodes it as a string, the int value we expect here is actually the bytes for
+		// the string representation of the int...
+		max, err := strconv.Atoi(string(raw))
+		if err != nil {
+			return err
+		}
+		dataMap, ok := deviceState[device.GUID()]
+		if !ok {
+			deviceState[device.GUID()] = map[string]interface{}{MAX: max}
+		} else {
+			dataMap[MAX] = max
+		}
+	}
+	return nil
 }
 
 // frequencyRead is the read handler for the emulated frequency device(s).
