@@ -42,13 +42,33 @@ devices:
         location: r1vec
         data:
           id: 1
-  - name: kilawatthour
+  - name: kilowatthour
     metadata:
       model: emul8-kilowatthour
     outputs:
       - type: kwh.power
     instances:
       - info: Zone 1 KiloWattHour
+        location: r1vec
+        data:
+          id: 1
+  - name: frequency
+    metadata:
+      model: emul8-frequency
+    outputs:
+      - type: frequency
+    instances:
+      - info: Zone 1 Frequency
+        location: r1vec
+        data:
+          id: 1
+  - name: current
+    metadata:
+      model: emul8-current
+    outputs:
+      - type: amperage
+    instances:
+      - info: Zone 1 Current
         location: r1vec
         data:
           id: 1

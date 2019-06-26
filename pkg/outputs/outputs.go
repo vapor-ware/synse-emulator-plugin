@@ -96,4 +96,24 @@ var (
 			Symbol: "kWh",
 		},
 	}
+
+	// Hertz is the output type for frequency devices in hertz.
+	Hertz = sdk.OutputType{
+		Name:      "frequency",
+		Precision: 4,
+		Unit: sdk.Unit{
+			Name:   "hertz",
+			Symbol: "Hz",
+		},
+	}
+
+	// Amperage is the output type for amperage devices in ampere.
+	Amperage = sdk.OutputType{
+		Name:      "amperage",
+		Precision: 2,
+		Unit: sdk.Unit{
+			Name:   "ampere",
+			Symbol: "A",
+		},
+	}
 )
