@@ -26,12 +26,15 @@ func MakePlugin() *sdk.Plugin {
 	// Register device handlers
 	err = plugin.RegisterDeviceHandlers(
 		&devices.Airflow,
+		&devices.Energy,
 		&devices.Fan,
 		&devices.Humidity,
 		&devices.LED,
+		&devices.Lock,
+		&devices.Power,
 		&devices.Pressure,
 		&devices.Temperature,
-		&devices.Lock,
+		&devices.Voltage,
 	)
 	if err != nil {
 		log.Fatal(err)
