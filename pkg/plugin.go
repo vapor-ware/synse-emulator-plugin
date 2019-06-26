@@ -18,9 +18,6 @@ func MakePlugin() *sdk.Plugin {
 	// Register custom output types.
 	err = plugin.RegisterOutputs(
 		&outputs.Airflow,
-		&outputs.PowerWatts,
-		&outputs.KWH,
-		&outputs.Voltage,
 	)
 	if err != nil {
 		log.Fatal(err)
@@ -29,15 +26,15 @@ func MakePlugin() *sdk.Plugin {
 	// Register device handlers
 	err = plugin.RegisterDeviceHandlers(
 		&devices.Airflow,
+		&devices.Energy,
 		&devices.Fan,
 		&devices.Humidity,
 		&devices.LED,
-		&devices.Pressure,
-		&devices.Temperature,
 		&devices.Lock,
 		&devices.Power,
+		&devices.Pressure,
+		&devices.Temperature,
 		&devices.Voltage,
-		&devices.KillaWattHours,
 	)
 	if err != nil {
 		log.Fatal(err)

@@ -42,7 +42,7 @@ func pressureRead(device *sdk.Device) ([]*output.Reading, error) {
 	}
 
 	return []*output.Reading{
-		output.Pressure.MakeReading(utils.RandIntInRange(min, max)),
+		output.Pascal.MakeReading(utils.RandIntInRange(min, max)),
 	}, nil
 }
 

@@ -1,55 +1,44 @@
-version: 1.0
-locations:
-  - name: r1vec
-    rack:
-      name: rack-1
-    board:
-      name: vec
+version: 3
 devices:
-  - name: power
+  - type: power
     metadata:
       model: emul8-power
-    outputs:
-      - type: power
     instances:
       - info: Zone 1 Power
-        location: r1vec
         data:
           id: 1
       - info: Zone 2 Power
-        location: r1vec
         data:
           id: 2
       - info: Zone 3 Power
-        location: r1vec
         data:
           id: 3
       - info: Zone 4 Power
-        location: r1vec
         data:
           id: 4
       - info: Total Power Usage
-        location: r1vec
         data:
           id: 5
-  - name: voltage
+
+  - type: voltage
     metadata:
       model: emul8-voltage
-    outputs:
-      - type: voltage
     instances:
       - info: Zone 1 Voltage
-        location: r1vec
         data:
           id: 1
-  - name: kilawatthour
+      - info: Zone 2 Voltage
+        data:
+          id: 2
+
+  - type: energy
     metadata:
-      model: emul8-kilowatthour
-    outputs:
-      - type: kwh.power
+      model: emul8-energy
     instances:
-      - info: Zone 1 KiloWattHour
-        location: r1vec
+      - info: Zone 1 Kilowatt-hour
         data:
           id: 1
+      - info: Zone 2 Kilowatt-hour
+        data:
+          id: 2
 
