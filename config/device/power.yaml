@@ -32,3 +32,24 @@ devices:
         location: r1vec
         data:
           id: 5
+  - name: voltage
+    metadata:
+      model: emul8-voltage
+    outputs:
+      - type: voltage
+    instances:
+      - info: Zone 1 Voltage
+        location: r1vec
+        data:
+          id: 1
+  - name: kilawatthour
+    metadata:
+      model: emul8-kilowatthour
+    outputs:
+      - type: kwh.power
+    instances:
+      - info: Zone 1 KiloWattHour
+        location: r1vec
+        data:
+          id: 1
+
