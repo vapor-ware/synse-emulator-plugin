@@ -109,7 +109,7 @@ var (
 
 	// Amperage is the output type for amperage devices in ampere.
 	Amperage = sdk.OutputType{
-		Name:      "amperage",
+		Name:      "current",
 		Precision: 2,
 		Unit: sdk.Unit{
 			Name:   "ampere",
