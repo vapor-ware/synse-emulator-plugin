@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/outputs"
+	"github.com/vapor-ware/synse-emulator-plugin/pkg/utils"
 	"github.com/vapor-ware/synse-sdk/sdk"
 	"github.com/vapor-ware/synse-sdk/sdk/output"
 )
@@ -16,48 +17,30 @@ var Fan = sdk.DeviceHandler{
 	Write: fanWrite,
 }
 
-// fanRead is the read handler for the emulated fan devices(s). It
-// returns the `speed` state for the device.
+// fanRead is the read handler for the emulated fan devices(s).
 func fanRead(device *sdk.Device) ([]*output.Reading, error) {
-	var speed int
-
-	dState, ok := deviceState[device.GetID()]
-	if ok {
-		if _, ok := dState["speed"]; ok {
-			speed = dState["speed"].(int)
-		}
-	}
-
+	emitter := utils.GetEmitter(device.GetID())
 	return []*output.Reading{
-		outputs.Airflow.MakeReading(speed),
+		outputs.Airflow.MakeReading(emitter.Next()),
 	}, nil
 }
 
-// fanWrite is the write handler for the emulated fan device(s). It
-// sets the `speed` state based on the values written to the device.
+// fanWrite is the write handler for the emulated fan device(s).
 func fanWrite(device *sdk.Device, data *sdk.WriteData) error {
-	dState, ok := deviceState[device.GetID()]
-
-	action := data.Action
-	raw := data.Data
-
-	// We always expect the action to come with raw data, so if it
-	// doesn't exist, error.
-	if len(raw) == 0 {
+	if len(data.Data) == 0 {
 		return fmt.Errorf("no values specified for 'data', but required")
 	}
 
-	if action == "speed" {
-		s, err := strconv.Atoi(string(raw))
-		if err != nil {
-			return err
-		}
+	// Parse the data []byte into an int
+	v, err := strconv.Atoi(string(data.Data))
+	if err != nil {
+		return err
+	}
 
-		if !ok {
-			deviceState[device.GetID()] = map[string]interface{}{"speed": s}
-		} else {
-			dState["speed"] = s
-		}
+	emitter := utils.GetEmitter(device.GetID())
+	switch data.Action {
+	case "speed":
+		emitter.Set(v)
 	}
 	return nil
 }
