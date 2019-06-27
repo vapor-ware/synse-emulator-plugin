@@ -66,7 +66,7 @@ devices:
     metadata:
       model: emul8-current
     outputs:
-      - type: amperage
+      - type: current
     instances:
       - info: Zone 1 Current
         location: r1vec
