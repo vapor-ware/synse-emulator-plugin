@@ -68,7 +68,7 @@ func currentRead(device *sdk.Device) ([]*sdk.Reading, error) {
 		max = min + 1
 	}
 
-	power, err := device.GetOutput("amperage").MakeReading(utils.RandIntInRange(min, max))
+	power, err := device.GetOutput("current").MakeReading(utils.RandIntInRange(min, max))
 	if err != nil {
 		return nil, err
 	}
