@@ -40,5 +40,23 @@ func MakePlugin() *sdk.Plugin {
 		log.Fatal(err)
 	}
 
+	// Register device setup actions. These will create the emulated
+	// devices' value emitters for each device.
+	err = plugin.RegisterDeviceSetupActions(
+		&ActionAirflowValueEmitterSetup,
+		&ActionEnergyValueEmitterSetup,
+		&ActionFanValueEmitterSetup,
+		&ActionHumidityValueEmitterSetup,
+		&ActionLEDValueEmitterSetup,
+		&ActionLockValueEmitterSetup,
+		&ActionPowerValueEmitterSetup,
+		&ActionPressureValueEmitterSetup,
+		&ActionTemperatureValueEmitterSetup,
+		&ActionVoltageValueEmitterSetup,
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	return plugin
 }
