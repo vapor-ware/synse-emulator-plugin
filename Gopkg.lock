@@ -139,7 +139,8 @@
   version = "v1.4.2"
 
 [[projects]]
-  digest = "1:0fab615a88900411ceb585965d8a8ba86120412b33d8efaed667de48dffd2eb1"
+  branch = "v3/staging"
+  digest = "1:8c582a281d27f75471283feb34597b078b624bfd5796ea41dc7f8b8695b88050"
   name = "github.com/vapor-ware/synse-sdk"
   packages = [
     "sdk",
@@ -152,8 +153,7 @@
     "sdk/utils",
   ]
   pruneopts = "UT"
-  revision = "f5e2c423fdc845be18c2f5434ffd86bd98d8c89c"
-  version = "3.0.0-alpha.1"
+  revision = "c919020ca700a657626f750ed55263c7ade199a3"
 
 [[projects]]
   digest = "1:17fdef6851aed2560019c4dcf29bb96b1dbed97273e4bf46b0a2412eba2e9aa7"
