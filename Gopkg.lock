@@ -139,8 +139,7 @@
   version = "v1.4.2"
 
 [[projects]]
-  branch = "v3/staging"
-  digest = "1:30d0951fff964c50bc781c496c1c4e64e9c5cb260b7c354dd82fb0f3e0d12648"
+  digest = "1:0fab615a88900411ceb585965d8a8ba86120412b33d8efaed667de48dffd2eb1"
   name = "github.com/vapor-ware/synse-sdk"
   packages = [
     "sdk",
@@ -153,15 +152,16 @@
     "sdk/utils",
   ]
   pruneopts = "UT"
-  revision = "9347ac2005c19533f11d95506bd41e21b4562d53"
+  revision = "f5e2c423fdc845be18c2f5434ffd86bd98d8c89c"
+  version = "3.0.0-alpha.1"
 
 [[projects]]
-  branch = "v3/staging"
   digest = "1:17fdef6851aed2560019c4dcf29bb96b1dbed97273e4bf46b0a2412eba2e9aa7"
   name = "github.com/vapor-ware/synse-server-grpc"
   packages = ["go"]
   pruneopts = "UT"
-  revision = "74d87001fc21c61af816f63222ada717a68f78d4"
+  revision = "bebe2d635e9b7caea9c7272e7362b7600b04d9e7"
+  version = "3.0.0-alpha.1"
 
 [[projects]]
   branch = "master"
@@ -177,11 +177,11 @@
     "trace",
   ]
   pruneopts = "UT"
-  revision = "3b0461eec859c4b73bb64fdc8285971fd33e3938"
+  revision = "da137c7871d730100384dbcf36e6f8fa493aef5b"
 
 [[projects]]
   branch = "master"
-  digest = "1:283852ef97de4cf2b496be9a031c1a17d9ec66f07abe9e9360d7c1a0e3612198"
+  digest = "1:2c770d8251a8a2127b648f57602d75c8e40457ba070b57b38176013472f31326"
   name = "golang.org/x/sys"
   packages = [
     "unix",
@@ -189,7 +189,7 @@
     "windows/registry",
   ]
   pruneopts = "UT"
-  revision = "e07cf5db2756114766d998ec31e7135ff8c427ed"
+  revision = "04f50cda93cbb67f2afa353c52f342100e80e625"
 
 [[projects]]
   digest = "1:8d8faad6b12a3a4c819a3f9618cb6ee1fa1cfc33253abeeea8b55336721e3405"
@@ -230,10 +230,10 @@
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
   pruneopts = "UT"
-  revision = "6af8c5fc6601ab6b41cd32742a65ce2f5bd9db57"
+  revision = "710ae3a149df3775bfc2e9efb7f4fb97b186b233"
 
 [[projects]]
-  digest = "1:e8800ddadd6bce3bc0c5ffd7bc55dbdddc6e750956c10cc10271cade542fccbe"
+  digest = "1:cf01ae0753310464677058b125fa31e74fd943781782ada503180ad784fc83d3"
   name = "google.golang.org/grpc"
   packages = [
     ".",
@@ -265,13 +265,14 @@
     "resolver",
     "resolver/dns",
     "resolver/passthrough",
+    "serviceconfig",
     "stats",
     "status",
     "tap",
   ]
   pruneopts = "UT"
-  revision = "501c41df7f472c740d0674ff27122f3f48c80ce7"
-  version = "v1.21.1"
+  revision = "1d89a3c832915b2314551c1d2a506874d62e53f7"
+  version = "v1.22.0"
 
 [[projects]]
   digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"
