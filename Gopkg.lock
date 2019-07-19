@@ -26,7 +26,7 @@
   version = "v1.0.1"
 
 [[projects]]
-  digest = "1:239c4c7fd2159585454003d9be7207167970194216193a8a210b8d29576f19c9"
+  digest = "1:f5ce1529abc1204444ec73779f44f94e2fa8fcdb7aca3c355b0c95947e4005c6"
   name = "github.com/golang/protobuf"
   packages = [
     "proto",
@@ -36,8 +36,8 @@
     "ptypes/timestamp",
   ]
   pruneopts = "UT"
-  revision = "b5d812f8a3706043e23a9cd5babf2e5423744d30"
-  version = "v1.3.1"
+  revision = "6c65a5562fc06764971b7c5d05c76c75e84bdbf7"
+  version = "v1.3.2"
 
 [[projects]]
   digest = "1:582b704bebaa06b48c29b0cec224a6058a09c86883aaddabde889cd1a5f73e1b"
@@ -139,8 +139,8 @@
   version = "v1.4.2"
 
 [[projects]]
-  branch = "v3/staging"
-  digest = "1:8c582a281d27f75471283feb34597b078b624bfd5796ea41dc7f8b8695b88050"
+  branch = "v3/stream-poc"
+  digest = "1:50a733b3a267c60a39643356de74dc077bced238b58d5fd5f63cef2a45ee727e"
   name = "github.com/vapor-ware/synse-sdk"
   packages = [
     "sdk",
@@ -153,15 +153,15 @@
     "sdk/utils",
   ]
   pruneopts = "UT"
-  revision = "c919020ca700a657626f750ed55263c7ade199a3"
+  revision = "02fd132fd608eceda5a7b2b830bf07cc206855e6"
 
 [[projects]]
-  digest = "1:17fdef6851aed2560019c4dcf29bb96b1dbed97273e4bf46b0a2412eba2e9aa7"
+  branch = "v3/stream-poc"
+  digest = "1:0749f4b531f3a855a9faff35cbd4cc713c282f35f381a234cf72c67724ce793a"
   name = "github.com/vapor-ware/synse-server-grpc"
   packages = ["go"]
   pruneopts = "UT"
-  revision = "bebe2d635e9b7caea9c7272e7362b7600b04d9e7"
-  version = "3.0.0-alpha.1"
+  revision = "4c0b79b0728b3692da137e98e331d30c4ac2c890"
 
 [[projects]]
   branch = "master"
@@ -181,7 +181,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:2c770d8251a8a2127b648f57602d75c8e40457ba070b57b38176013472f31326"
+  digest = "1:988f38282f461d8dc61633747c86095e849ee2507294598340874570c540156e"
   name = "golang.org/x/sys"
   packages = [
     "unix",
@@ -189,7 +189,7 @@
     "windows/registry",
   ]
   pruneopts = "UT"
-  revision = "04f50cda93cbb67f2afa353c52f342100e80e625"
+  revision = "fae7ac547cb717d141c433a2a173315e216b64c4"
 
 [[projects]]
   digest = "1:8d8faad6b12a3a4c819a3f9618cb6ee1fa1cfc33253abeeea8b55336721e3405"
@@ -230,7 +230,7 @@
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
   pruneopts = "UT"
-  revision = "710ae3a149df3775bfc2e9efb7f4fb97b186b233"
+  revision = "c506a9f9061087022822e8da603a52fc387115a8"
 
 [[projects]]
   digest = "1:cf01ae0753310464677058b125fa31e74fd943781782ada503180ad784fc83d3"
