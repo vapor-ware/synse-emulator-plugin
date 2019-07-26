@@ -3,7 +3,7 @@
 
 [[constraint]]
   name = "github.com/vapor-ware/synse-sdk"
-  branch = "v3/stream-poc"
+  branch = "v3/staging"
 
 [prune]
   go-tests = true
