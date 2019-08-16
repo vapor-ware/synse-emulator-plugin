@@ -41,6 +41,8 @@ func fanWrite(device *sdk.Device, data *sdk.WriteData) error {
 	switch data.Action {
 	case "speed":
 		emitter.Set(v)
+	default:
+		return fmt.Errorf("unsupport write action: %v", data.Action)
 	}
 	return nil
 }
