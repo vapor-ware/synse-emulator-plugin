@@ -38,6 +38,8 @@ func minMaxCurrentWrite(device *sdk.Device, data *sdk.WriteData) error {
 		emitter.WithUpperBound(v)
 	case CURRENT:
 		emitter.Set(v)
+	default:
+		return fmt.Errorf("unsupported write action: %v", data.Action)
 	}
 	return nil
 }
