@@ -64,6 +64,8 @@ func ledWrite(device *sdk.Device, data *sdk.WriteData) error {
 		default:
 			return fmt.Errorf("unsupported command for state action: %v", cmd)
 		}
+	default:
+		return fmt.Errorf("unsupport write action: %v", data.Action)
 	}
 	return nil
 }
