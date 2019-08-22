@@ -73,6 +73,8 @@ github.com/vapor-ware/synse-sdk v0.0.0-20190726190349-4280d9339b8c/go.mod h1:1L3
 github.com/vapor-ware/synse-sdk v0.1.0-alpha h1:5hYO0P4ZxpDSU5Yrq6zCXOTO6Z14uVQOPfFN4UTeGss=
 github.com/vapor-ware/synse-sdk v0.1.0-alpha.0.20190822180947-db3aa98ebf9a h1:p153NE+YPVQW688ptgoOsk6ziaQ8uGDe12UF0irb6QI=
 github.com/vapor-ware/synse-sdk v0.1.0-alpha.0.20190822180947-db3aa98ebf9a/go.mod h1:rc5tdj13+cxAtpERfwD0pP1/grXgWBg15lYEpVpi5hU=
+github.com/vapor-ware/synse-sdk v0.1.0-alpha.0.20190822183635-bccb1576f93d h1:7gjKg5QSyo//2YUcBcDg3ybbymHukSvtDbJJPUbn2Nc=
+github.com/vapor-ware/synse-sdk v0.1.0-alpha.0.20190822183635-bccb1576f93d/go.mod h1:rc5tdj13+cxAtpERfwD0pP1/grXgWBg15lYEpVpi5hU=
 github.com/vapor-ware/synse-server-grpc v0.0.0-20190807170650-5374de18b9b4 h1:1ksn9Jm2+3xi8lQcm+a1/abs3wG2iGV7mTHRejCzqmY=
 github.com/vapor-ware/synse-server-grpc v0.0.0-20190807170650-5374de18b9b4/go.mod h1:66oRQ1KV/ZevAiiXbSUjRbx/h91xG/ArE/V39Jh872I=
 golang.org/x/crypto v0.0.0-20180904163835-0709b304e793/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=
