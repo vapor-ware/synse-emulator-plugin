@@ -34,10 +34,6 @@ clean:  ## Remove temporary files
 	go clean -v
 	rm -rf dist
 
-.PHONY: dep
-dep:  ## Ensure and prune dependencies
-	dep ensure -v
-
 .PHONY: deploy
 deploy:  ## Run a local deployment of the plugin with Synse Server
 	docker-compose -f compose.yml up -d
