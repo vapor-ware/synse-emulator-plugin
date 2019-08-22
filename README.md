@@ -155,15 +155,6 @@ interacting with plugins in this way.
 The Makefile provides targets to simplify the development workflow. Use `make help` to list
 all available targets, or see the [Makefile](Makefile).
 
-## Setup
-When you first get the source (see the [Getting Started](#getting-started) section), you may
-need some additional tooling and the project will need to be vendored. Running
-```
-make setup
-```
-Will install additional development tools (`dep`, `gometalinter`) and will initialize vendoring
-for the repo if it is not already done.
-
 ## Building
 The emulator binary can be built for your OS/Arch with
 ```
