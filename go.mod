@@ -18,7 +18,7 @@ require (
 	github.com/prometheus/common v0.6.0
 	github.com/prometheus/procfs v0.0.3
 	github.com/sirupsen/logrus v1.4.2
-	github.com/vapor-ware/synse-sdk v0.1.0-alpha.0.20190822180947-db3aa98ebf9a
+	github.com/vapor-ware/synse-sdk v0.1.0-alpha.0.20190822183635-bccb1576f93d
 	github.com/vapor-ware/synse-server-grpc v0.0.0-20190807170650-5374de18b9b4
 	golang.org/x/net v0.0.0-20190813141303-74dc4d7220e7
 	golang.org/x/sys v0.0.0-20190813064441-fde4db37ae7a
