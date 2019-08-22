@@ -2,7 +2,9 @@
 
 pipeline {
 
-  agent any
+  agent {
+   label 'golang-next'
+  }
 
   environment {
     IMAGE_NAME = 'vaporio/emulator-plugin'
@@ -18,30 +20,19 @@ pipeline {
 
     stage('Lint') {
       steps {
-        script {
-          docker.image('vaporio/jenkins-agent-golang:latest').inside() {
-            sh 'golint -set_exit_status ./pkg/...'
-          }
+        container('golang') {
+          sh 'golint -set_exit_status ./pkg/...'
         }
       }
     }
 
     stage('Snapshot Build') {
+      agent {
+        label 'golang-alpha'
+      }
       steps {
-        script {
-          /* This replicates some of what the docker agent would do if this were
-             running natively in kube. We would version these same params in
-             the agent config. This is a bit of a phaux pre-dep test to getting
-             agents running in kube. the containers are acting just like the
-             host agent would, but in spurts.
-
-             Note: the importance of the --group-add docker in the parameters.
-             Without it, docker in agent is mysteriously permission
-             locked despite having a GID present in the container.
-          */
-          docker.image('vaporio/jenkins-agent-golang:latest').inside('-v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker --group-add docker') {
-            sh 'goreleaser release --snapshot --skip-publish --rm-dist'
-          }
+        container('golang') {
+          sh 'goreleaser release --snapshot --skip-publish --rm-dist'
         }
       }
     }
@@ -50,9 +41,14 @@ pipeline {
       when {
         branch 'master'
       }
+      agent {
+        label 'golang-alpha'
+      }
       steps {
-        withDockerRegistry(registry: [credentialsId: 'vio-docker-hub']) {
-          sh 'docker push ${IMAGE_NAME}:latest'
+        container('golang') {
+          withDockerRegistry(registry: [credentialsId: 'vio-docker-hub']) {
+            sh 'docker push ${IMAGE_NAME}:latest'
+          }
         }
       }
     }
@@ -62,19 +58,19 @@ pipeline {
         // example matches: 1.2.3, 1.2.3-dev
         tag pattern: '(0|[1-9]*)\\.(0|[1-9]*)\\.(0|[1-9]*)(-(\\S*))?$', comparator: "REGEXP"
       }
+      agent {
+        label 'golang-alpha'
+      }
       environment {
         GITHUB_TOKEN = credentials('vio-bot-gh-token')
       }
       steps {
-        script {
-          docker.image('vaporio/jenkins-agent-golang:latest').inside('-v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker -e GITHUB_TOKEN=$GITHUB_TOKEN --group-add docker') {
-            withDockerRegistry(registry: [credentialsId: 'vio-docker-hub']) {
-              sh 'cgoreleaser release --rm-dist'
-            }
+        container('golang') {
+          withDockerRegistry(registry: [credentialsId: 'vio-docker-hub']) {
+            sh 'cgoreleaser release --rm-dist'
           }
         }
       }
     }
-
   }
 }
