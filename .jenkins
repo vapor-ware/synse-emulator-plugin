@@ -67,7 +67,7 @@ pipeline {
       steps {
         container('golang') {
           withDockerRegistry(registry: [credentialsId: 'vio-docker-hub']) {
-            sh 'cgoreleaser release --rm-dist'
+            sh 'goreleaser release --rm-dist'
           }
         }
       }
