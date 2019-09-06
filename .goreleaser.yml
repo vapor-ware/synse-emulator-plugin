@@ -10,11 +10,11 @@ builds:
   - CGO_ENABLED=0
   ldflags:
   - -w
-  - -X github.com/vapor-ware/synse-emulator-plugin/vendor/github.com/vapor-ware/synse-sdk/sdk.BuildDate={{ .Date }}
-  - -X github.com/vapor-ware/synse-emulator-plugin/vendor/github.com/vapor-ware/synse-sdk/sdk.GitCommit={{ .ShortCommit }}
-  - -X github.com/vapor-ware/synse-emulator-plugin/vendor/github.com/vapor-ware/synse-sdk/sdk.GitTag={{ .Tag }}
-  - -X github.com/vapor-ware/synse-emulator-plugin/vendor/github.com/vapor-ware/synse-sdk/sdk.GoVersion={{ .Env.GOVERSION }}
-  - -X github.com/vapor-ware/synse-emulator-plugin/vendor/github.com/vapor-ware/synse-sdk/sdk.PluginVersion={{ .Version }}
+  - -X github.com/vapor-ware/synse-sdk/sdk.BuildDate={{ .Date }}
+  - -X github.com/vapor-ware/synse-sdk/sdk.GitCommit={{ .ShortCommit }}
+  - -X github.com/vapor-ware/synse-sdk/sdk.GitTag={{ .Tag }}
+  - -X github.com/vapor-ware/synse-sdk/sdk.GoVersion={{ .Env.GOVERSION }}
+  - -X github.com/vapor-ware/synse-sdk/sdk.PluginVersion={{ .Version }}
   goos:
   - linux
   - darwin
