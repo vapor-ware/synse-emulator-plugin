@@ -31,7 +31,7 @@ pipeline {
       }
       steps {
         container('golang') {
-          sh 'goreleaser release --snapshot --skip-publish --rm-dist'
+          sh 'goreleaser release --debug --snapshot --skip-publish --rm-dist'
         }
       }
     }
@@ -65,7 +65,7 @@ pipeline {
       steps {
         container('golang') {
           withDockerRegistry(registry: [credentialsId: 'vio-docker-hub']) {
-            sh 'goreleaser release --rm-dist'
+            sh 'goreleaser release --debug --rm-dist'
           }
         }
       }
