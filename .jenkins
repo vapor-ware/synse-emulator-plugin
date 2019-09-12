@@ -3,7 +3,7 @@
 pipeline {
 
   agent {
-    label 'golang-next'
+    label 'golang-alpha'
   }
 
   environment {
@@ -17,21 +17,23 @@ pipeline {
       }
     }
 
-    stage('Lint') {
-      steps {
-        container('golang') {
-          sh 'golint -set_exit_status ./pkg/...'
-        }
-      }
-    }
+    stage('Checks') {
+      parallel {
 
-    stage('Snapshot Build') {
-      agent {
-        label 'golang-alpha'
-      }
-      steps {
-        container('golang') {
-          sh 'goreleaser release --debug --snapshot --skip-publish --rm-dist'
+        stage('Lint') {
+          steps {
+            container('golang') {
+              sh 'golint -set_exit_status ./pkg/...'
+            }
+          }
+        }
+
+        stage('Snapshot Build') {
+          steps {
+            container('golang') {
+              sh 'goreleaser release --debug --snapshot --skip-publish --rm-dist'
+            }
+          }
         }
       }
     }
@@ -39,9 +41,6 @@ pipeline {
     stage('Publish Latest') {
       when {
         branch 'master'
-      }
-      agent {
-        label 'golang-alpha'
       }
       steps {
         container('golang') {
@@ -55,9 +54,6 @@ pipeline {
     stage('Tagged Release') {
       when {
         buildingTag()
-      }
-      agent {
-        label 'golang-alpha'
       }
       environment {
         GITHUB_TOKEN = credentials('vio-bot-gh-token')
