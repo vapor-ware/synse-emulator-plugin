@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/vapor-ware/synse-emulator-plugin/pkg/outputs"
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/utils"
 	"github.com/vapor-ware/synse-sdk/sdk"
 	"github.com/vapor-ware/synse-sdk/sdk/output"
@@ -20,8 +19,16 @@ var Fan = sdk.DeviceHandler{
 // fanRead is the read handler for the emulated fan devices(s).
 func fanRead(device *sdk.Device) ([]*output.Reading, error) {
 	emitter := utils.GetEmitter(device.GetID())
+
+	speed := output.RPM.MakeReading(emitter.Next())
+	speed.Context = map[string]string{
+		"min": "0",
+		"max": "2700",
+	}
+
 	return []*output.Reading{
-		outputs.Airflow.MakeReading(emitter.Next()),
+		output.Direction.MakeReading("forward"),
+		speed,
 	}, nil
 }
 
