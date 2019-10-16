@@ -116,4 +116,19 @@ var (
 			Symbol: "A",
 		},
 	}
+
+	// Position is the output type for a positional state.
+	Position = sdk.OutputType{
+		Name: "position",
+	}
+
+	// State is the output type for a device state.
+	State = sdk.OutputType{
+		Name: "state",
+	}
+
+	// Status is the output type for a device status.
+	Status = sdk.OutputType{
+		Name: "status",
+	}
 )

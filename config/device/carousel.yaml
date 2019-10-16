@@ -1,0 +1,20 @@
+version: 1.0
+locations:
+  - name: r1vec
+    rack:
+      name: rack-1
+    board:
+      name: vec
+devices:
+  - name: carousel
+    metadata:
+      model: emul8-carousel
+    outputs:
+      - type: state
+      - type: status
+      - type: position
+    instances:
+      - info: Carousel
+        location: r1vec
+        data:
+          id: 1
