@@ -3,7 +3,7 @@
 #
 
 PLUGIN_NAME    := emulator
-PLUGIN_VERSION := 3.0.0-alpha.9
+PLUGIN_VERSION := 3.0.0-alpha.10
 IMAGE_NAME     := vaporio/emulator-plugin
 BIN_NAME       := synse-emulator-plugin
 
@@ -36,7 +36,7 @@ clean:  ## Remove temporary files
 
 .PHONY: deploy
 deploy:  ## Run a local deployment of the plugin with Synse Server
-	docker-compose -f compose.yml up -d
+	docker-compose up -d
 
 .PHONY: docker
 docker:  ## Build the docker image
