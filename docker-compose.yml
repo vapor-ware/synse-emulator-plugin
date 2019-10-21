@@ -26,5 +26,8 @@ services:
     container_name: emulator
     image: vaporio/emulator-plugin
     command: ["--debug"]
+    environment:
+      PLUGIN_METRICS_ENABLED: "true"
     ports:
     - 5001:5001
+    - 2112:2112
