@@ -55,15 +55,7 @@ github-tag:  ## Create and push a tag with the current plugin version
 
 .PHONY: lint
 lint:  ## Lint project source files
-	@ # disable gotype: https://github.com/alecthomas/gometalinter/issues/40
-	gometalinter ./... \
-		--disable=gotype \
-		--tests \
-		--vendor \
-		--sort=path --sort=line \
-		--aggregate \
-		--deadline=5m \
-		-e $$(go env GOROOT)
+	golint -set_exit_status ./pkg/...
 
 .PHONY: version
 version:  ## Print the version of the plugin
