@@ -24,7 +24,7 @@ pipeline {
             // All the deps to build this project are provided by the runtime container
             // Skip the configuration management and let the pipeline assets do that for you.
             sh 'cd ${PROJ_PATH} && dep ensure'
-            sh 'cd ${PROJ_PATH} && gometalinter ./... --disable=gotype --tests --vendor --sort=path --sort=line --aggregate --deadline=5m -e $(go env GOROOT)'
+            sh 'cd ${PROJ_PATH} && golint -set_exit_status ./pkg/...'
           }
         }
       }
