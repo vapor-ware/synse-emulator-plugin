@@ -20,14 +20,14 @@ services:
     environment:
       SYNSE_LOGGING: debug
       SYNSE_PLUGIN_TCP: emulator:5001
-      SYNSE_METRICS_ENABLED: "true"
+      SYNSE_METRICS_ENABLED: 'true'
 
   emulator:
     container_name: emulator
     image: vaporio/emulator-plugin
-    command: ["--debug"]
-    environment:
-      PLUGIN_METRICS_ENABLED: "true"
+    command: ['--debug']
     ports:
-    - 5001:5001
-    - 2112:2112
+    - '5001:5001'
+    - '2112:2112'
+    environment:
+      PLUGIN_METRICS_ENABLED: 'true'
