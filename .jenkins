@@ -2,12 +2,13 @@
 
 pipeline {
 
-  agent any
+  agent {
+    label 'golang-alpha'
+  }
 
   environment {
-    PROJ_PATH = '/go/src/github.com/vapor-ware/synse-emulator-plugin'
     IMAGE_NAME = 'vaporio/emulator-plugin'
-    GOVERSION = '1.12'
+    PROJ_PATH = '/go/src/github.com/vapor-ware/synse-emulator-plugin'
   }
 
   stages {
@@ -17,65 +18,62 @@ pipeline {
       }
     }
 
-    stage('Lint') {
-      steps {
-        script {
-          docker.image('vaporio/jenkins-agent-golang:latest').inside('-v $WORKSPACE:$PROJ_PATH') {
-            // All the deps to build this project are provided by the runtime container
-            // Skip the configuration management and let the pipeline assets do that for you.
-            sh 'cd ${PROJ_PATH} && dep ensure'
-            sh 'cd ${PROJ_PATH} && golint -set_exit_status ./pkg/...'
+    stage('Checks') {
+      parallel {
+        stage('Lint') {
+          steps {
+            container('golang') {
+              sh 'golint -set_exit_status ./pkg/...'
+            }
           }
         }
-      }
-    }
-    stage('Snapshot Build') {
-      steps {
-        script {
-          /* This replicates some of what the docker agent would do if this were
-             running natively in kube. We would version these same params in
-             the agent config. This is a bit of a phaux pre-dep test to getting
-             agents running in kube. the containers are acting just like the
-             host agent would, but in spurts.
 
-             Note: the importance of the --group-add docker in the parameters.
-             Without it, docker in agent is mysteriously permission
-             locked despite having a GID present in the container.
-          */
-          docker.image('vaporio/jenkins-agent-golang:latest').inside('-v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker -v $WORKSPACE:$PROJ_PATH --group-add docker') {
-            sh 'cd ${PROJ_PATH} && goreleaser release --snapshot --skip-publish --rm-dist'
+        stage('Snapshot Build') {
+          steps {
+            container('golang') {
+              sh 'mkdir -p ${PROJ_PATH}'
+              sh 'cp -r . ${PROJ_PATH}'
+              sh 'go get -u github.com/golang/dep/cmd/dep'
+              sh 'cd ${PROJ_PATH} && dep ensure'
+              sh 'cd ${PROJ_PATH} && goreleaser release --debug --snapshot --skip-publish --rm-dist'
+            }
           }
         }
       }
     }
+
     stage('Publish Latest') {
       when {
         branch 'master'
       }
       steps {
-        withDockerRegistry(registry: [credentialsId: 'vio-docker-hub']) {
-          sh 'docker push ${IMAGE_NAME}:latest'
+        container('golang') {
+          withDockerRegistry(registry: [credentialsId: 'vio-docker-hub']) {
+            sh 'docker push ${IMAGE_NAME}:latest'
+          }
         }
       }
     }
+
     stage('Tagged Release') {
       when {
-        // example matches: 1.2.3, 1.2.3-dev
-        tag pattern: '(0|[1-9]*)\\.(0|[1-9]*)\\.(0|[1-9]*)(-(\\S*))?$', comparator: "REGEXP"
+        buildingTag()
       }
       environment {
         GITHUB_TOKEN = credentials('vio-bot-gh-token')
       }
       steps {
-        script {
-          docker.image('vaporio/jenkins-agent-golang:latest').inside('-v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker -e GITHUB_TOKEN=$GITHUB_TOKEN -v $WORKSPACE:$PROJ_PATH --group-add docker') {
-            withDockerRegistry(registry: [credentialsId: 'vio-docker-hub']) {
-              sh 'cd ${PROJ_PATH} && goreleaser release --rm-dist'
-            }
+        container('golang') {
+          withDockerRegistry(registry: [credentialsId: 'vio-docker-hub']) {
+            sh 'mkdir -p ${PROJ_PATH}'
+            sh 'cp -r . ${PROJ_PATH}'
+            sh 'go get -u github.com/golang/dep/cmd/dep'
+            sh 'cd ${PROJ_PATH} && dep ensure'
+            sh 'cd ${PROJ_PATH} && goreleaser release --debug --rm-dist'
           }
         }
       }
-
     }
+
   }
 }
