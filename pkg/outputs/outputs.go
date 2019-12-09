@@ -12,4 +12,9 @@ var (
 			Symbol: "mm/s",
 		},
 	}
+
+	// Position is an output which describes positional state.
+	Position = output.Output{
+		Name: "position",
+	}
 )

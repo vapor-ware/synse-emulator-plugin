@@ -17,6 +17,22 @@ var ActionAirflowValueEmitterSetup = sdk.DeviceAction{
 	},
 }
 
+// ActionCarouselValueEmitterSetup initializes a ValueEmitter for each "carousel" type device.
+var ActionCarouselValueEmitterSetup = sdk.DeviceAction{
+	Name: "Carousel value emitter setup",
+	Filter: map[string][]string{
+		"type": {"carousel"},
+	},
+	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
+		emitter := utils.NewValueEmitter(utils.Store).WithSeed(map[string]interface{}{
+			"state":    "ready",
+			"status":   "stopped",
+			"position": 1,
+		})
+		return utils.SetEmitter(d.GetID(), emitter)
+	},
+}
+
 // ActionEnergyValueEmitterSetup initializes a ValueEmitter for each "energy" type device.
 var ActionEnergyValueEmitterSetup = sdk.DeviceAction{
 	Name: "energy value emitter setup",
