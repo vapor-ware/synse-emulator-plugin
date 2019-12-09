@@ -26,6 +26,7 @@ func MakePlugin() *sdk.Plugin {
 	// Register device handlers
 	err = plugin.RegisterDeviceHandlers(
 		&devices.Airflow,
+		&devices.Carousel,
 		&devices.Energy,
 		&devices.Fan,
 		&devices.Humidity,
@@ -44,6 +45,7 @@ func MakePlugin() *sdk.Plugin {
 	// devices' value emitters for each device.
 	err = plugin.RegisterDeviceSetupActions(
 		&ActionAirflowValueEmitterSetup,
+		&ActionCarouselValueEmitterSetup,
 		&ActionEnergyValueEmitterSetup,
 		&ActionFanValueEmitterSetup,
 		&ActionHumidityValueEmitterSetup,

@@ -1,0 +1,11 @@
+version: 3
+devices:
+  - type: carousel
+    metadata:
+      model: emul8-carousel
+    instances:
+      - info: Synse Carousel
+        alias:
+          name: emulator-carousel
+        data:
+          id: 1
