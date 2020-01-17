@@ -1,7 +1,7 @@
 version: 3
 devices:
   - type: pressure
-    metadata:
+    context:
       model: emul8-pressure
     instances:
       - info: Synse Pressure Sensor 1
