@@ -1,7 +1,7 @@
 version: 3
 devices:
   - type: led
-    metadata:
+    context:
       model: emul8-led
     instances:
       - info: Synse LED

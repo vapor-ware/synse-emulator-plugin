@@ -1,7 +1,7 @@
 version: 3
 devices:
   - type: fan
-    metadata:
+    context:
       model: emul8-fan
     instances:
       - info: Synse Fan
