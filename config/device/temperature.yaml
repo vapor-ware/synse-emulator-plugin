@@ -1,7 +1,7 @@
 version: 3
 devices:
   - type: temperature
-    metadata:
+    context:
       model: emul8-temp
     instances:
       - info: Synse Temperature Sensor 1
