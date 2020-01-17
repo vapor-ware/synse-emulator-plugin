@@ -1,7 +1,7 @@
 version: 3
 devices:
   - type: lock
-    metadata:
+    context:
       model: emul8-lock
     instances:
       - info: Synse Door Lock

@@ -1,7 +1,7 @@
 version: 3
 devices:
   - type: airflow
-    metadata:
+    context:
       model: emul8-air
     instances:
       - info: Synse Airflow Sensor

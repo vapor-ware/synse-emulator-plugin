@@ -1,7 +1,7 @@
 version: 3
 devices:
   - type: power
-    metadata:
+    context:
       model: emul8-power
     instances:
       - info: Zone 1 Power
@@ -21,7 +21,7 @@ devices:
           id: 5
 
   - type: voltage
-    metadata:
+    context:
       model: emul8-voltage
     instances:
       - info: Zone 1 Voltage
@@ -32,7 +32,7 @@ devices:
           id: 2
 
   - type: energy
-    metadata:
+    context:
       model: emul8-energy
     instances:
       - info: Zone 1 Kilowatt-hour
