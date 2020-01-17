@@ -33,6 +33,18 @@ var ActionCarouselValueEmitterSetup = sdk.DeviceAction{
 	},
 }
 
+// ActionCurrentValueEmitterSetup initializes a ValueEmitter for each "current" type device.
+var ActionCurrentValueEmitterSetup = sdk.DeviceAction{
+	Name: "current value emitter setup",
+	Filter: map[string][]string{
+		"type": {"current"},
+	},
+	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
+		emitter := utils.NewValueEmitter(utils.RandomWalk).WithLowerBound(0).WithUpperBound(30)
+		return utils.SetEmitter(d.GetID(), emitter)
+	},
+}
+
 // ActionEnergyValueEmitterSetup initializes a ValueEmitter for each "energy" type device.
 var ActionEnergyValueEmitterSetup = sdk.DeviceAction{
 	Name: "energy value emitter setup",
@@ -53,6 +65,18 @@ var ActionFanValueEmitterSetup = sdk.DeviceAction{
 	},
 	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
 		emitter := utils.NewValueEmitter(utils.Store).WithSeed(0)
+		return utils.SetEmitter(d.GetID(), emitter)
+	},
+}
+
+// ActionFrequencyValueEmitterSetup initializes a ValueEmitter for each "frequency" type device.
+var ActionFrequencyValueEmitterSetup = sdk.DeviceAction{
+	Name: "frequency value emitter setup",
+	Filter: map[string][]string{
+		"type": {"frequency"},
+	},
+	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
+		emitter := utils.NewValueEmitter(utils.RandomWalk).WithLowerBound(0).WithUpperBound(60)
 		return utils.SetEmitter(d.GetID(), emitter)
 	},
 }

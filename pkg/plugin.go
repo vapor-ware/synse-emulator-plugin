@@ -27,8 +27,10 @@ func MakePlugin() *sdk.Plugin {
 	err = plugin.RegisterDeviceHandlers(
 		&devices.Airflow,
 		&devices.Carousel,
+		&devices.Current,
 		&devices.Energy,
 		&devices.Fan,
+		&devices.Frequency,
 		&devices.Humidity,
 		&devices.LED,
 		&devices.Lock,
@@ -46,8 +48,10 @@ func MakePlugin() *sdk.Plugin {
 	err = plugin.RegisterDeviceSetupActions(
 		&ActionAirflowValueEmitterSetup,
 		&ActionCarouselValueEmitterSetup,
+		&ActionCurrentValueEmitterSetup,
 		&ActionEnergyValueEmitterSetup,
 		&ActionFanValueEmitterSetup,
+		&ActionFrequencyValueEmitterSetup,
 		&ActionHumidityValueEmitterSetup,
 		&ActionLEDValueEmitterSetup,
 		&ActionLockValueEmitterSetup,
