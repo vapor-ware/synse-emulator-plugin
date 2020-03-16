@@ -51,30 +51,30 @@ devices, so any state that you write should be retrievable via a subsequent read
 Outputs are referenced by name. A single device may have more than one instance
 of an output type. A value of `-` in the table below indicates that there is no value
 set for that field. The *custom* section describes outputs which this plugin defines
-while the *built-in* section describes outputs this plugin uses which are built-in to
-the SDK.
+while the *built-in* section describes outputs this plugin uses which are [built-in to
+the SDK](https://github.com/vapor-ware/synse-sdk/blob/v3/staging/sdk/output/builtins.go).
 
 **Custom**
 
-| Name    | Description                                      | Unit  | Precision | Scaling Factor |
-| ------- | ------------------------------------------------ | :---: | :-------: | :------------: |
-| airflow | A measure of airflow, in millimeters per second. | mm/s  | 3         | - |
+| Name    | Description                                      | Unit  | Type    | Precision |
+| ------- | ------------------------------------------------ | :---: | ------- | :-------: |
+| airflow | A measure of airflow, in millimeters per second. | mm/s  | `speed` | 3         |
 
 **Built-in**
 
-| Name          | Description                                        | Unit  | Precision | Scaling Factor |
-| ------------- | -------------------------------------------------- | :---: | :-------: | :------------: |
-| color         | A color, represented as an RGB string.             | -     | -         | - |
-| direction     | A measure of directionality.                       | -     | -         | - |
-| humidity      | A measure of humidity, as a percentage.            | %     | 2         | - |
-| kilowatt-hour | A measure of energy, in kilowatt-hours.            | kWh   | 3         | - |
-| pascal        | A measure of pressure, in Pascals.                 | Pa    | 3         | - |
-| rpm           | A measure of frequency, in revolutions per minute. | RPM   | 2         | - |
-| state         | A generic description of state.                    | -     | -         | - |
-| status        | A generic description of status.                   | -     | -         | - |
-| temperature   | A measure of temperature, in degrees Celsius.      | C     | 2         | - |
-| voltage       | A measure of voltage, in Volts.                    | V     | 5         | - |
-| watt          | A measure of power, in Watts.                      | W     | 3         | - |
+| Name          | Description                                        | Unit  | Type          | Precision |
+| ------------- | -------------------------------------------------- | :---: | ------------- | :-------: |
+| color         | A color, represented as an RGB string.             | -     | `color`       | -         |
+| direction     | A measure of directionality.                       | -     | `direction`   | -         |
+| humidity      | A measure of humidity, as a percentage.            | %     | `humidity`    | 2         |
+| kilowatt-hour | A measure of energy, in kilowatt-hours.            | kWh   | `energy`      | 3         |
+| pascal        | A measure of pressure, in Pascals.                 | Pa    | `pressure`    | 3         |
+| rpm           | A measure of frequency, in revolutions per minute. | RPM   | `frequency`   | 2         |
+| state         | A generic description of state.                    | -     | `state`       | -         |
+| status        | A generic description of status.                   | -     | `status`      | -         |
+| temperature   | A measure of temperature, in degrees Celsius.      | C     | `temperature` | 2         |
+| voltage       | A measure of voltage, in Volts.                    | V     | `voltage`     | 5         |
+| watt          | A measure of power, in Watts.                      | W     | `power`       | 3         |
 
 ### Device Handlers
 
@@ -82,16 +82,16 @@ Device Handlers are referenced by name.
 
 | Name        | Description                                 | Outputs                   | Read  | Write | Bulk Read | Listen |
 | ----------- | ------------------------------------------- | ------------------------- | :---: | :---: | :-------: | :----: |
-| airflow     | A handler for emulated airflow devices.     | `airflow`                 | ✓     | ✓     | ✗         | ✗ |
-| energy      | A handler for emulated energy devices.      | `kilowatt-hour`           | ✓     | ✓     | ✗         | ✗ |
-| fan         | A handler for emulated fan devices.         | `direction`, `rpm`        | ✓     | ✓     | ✗         | ✗ |
-| humidity    | A handler for emulated humidity devices.    | `humidity`, `temperature` | ✓     | ✓     | ✗         | ✗ |
-| led         | A handler for emulated LED devices.         | `color`, `state`          | ✓     | ✓     | ✗         | ✗ |
-| lock        | A handler for emulated lock devices.        | `status`                  | ✓     | ✓     | ✗         | ✗ |
-| power       | A handler for emulated power devices.       | `watt`                    | ✓     | ✓     | ✗         | ✗ |
-| pressure    | A handler for emulated pressure devices.    | `pascal`                  | ✓     | ✓     | ✗         | ✗ |
-| temperature | A handler for emulated temperature devices. | `temperature`             | ✓     | ✓     | ✗         | ✗ |
-| voltage     | A handler for emulated voltage devices.     | `voltage`                 | ✓     | ✓     | ✗         | ✗ |
+| airflow     | A handler for emulated airflow devices.     | `airflow`                 | ✓     | ✓     | ✗         | ✗      |
+| energy      | A handler for emulated energy devices.      | `kilowatt-hour`           | ✓     | ✓     | ✗         | ✗      |
+| fan         | A handler for emulated fan devices.         | `direction`, `rpm`        | ✓     | ✓     | ✗         | ✗      |
+| humidity    | A handler for emulated humidity devices.    | `humidity`, `temperature` | ✓     | ✓     | ✗         | ✗      |
+| led         | A handler for emulated LED devices.         | `color`, `state`          | ✓     | ✓     | ✗         | ✗      |
+| lock        | A handler for emulated lock devices.        | `status`                  | ✓     | ✓     | ✗         | ✗      |
+| power       | A handler for emulated power devices.       | `watt`                    | ✓     | ✓     | ✗         | ✗      |
+| pressure    | A handler for emulated pressure devices.    | `pascal`                  | ✓     | ✓     | ✗         | ✗      |
+| temperature | A handler for emulated temperature devices. | `temperature`             | ✓     | ✓     | ✗         | ✗      |
+| voltage     | A handler for emulated voltage devices.     | `voltage`                 | ✓     | ✓     | ✗         | ✗      |
 
 ### Write Values
 
@@ -103,33 +103,33 @@ Handlers set up this way will have the `min`, `max`, and `current` write actions
 
 | Handler     | Write Action  | Write Data | Description |
 | ----------- | :-----------: | :--------: | ----------- |
-| airflow     | `min`         | `int` | The minimum bound for readings to be generated within. |
-|             | `max`         | `int` | The maximum bound for readings to be generated within. |
-|             | `current`     | `int` | The static current reading value. |
-| energy      | `min`         | `int` | The minimum bound for readings to be generated within. |
-|             | `max`         | `int` | The maximum bound for readings to be generated within. |
-|             | `current`     | `int` | The static current reading value. |
-| fan         | `speed`       | `int` | The speed to set the fan to. |
-| humidity    | `min`         | `int` | The minimum bound for readings to be generated within. |
-|             | `max`         | `int` | The maximum bound for readings to be generated within. |
-|             | `current`     | `int` | The static current reading value. |
+| airflow     | `min`         | `int`      | The minimum bound for readings to be generated within. |
+|             | `max`         | `int`      | The maximum bound for readings to be generated within. |
+|             | `current`     | `int`      | The static current reading value. |
+| energy      | `min`         | `int`      | The minimum bound for readings to be generated within. |
+|             | `max`         | `int`      | The maximum bound for readings to be generated within. |
+|             | `current`     | `int`      | The static current reading value. |
+| fan         | `speed`       | `int`      | The speed to set the fan to. |
+| humidity    | `min`         | `int`      | The minimum bound for readings to be generated within. |
+|             | `max`         | `int`      | The maximum bound for readings to be generated within. |
+|             | `current`     | `int`      | The static current reading value. |
 | led         | `state`       | `string`: *on*, *off*, *blink* | The LED power state. |
-|             | `color`       | `string` | RGB hex color string. |
-| lock        | `lock`        | -     | Lock the door. |
-|             | `unlock`      | -     | Unlock the door. |
-|             | `pulseUnlock` | -     | Unlock the door for a short time, then lock it again. |
-| power       | `min`         | `int` | The minimum bound for readings to be generated within. |
-|             | `max`         | `int` | The maximum bound for readings to be generated within. |
-|             | `current`     | `int` | The static current reading value. |
-| pressure    | `min`         | `int` | The minimum bound for readings to be generated within. |
-|             | `max`         | `int` | The maximum bound for readings to be generated within. |
-|             | `current`     | `int` | The static current reading value. |
-| temperature | `min`         | `int` | The minimum bound for readings to be generated within. |
-|             | `max`         | `int` | The maximum bound for readings to be generated within. |
-|             | `current`     | `int` | The static current reading value. |
-| voltage     | `min`         | `int` | The minimum bound for readings to be generated within. |
-|             | `max`         | `int` | The maximum bound for readings to be generated within. |
-|             | `current`     | `int` | The static current reading value. |
+|             | `color`       | `string`   | RGB hex color string. |
+| lock        | `lock`        | -          | Lock the door. |
+|             | `unlock`      | -          | Unlock the door. |
+|             | `pulseUnlock` | -          | Unlock the door for a short time, then lock it again. |
+| power       | `min`         | `int`      | The minimum bound for readings to be generated within. |
+|             | `max`         | `int`      | The maximum bound for readings to be generated within. |
+|             | `current`     | `int`      | The static current reading value. |
+| pressure    | `min`         | `int`      | The minimum bound for readings to be generated within. |
+|             | `max`         | `int`      | The maximum bound for readings to be generated within. |
+|             | `current`     | `int`      | The static current reading value. |
+| temperature | `min`         | `int`      | The minimum bound for readings to be generated within. |
+|             | `max`         | `int`      | The maximum bound for readings to be generated within. |
+|             | `current`     | `int`      | The static current reading value. |
+| voltage     | `min`         | `int`      | The minimum bound for readings to be generated within. |
+|             | `max`         | `int`      | The maximum bound for readings to be generated within. |
+|             | `current`     | `int`      | The static current reading value. |
 
 
 ## Troubleshooting
