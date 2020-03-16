@@ -39,12 +39,16 @@ deploy:  ## Run a local deployment of the plugin with Synse Server
 	docker-compose up -d
 
 .PHONY: docker
-docker:  ## Build the docker image
+docker:  ## Build the production docker image locally
 	docker build -f Dockerfile \
 		--label "org.label-schema.build-date=${BUILD_DATE}" \
 		--label "org.label-schema.vcs-ref=${GIT_COMMIT}" \
 		--label "org.label-schema.version=${PLUGIN_VERSION}" \
 		-t ${IMAGE_NAME}:latest .
+
+.PHONY: docker-dev
+docker-dev:  ## Build the development docker image locally
+	docker build -f Dockerfile.dev -t ${IMAGE_NAME}:dev-${GIT_COMMIT} .
 
 .PHONY: fmt
 fmt:  ## Run goimports on all go files
