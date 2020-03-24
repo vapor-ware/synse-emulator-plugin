@@ -12,14 +12,14 @@ may also serve as an example on how to write plugins of your own.
 
 ## Getting Started
 
-### Installing
+### Getting
 
 You can install the emulator plugin via a [release](https://github.com/vapor-ware/synse-emulator-plugin/releases)
 binary or via Docker image
 
 ```
 docker pull vaporio/emulator-plugin
-``` 
+```
 
 If you wish to use a development build, fork and clone the repo and build the plugin
 from source.
@@ -131,7 +131,6 @@ Handlers set up this way will have the `min`, `max`, and `current` write actions
 |             | `max`         | `int`      | The maximum bound for readings to be generated within. |
 |             | `current`     | `int`      | The static current reading value. |
 
-
 ## Troubleshooting
 
 ### Debugging
@@ -156,6 +155,8 @@ The plugin can be run in debug mode for additional logging. This is done by:
   docker run -e PLUGIN_DEBUG=true vaporio/emulator-plugin
   ```
 
+### Developing
+
 A [development/debug Dockerfile](Dockerfile.dev) is provided in the project repository to enable
 building image which may be useful when developing or debugging a plugin. Unlike the slim `scratch`-based
 production image, the development image uses an ubuntu base, bringing with it all the standard command line
@@ -169,12 +170,11 @@ The built image will be tagged using the format `dev-{COMMIT}`, where `COMMIT` i
 the repository at the time. This image is not published as part of the CI pipeline, but those with access
 to the Docker Hub repo may publish manually.
 
-
-### Bugs / Issues
+## Contributing / Reporting
 
 If you experience a bug, would like to ask a question, or request a feature, open a
 [new issue](https://github.com/vapor-ware/synse-emulator-plugin/issues) and provide as much
-context as possible.
+context as possible. All contributions, questions, and feedback are welcomed and appreciated.
 
 # License
 
