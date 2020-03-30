@@ -131,6 +131,17 @@ Handlers set up this way will have the `min`, `max`, and `current` write actions
 |             | `max`         | `int`      | The maximum bound for readings to be generated within. |
 |             | `current`     | `int`      | The static current reading value. |
 
+## Compatibility
+
+Below is a table describing the compatibility of plugin versions with Synse platform versions.
+
+|             | Synse v2 | Synse v3 |
+| ----------- | -------- | -------- |
+| plugin v1.x | ✗        | ✗        |
+| plugin v2.x | ✓        | ✗        |
+| plugin v3.x | ✗        | ✓        |
+
+
 ## Troubleshooting
 
 ### Debugging
