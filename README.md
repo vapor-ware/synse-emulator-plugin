@@ -38,7 +38,7 @@ and use the [Synse CLI](https://github.com/vapor-ware/synse-cli) to query the pl
 
 The emulator plugin ships with some default built-in [device configurations](config/device). If you
 wish to run the plugin with a different set of plugins, be sure to read through the
-[SDK Documentation](https://synse.readthedocs.io/en/latest/sdk/user/configuration.device/) on configuring
+[SDK Documentation](https://synse.readthedocs.io/en/latest/sdk/configuration/device/) on configuring
 plugin devices.
 
 ## Emulator Plugin Configuration
@@ -52,7 +52,7 @@ Outputs are referenced by name. A single device may have more than one instance
 of an output type. A value of `-` in the table below indicates that there is no value
 set for that field. The *custom* section describes outputs which this plugin defines
 while the *built-in* section describes outputs this plugin uses which are [built-in to
-the SDK](https://github.com/vapor-ware/synse-sdk/blob/v3/staging/sdk/output/builtins.go).
+the SDK](https://synse.readthedocs.io/en/latest/sdk/concepts/reading_outputs/#built-ins).
 
 **Custom**
 
