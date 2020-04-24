@@ -79,13 +79,13 @@ func (emitter *ValueEmitter) Next() interface{} {
 
 	switch emitter.mode {
 	case RandomRange:
-		emitter.prev = randIntInRange(emitter.lowerBound, emitter.upperBound)
+		emitter.prev = RandIntInRange(emitter.lowerBound, emitter.upperBound)
 
 	case Accumulate:
-		emitter.prev = boundedIncrement(emitter.prev, emitter.lowerBound, emitter.upperBound)
+		emitter.prev = BoundedIncrement(emitter.prev, emitter.lowerBound, emitter.upperBound)
 
 	case RandomWalk:
-		emitter.prev = randWalkInRange(emitter.prev, emitter.lowerBound, emitter.upperBound)
+		emitter.prev = RandWalkInRange(emitter.prev, emitter.lowerBound, emitter.upperBound)
 
 	case Store:
 	}

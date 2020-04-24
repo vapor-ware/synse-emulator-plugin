@@ -85,6 +85,7 @@ Device Handlers are referenced by name.
 | airflow     | A handler for emulated airflow devices.     | `airflow`                 | ✓     | ✓     | ✗         | ✗      |
 | energy      | A handler for emulated energy devices.      | `kilowatt-hour`           | ✓     | ✓     | ✗         | ✗      |
 | fan         | A handler for emulated fan devices.         | `direction`, `rpm`        | ✓     | ✓     | ✗         | ✗      |
+| fan-multi   | A handler for emulated fan devices with multiple RPM readings. | `direction`, `rpm` | ✓ | ✓ | ✗     | ✗      |
 | humidity    | A handler for emulated humidity devices.    | `humidity`, `temperature` | ✓     | ✓     | ✗         | ✗      |
 | led         | A handler for emulated LED devices.         | `color`, `state`          | ✓     | ✓     | ✗         | ✗      |
 | lock        | A handler for emulated lock devices.        | `status`                  | ✓     | ✓     | ✗         | ✗      |
