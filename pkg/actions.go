@@ -64,8 +64,26 @@ var ActionFanValueEmitterSetup = sdk.DeviceAction{
 		"type": {"fan"},
 	},
 	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
-		emitter := utils.NewValueEmitter(utils.Store).WithSeed(0)
-		return utils.SetEmitter(d.GetID(), emitter)
+		if d.GetHandler().Name == "fan" {
+			emitter := utils.NewValueEmitter(utils.Store).WithSeed(0)
+			return utils.SetEmitter(d.GetID(), emitter)
+		}
+		return nil
+	},
+}
+
+// ActionFanMultiValueEmitterSetup initializes a ValueEmitter for each "fan-multi" type device.
+var ActionFanMultiValueEmitterSetup = sdk.DeviceAction{
+	Name: "fan-multi value emitter setup",
+	Filter: map[string][]string{
+		"type": {"fan"},
+	},
+	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
+		if d.GetHandler().Name == "fan-multi" {
+			emitter := utils.NewValueEmitter(utils.Store).WithSeed(0)
+			return utils.SetEmitter(d.GetID(), emitter)
+		}
+		return nil
 	},
 }
 

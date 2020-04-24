@@ -4,13 +4,13 @@ import (
 	"math/rand"
 )
 
-// randIntInRange creates a new random integer within the specified range.
-func randIntInRange(min, max int) int {
+// RandIntInRange creates a new random integer within the specified range.
+func RandIntInRange(min, max int) int {
 	return int(rand.Int63n(int64(max-min))) + min
 }
 
-// boundedIncrement increments the starting value within the given bounds.
-func boundedIncrement(start interface{}, lower, upper int) int {
+// BoundedIncrement increments the starting value within the given bounds.
+func BoundedIncrement(start interface{}, lower, upper int) int {
 	if start == nil {
 		return lower
 	}
@@ -23,13 +23,13 @@ func boundedIncrement(start interface{}, lower, upper int) int {
 	return s
 }
 
-// randWalkInRange creates a new value by walking a random distance from the
+// RandWalkInRange creates a new value by walking a random distance from the
 // start value.
-func randWalkInRange(start interface{}, lower, upper int) int {
+func RandWalkInRange(start interface{}, lower, upper int) int {
 	// Between readings, we allow the value to change between 0 and 4.
 	// This allows for some movement, but doesn't allow massive swings in
 	// short periods.
-	diff := randIntInRange(0, 4)
+	diff := RandIntInRange(0, 4)
 
 	// If a seed is not set, start at the midway point between the lower and upper bounds.
 	if start == nil {
