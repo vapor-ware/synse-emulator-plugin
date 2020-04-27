@@ -3,7 +3,7 @@
 #
 
 PLUGIN_NAME    := emulator
-PLUGIN_VERSION := 3.0.1
+PLUGIN_VERSION := 3.0.2
 IMAGE_NAME     := vaporio/emulator-plugin
 BIN_NAME       := synse-emulator-plugin
 
@@ -31,12 +31,12 @@ build-linux:  ## Build the plugin binarry for linux amd64
 
 .PHONY: clean
 clean:  ## Remove temporary files
-	go clean -v
+	go clean -v || exit
 	rm -rf dist
 
 .PHONY: deploy
 deploy:  ## Run a local deployment of the plugin with Synse Server
-	docker-compose up -d
+	docker-compose up -d || exit
 
 .PHONY: docker
 docker:  ## Build the production docker image locally
@@ -44,15 +44,15 @@ docker:  ## Build the production docker image locally
 		--label "org.label-schema.build-date=${BUILD_DATE}" \
 		--label "org.label-schema.vcs-ref=${GIT_COMMIT}" \
 		--label "org.label-schema.version=${PLUGIN_VERSION}" \
-		-t ${IMAGE_NAME}:latest .
+		-t ${IMAGE_NAME}:latest . || exit
 
 .PHONY: docker-dev
 docker-dev:  ## Build the development docker image locally
-	docker build -f Dockerfile.dev -t ${IMAGE_NAME}:dev-${GIT_COMMIT} .
+	docker build -f Dockerfile.dev -t ${IMAGE_NAME}:dev-${GIT_COMMIT} . || exit
 
 .PHONY: fmt
 fmt:  ## Run goimports on all go files
-	find . -name '*.go' -not -wholename './vendor/*' | while read -r file; do goimports -w "$$file"; done
+	find . -name '*.go' -not -wholename './vendor/*' | while read -r file; do goimports -w "$$file" || exit; done
 
 .PHONY: github-tag
 github-tag:  ## Create and push a tag with the current plugin version
@@ -61,7 +61,7 @@ github-tag:  ## Create and push a tag with the current plugin version
 
 .PHONY: lint
 lint:  ## Lint project source files
-	golint -set_exit_status ./pkg/...
+	golint -set_exit_status ./pkg/... || exit
 
 .PHONY: version
 version:  ## Print the version of the plugin
