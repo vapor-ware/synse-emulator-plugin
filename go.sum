@@ -106,8 +106,8 @@ github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXf
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
 github.com/stretchr/testify v1.4.0 h1:2E4SXV/wtOkTonXsotYi4li6zVWxYlZuYNCXe9XRJyk=
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
-github.com/vapor-ware/synse-sdk v0.1.0-alpha.0.20200330141823-7430c4a62a6b h1:MckjCa/nj3NrtL2NrEbgEAf36oA4bHrGt4B3wAbCa2Q=
-github.com/vapor-ware/synse-sdk v0.1.0-alpha.0.20200330141823-7430c4a62a6b/go.mod h1:9EpeUEaqm+TKxjpmrywtcU7j/V8m8VSLYvwhTuXfv2Q=
+github.com/vapor-ware/synse-sdk v0.1.0-alpha.0.20200427214411-80f74824e9ab h1:PjiPoa/3cHE0zJx/lOR7bw2kyXn7V8huOcDaKVwnwfc=
+github.com/vapor-ware/synse-sdk v0.1.0-alpha.0.20200427214411-80f74824e9ab/go.mod h1:9EpeUEaqm+TKxjpmrywtcU7j/V8m8VSLYvwhTuXfv2Q=
 github.com/vapor-ware/synse-server-grpc v0.0.2-0.20200327135045-e8fab4d340ea h1:3IenfSpSRcMEmdMMixiKZ2S16X0YvPFNEUvESvHwyAc=
 github.com/vapor-ware/synse-server-grpc v0.0.2-0.20200327135045-e8fab4d340ea/go.mod h1:66oRQ1KV/ZevAiiXbSUjRbx/h91xG/ArE/V39Jh872I=
 golang.org/x/crypto v0.0.0-20180904163835-0709b304e793/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=
