@@ -56,9 +56,7 @@ func ledWrite(device *sdk.Device, data *sdk.WriteData) error {
 
 	case "state":
 		switch cmd := string(data.Data); cmd {
-		case stateOn:
-		case stateOff:
-		case stateBlink:
+		case stateOn, stateOff, stateBlink:
 			current["state"] = cmd
 			emitter.Set(current)
 		default:
