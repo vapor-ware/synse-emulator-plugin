@@ -63,6 +63,10 @@ github-tag:  ## Create and push a tag with the current plugin version
 lint:  ## Lint project source files
 	golint -set_exit_status ./pkg/... || exit
 
+.PHONY: test
+test:
+	@echo "no project tests to run"
+
 .PHONY: version
 version:  ## Print the version of the plugin
 	@echo "${PLUGIN_VERSION}"
