@@ -17,17 +17,49 @@ var ActionAirflowValueEmitterSetup = sdk.DeviceAction{
 	},
 }
 
-// ActionCarouselValueEmitterSetup initializes a ValueEmitter for each "carousel" type device.
-var ActionCarouselValueEmitterSetup = sdk.DeviceAction{
-	Name: "Carousel value emitter setup",
+// ActionCarouselStatusValueEmitterSetup initializes a ValueEmitter for each "status" type device (for carousels).
+var ActionCarouselStatusValueEmitterSetup = sdk.DeviceAction{
+	Name: "Carousel status value emitter setup",
 	Filter: map[string][]string{
-		"type": {"carousel"},
+		"type": {"status"},
 	},
 	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
-		emitter := utils.NewValueEmitter(utils.Store).WithSeed(map[string]interface{}{
-			"state":    "ready",
-			"status":   "stopped",
-			"position": 1,
+		// Define the default values for different carousel status devices
+		var seed interface{}
+
+		switch d.Info {
+		case "Carousel Status Register":
+			seed = 0
+			utils.CarouselStatusDevice = d
+		case "Carousel VFD Error Code":
+			seed = 0
+		case "Carousel Get Rack Position":
+			seed = 1
+			utils.CarouselGetRackPositionDevice = d
+		case "Carousel State Machine Code":
+			seed = 1
+		case "Carousel Set Rack Position":
+			seed = 1
+			utils.CarouselSetRackPositionDevice = d
+		}
+
+		// Set the default seed to the value determined above, based on the device's
+		// Info field.
+		emitter := utils.NewValueEmitter(utils.Store).WithSeed(seed)
+		return utils.SetEmitter(d.GetID(), emitter)
+	},
+}
+
+// ActionCarouselJSONValueEmitterSetup initializes a ValueEmitter for each "json" type device (for carousel).
+var ActionCarouselJSONValueEmitterSetup = sdk.DeviceAction{
+	Name: "Carousel json value emitter setup",
+	Filter: map[string][]string{
+		"type": {"json"},
+	},
+	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
+		emitter := utils.NewValueEmitter(utils.Store).WithSeed(map[string]string{
+			"ok":    `{"errors": {}, "status": "ok"}`,
+			"error": `{"status":"fail","errors":{"chamber_locks":{"configuration":{"additional":[],"missing":[{"rack_id":"r4","device_info":"L1-36B Lock 1"},{"rack_id":"r4","device_info":"L1-36A Lock 5"},{"rack_id":"r4","device_info":"L1-36F Lock 9"}]}}}}`,
 		})
 		return utils.SetEmitter(d.GetID(), emitter)
 	},

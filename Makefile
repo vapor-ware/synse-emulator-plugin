@@ -26,7 +26,7 @@ build:  ## Build the plugin binary
 	go build -ldflags "${LDFLAGS}" -o ${BIN_NAME}
 
 .PHONY: build-linux
-build-linux:  ## Build the plugin binarry for linux amd64
+build-linux:  ## Build the plugin binary for linux amd64
 	GOOS=linux GOARCH=amd64 go build -ldflags "${LDFLAGS}" -o ${BIN_NAME} .
 
 .PHONY: clean

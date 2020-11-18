@@ -14,9 +14,9 @@ var (
 		},
 	}
 
-	// Position is an output which describes positional state.
-	Position = output.Output{
-		Name: "position",
-		Type: "position",
+	// JSONOutput is for arbitrary json.
+	JSONOutput = output.Output{
+		Name: "json",
+		Type: "json",
 	}
 )
