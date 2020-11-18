@@ -1,11 +1,31 @@
 version: 3
 devices:
-  - type: carousel
+  - type: status
     context:
-      model: emul8-carousel
+      emulated: true
+      model: Vapor Carousel
     instances:
-      - info: Synse Carousel
-        alias:
-          name: emulator-carousel
+      - info: Carousel Get Rack Position
         data:
           id: 1
+      - info: Carousel Set Rack Position
+        data:
+          id: 2
+      - info: Carousel State Machine Code
+        data:
+          id: 3
+      - info: Carousel Status Register
+        data:
+          id: 4
+      - info: Carousel VFD Error Code
+        data:
+          id: 5
+
+  - type: json
+    context:
+      emulated: true
+      model: Vapor Carousel
+    instances:
+      - info: Carousel Rotate
+        data:
+          id: 6

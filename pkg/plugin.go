@@ -18,6 +18,7 @@ func MakePlugin() *sdk.Plugin {
 	// Register custom output types.
 	err = plugin.RegisterOutputs(
 		&outputs.Airflow,
+		&outputs.JSONOutput,
 	)
 	if err != nil {
 		log.Fatal(err)
@@ -26,7 +27,8 @@ func MakePlugin() *sdk.Plugin {
 	// Register device handlers
 	err = plugin.RegisterDeviceHandlers(
 		&devices.Airflow,
-		&devices.Carousel,
+		&devices.CarouselJSON,
+		&devices.CarouselStatus,
 		&devices.Current,
 		&devices.Energy,
 		&devices.Fan,
@@ -48,7 +50,8 @@ func MakePlugin() *sdk.Plugin {
 	// devices' value emitters for each device.
 	err = plugin.RegisterDeviceSetupActions(
 		&ActionAirflowValueEmitterSetup,
-		&ActionCarouselValueEmitterSetup,
+		&ActionCarouselStatusValueEmitterSetup,
+		&ActionCarouselJSONValueEmitterSetup,
 		&ActionCurrentValueEmitterSetup,
 		&ActionEnergyValueEmitterSetup,
 		&ActionFanValueEmitterSetup,

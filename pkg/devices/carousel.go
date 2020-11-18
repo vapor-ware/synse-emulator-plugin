@@ -1,8 +1,7 @@
 package devices
 
 import (
-	"fmt"
-	"strconv"
+	"encoding/json"
 	"time"
 
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/outputs"
@@ -12,67 +11,102 @@ import (
 )
 
 const (
-	statusStopped  = "stopped"
-	statusRotating = "rotating"
-
-	stateReady       = "ready"
-	stateUnavailable = "unavailable"
+	// This is not the full set of possible statuses, but it suffices for a simple emulation.
+	statusStopped  = 0
+	statusRotating = 1
 )
 
-// Carousel is the handler for emulator carousel device(s).
-var Carousel = sdk.DeviceHandler{
-	Name:  "carousel",
-	Read:  carouselRead,
-	Write: carouselWrite,
+// CarouselStatus is the handler for emulator carousel status device(s).
+var CarouselStatus = sdk.DeviceHandler{
+	Name: "status",
+	Read: carouselRead,
 }
 
-// carouselRead is the read handler for emulated carousel device(s). It
-// returns the state, status, and position values for the device.
+// CarouselJSON is the handler for emulator carousel json device(s), which let you "write"
+// to the carousel controller.
+var CarouselJSON = sdk.DeviceHandler{
+	Name:  "json",
+	Read:  carouselJSONRead,
+	Write: carouselJSONWrite,
+}
+
+// carouselRead is the read handler for emulated carousel status device(s). It
+// returns the status reading for the device. The default statuses for devices
+// are determined based on the device Info field. These defaults are set in the
+// plugin's actions.go file, in the startup action which initializes and registers
+// the emitter for the device type.
 func carouselRead(device *sdk.Device) ([]*output.Reading, error) {
 	emitter := utils.GetEmitter(device.GetID())
 
-	val := emitter.Next().(map[string]interface{})
 	return []*output.Reading{
-		output.State.MakeReading(val["state"]),
-		output.Status.MakeReading(val["status"]),
-		outputs.Position.MakeReading(val["position"]),
+		output.Status.MakeReading(emitter.Next()),
 	}, nil
 }
 
-// carouselWrite is the write handler for emulated carousel device(s). It
-// sets the position value for the device.
-func carouselWrite(device *sdk.Device, data *sdk.WriteData) error {
-	if len(data.Data) == 0 {
-		return fmt.Errorf("no values specified for 'data', but required")
+// carouselJSONRead is the read handler for emulated carousel json device(s). It
+// returns whether or not the carousel can be rotated.
+func carouselJSONRead(device *sdk.Device) ([]*output.Reading, error) {
+	emitter := utils.GetEmitter(device.GetID())
+
+	// The map contains a success value under the "ok" key and an error value
+	// under the "error" key.
+	val := emitter.Next().(map[string]string)
+	return []*output.Reading{
+		outputs.JSONOutput.MakeReading(val["ok"]),
+	}, nil
+}
+
+// carouselWriteAction models the expected Action that is received by the emulator
+// in order to write to the carousel controller.
+type carouselWriteAction struct {
+	Rack int `json:"rack,omitempty"`
+}
+
+// carouseJSONWrite is the write handler for emulated carousel device(s). It
+// sets the position which the carousel should be rotated to.
+func carouselJSONWrite(device *sdk.Device, data *sdk.WriteData) error {
+
+	// Load the write action. This will tell us which "rack" to "rotate to".
+	var action carouselWriteAction
+	if err := json.Unmarshal([]byte(data.Action), &action); err != nil {
+		return err
 	}
 
-	emitter := utils.GetEmitter(device.GetID())
-	current := emitter.Next().(map[string]interface{})
+	setRackEmitter := utils.GetEmitter(utils.CarouselSetRackPositionDevice.GetID())
+	getRackEmitter := utils.GetEmitter(utils.CarouselGetRackPositionDevice.GetID())
+	statusEmitter := utils.GetEmitter(utils.CarouselStatusDevice.GetID())
 
-	switch data.Action {
-	case "position":
-		pos, err := strconv.Atoi(string(data.Data))
-		if err != nil {
-			return err
+	setRackValue := setRackEmitter.Next().(int)
+
+	if setRackValue == action.Rack {
+		// If we told it to rotate to the position it is already at, do nothing.
+		return nil
+	}
+
+	// Otherwise, we need to set the read-only values accordingly. The SetRack value
+	// gets the end state value. The Status will change to the state for "rotating".
+	// The GetRack value gets the current rack, which we step through in order to get
+	// to the target rack, with a bit of timed interval in between.
+	setRackEmitter.Set(action.Rack)
+	utils.CarouselMutex.Lock()
+	statusEmitter.Set(statusRotating)
+	go func() {
+		var currentPos = setRackValue
+		for {
+			// Check that the current position is equal to the target position.
+			// Modulo 6 since we have 6 total racks on the carousel.
+			if currentPos%6 == action.Rack {
+				break
+			}
+			time.Sleep(5 * time.Second)
+			currentPos++
+			getRackEmitter.Set(currentPos)
 		}
 
-		// Set the state to designate that the carousel is rotating.
-		current["state"] = stateUnavailable
-		current["status"] = statusRotating
+		// Once we are done "rotating", set the status back to stopped.
+		statusEmitter.Set(statusStopped)
+		utils.CarouselMutex.Unlock()
+	}()
 
-		// After a short while, update the state so the carousel is done
-		// rotating and in the new position.
-		go func() {
-			time.Sleep(5 * time.Second)
-
-			current["state"] = stateReady
-			current["status"] = statusStopped
-			current["position"] = pos
-			emitter.Set(current)
-		}()
-
-	default:
-		return fmt.Errorf("unsupported write action: %v", data.Action)
-	}
 	return nil
 }
