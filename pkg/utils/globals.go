@@ -16,6 +16,7 @@ import (
 var (
 	CarouselGetRackPositionDevice *sdk.Device
 	CarouselSetRackPositionDevice *sdk.Device
+	CarouselStateMachine          *sdk.Device
 	CarouselStatusDevice          *sdk.Device
 	CarouselMutex                 sync.Mutex
 )

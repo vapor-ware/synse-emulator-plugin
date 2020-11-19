@@ -38,6 +38,7 @@ var ActionCarouselStatusValueEmitterSetup = sdk.DeviceAction{
 			utils.CarouselGetRackPositionDevice = d
 		case "Carousel State Machine Code":
 			seed = 1
+			utils.CarouselStateMachine = d
 		case "Carousel Set Rack Position":
 			seed = 1
 			utils.CarouselSetRackPositionDevice = d
@@ -58,6 +59,7 @@ var ActionCarouselJSONValueEmitterSetup = sdk.DeviceAction{
 	},
 	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
 		emitter := utils.NewValueEmitter(utils.Store).WithSeed(map[string]string{
+			"mode":  "ok",
 			"ok":    `{"errors": {}, "status": "ok"}`,
 			"error": `{"status":"fail","errors":{"chamber_locks":{"configuration":{"additional":[],"missing":[{"rack_id":"r4","device_info":"L1-36B Lock 1"},{"rack_id":"r4","device_info":"L1-36A Lock 5"},{"rack_id":"r4","device_info":"L1-36F Lock 9"}]}}}}`,
 		})
