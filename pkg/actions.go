@@ -95,7 +95,7 @@ var ActionEnergyValueEmitterSetup = sdk.DeviceAction{
 var ActionFanValueEmitterSetup = sdk.DeviceAction{
 	Name: "fan value emitter setup",
 	Filter: map[string][]string{
-		"type": {"fan"},
+		"type": {"*fan"},
 	},
 	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
 		if d.GetHandler().Name == "fan" {
@@ -110,7 +110,7 @@ var ActionFanValueEmitterSetup = sdk.DeviceAction{
 var ActionFanMultiValueEmitterSetup = sdk.DeviceAction{
 	Name: "fan-multi value emitter setup",
 	Filter: map[string][]string{
-		"type": {"fan"},
+		"type": {"*fan"},
 	},
 	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
 		if d.GetHandler().Name == "fan-multi" {
