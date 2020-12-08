@@ -3,6 +3,7 @@ module github.com/vapor-ware/synse-emulator-plugin
 go 1.13
 
 require (
+	github.com/MakeNowJust/heredoc v1.0.0
 	github.com/creasty/defaults v1.5.1 // indirect
 	github.com/imdario/mergo v0.3.11 // indirect
 	github.com/mitchellh/mapstructure v1.4.0 // indirect
