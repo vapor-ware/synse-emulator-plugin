@@ -150,7 +150,7 @@ func carouselJSONWrite(device *sdk.Device, data *sdk.WriteData) error {
 			time.Sleep(5 * time.Second)
 
 			// Modulo 6 since we have 6 total racks on the carousel.
-			currentPos = (currentPos + 1) % 6
+			currentPos = (currentPos % 6) + 1
 			getRackEmitter.Set(currentPos)
 		}
 
