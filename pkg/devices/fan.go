@@ -83,7 +83,7 @@ func fanWrite(device *sdk.Device, data *sdk.WriteData) error {
 
 	emitter := utils.GetEmitter(device.GetID())
 	switch data.Action {
-	case "speed":
+	case "speed", "speed_percent":
 		emitter.Set(v)
 	default:
 		return fmt.Errorf("unsupport write action: %v", data.Action)
@@ -105,7 +105,7 @@ func fanMultiWrite(device *sdk.Device, data *sdk.WriteData) error {
 
 	emitter := utils.GetEmitter(device.GetID())
 	switch data.Action {
-	case "speed":
+	case "speed", "speed_percent":
 		emitter.Set(v)
 	default:
 		return fmt.Errorf("unsupport write action: %v", data.Action)
