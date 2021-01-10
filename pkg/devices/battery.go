@@ -18,7 +18,9 @@ var Battery = sdk.DeviceHandler{
 func batteryRead(device *sdk.Device) ([]*output.Reading, error) {
 	emitter := utils.GetEmitter(device.GetID())
 	return []*output.Reading{
-		output.Status.MakeReading(emitter.Next()),
+		output.Status.MakeReading(emitter.Next()).WithContext(map[string]string{
+			"metric_name": device.Info,
+		}),
 	}, nil
 }
 
