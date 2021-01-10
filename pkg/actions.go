@@ -17,6 +17,19 @@ var ActionAirflowValueEmitterSetup = sdk.DeviceAction{
 	},
 }
 
+// ActionBatteryValueEmitterSetup initializes a ValueEmitter for each "battery" type device.
+var ActionBatteryValueEmitterSetup = sdk.DeviceAction{
+	Name: "battery value emitter setup",
+	Filter: map[string][]string{
+		"type": {"battery"},
+	},
+	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
+		seed := d.Data["seed"]
+		emitter := utils.NewValueEmitter(utils.Store).WithSeed(seed)
+		return utils.SetEmitter(d.GetID(), emitter)
+	},
+}
+
 // ActionCarouselStatusValueEmitterSetup initializes a ValueEmitter for each "status" type device (for carousels).
 var ActionCarouselStatusValueEmitterSetup = sdk.DeviceAction{
 	Name: "Carousel status value emitter setup",

@@ -27,6 +27,7 @@ func MakePlugin() *sdk.Plugin {
 	// Register device handlers
 	err = plugin.RegisterDeviceHandlers(
 		&devices.Airflow,
+		&devices.Battery,
 		&devices.CarouselJSON,
 		&devices.CarouselStatus,
 		&devices.Current,
@@ -50,6 +51,7 @@ func MakePlugin() *sdk.Plugin {
 	// devices' value emitters for each device.
 	err = plugin.RegisterDeviceSetupActions(
 		&ActionAirflowValueEmitterSetup,
+		&ActionBatteryValueEmitterSetup,
 		&ActionCarouselStatusValueEmitterSetup,
 		&ActionCarouselJSONValueEmitterSetup,
 		&ActionCurrentValueEmitterSetup,

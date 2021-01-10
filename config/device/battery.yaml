@@ -1,0 +1,14 @@
+version: 3
+devices:
+  - type: battery
+    context:
+      model: emul8-status
+    instances:
+      - info: Battery Status
+        data:
+          type: int
+          seed: 0
+          id: 1
+      - info: Example Status
+        data:
+          id: 2
