@@ -9,7 +9,7 @@ chart:
   path: emulator
 publish:
   pr:
-    title_template: '[{{ .Chart.Name }}] bump app version from {{ .Chart.PreviousVersion}} to {{ .Chart.NewVersion }}'
+    title_template: '[{{ .Chart.Name }}] bump app version from {{ .App.PreviousVersion}} to {{ .App.NewVersion }}'
 commit:
   author:
     name: vio-bot
