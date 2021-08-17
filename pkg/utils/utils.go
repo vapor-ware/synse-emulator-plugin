@@ -25,11 +25,15 @@ func BoundedIncrement(start interface{}, lower, upper int) int {
 
 // RandWalkInRange creates a new value by walking a random distance from the
 // start value.
-func RandWalkInRange(start interface{}, lower, upper int) int {
+func RandWalkInRange(start interface{}, lower, upper, step int) int {
 	// Between readings, we allow the value to change between 0 and 4.
 	// This allows for some movement, but doesn't allow massive swings in
 	// short periods.
-	diff := RandIntInRange(0, 4)
+	maxStep := 4
+	if step != 0 {
+		maxStep = step
+	}
+	diff := RandIntInRange(0, maxStep)
 
 	// If a seed is not set, start at the midway point between the lower and upper bounds.
 	if start == nil {
