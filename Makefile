@@ -3,7 +3,7 @@
 #
 
 PLUGIN_NAME    := emulator
-PLUGIN_VERSION := 3.2.1
+PLUGIN_VERSION := 3.3.0
 IMAGE_NAME     := vaporio/emulator-plugin
 BIN_NAME       := synse-emulator-plugin
 
