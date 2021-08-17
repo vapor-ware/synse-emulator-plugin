@@ -12,7 +12,22 @@ var ActionAirflowValueEmitterSetup = sdk.DeviceAction{
 		"type": {"airflow"},
 	},
 	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
-		emitter := utils.NewValueEmitter(utils.RandomWalk).WithLowerBound(-100).WithUpperBound(100)
+		lowerBound, ok := d.Data["min"].(int)
+		if !ok {
+			lowerBound = -100
+		}
+
+		upperBound, ok := d.Data["max"].(int)
+		if !ok {
+			upperBound = 100
+		}
+
+		step, ok := d.Data["step"].(int)
+		if !ok {
+			step = 0
+		}
+
+		emitter := utils.NewValueEmitter(utils.RandomWalk).WithLowerBound(lowerBound).WithUpperBound(upperBound).WithStep(step)
 		return utils.SetEmitter(d.GetID(), emitter)
 	},
 }
@@ -74,7 +89,22 @@ var ActionCurrentValueEmitterSetup = sdk.DeviceAction{
 		"type": {"current"},
 	},
 	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
-		emitter := utils.NewValueEmitter(utils.RandomWalk).WithLowerBound(0).WithUpperBound(30)
+		lowerBound, ok := d.Data["min"].(int)
+		if !ok {
+			lowerBound = 0
+		}
+
+		upperBound, ok := d.Data["max"].(int)
+		if !ok {
+			upperBound = 30
+		}
+
+		step, ok := d.Data["step"].(int)
+		if !ok {
+			step = 0
+		}
+
+		emitter := utils.NewValueEmitter(utils.RandomWalk).WithLowerBound(lowerBound).WithUpperBound(upperBound).WithStep(step)
 		return utils.SetEmitter(d.GetID(), emitter)
 	},
 }
@@ -86,7 +116,17 @@ var ActionEnergyValueEmitterSetup = sdk.DeviceAction{
 		"type": {"energy"},
 	},
 	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
-		emitter := utils.NewValueEmitter(utils.Accumulate).WithLowerBound(0).WithUpperBound(100000)
+		lowerBound, ok := d.Data["min"].(int)
+		if !ok {
+			lowerBound = 0
+		}
+
+		upperBound, ok := d.Data["max"].(int)
+		if !ok {
+			upperBound = 100000
+		}
+
+		emitter := utils.NewValueEmitter(utils.Accumulate).WithLowerBound(lowerBound).WithUpperBound(upperBound)
 		return utils.SetEmitter(d.GetID(), emitter)
 	},
 }
@@ -99,7 +139,12 @@ var ActionFanValueEmitterSetup = sdk.DeviceAction{
 	},
 	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
 		if d.GetHandler().Name == "fan" {
-			emitter := utils.NewValueEmitter(utils.Store).WithSeed(0)
+			seed, ok := d.Data["seed"].(int)
+			if !ok {
+				seed = 0
+			}
+
+			emitter := utils.NewValueEmitter(utils.Store).WithSeed(seed)
 			return utils.SetEmitter(d.GetID(), emitter)
 		}
 		return nil
@@ -114,7 +159,12 @@ var ActionFanMultiValueEmitterSetup = sdk.DeviceAction{
 	},
 	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
 		if d.GetHandler().Name == "fan-multi" {
-			emitter := utils.NewValueEmitter(utils.Store).WithSeed(0)
+			seed, ok := d.Data["seed"].(int)
+			if !ok {
+				seed = 0
+			}
+
+			emitter := utils.NewValueEmitter(utils.Store).WithSeed(seed)
 			return utils.SetEmitter(d.GetID(), emitter)
 		}
 		return nil
@@ -128,7 +178,22 @@ var ActionFrequencyValueEmitterSetup = sdk.DeviceAction{
 		"type": {"frequency"},
 	},
 	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
-		emitter := utils.NewValueEmitter(utils.RandomWalk).WithLowerBound(0).WithUpperBound(60)
+		lowerBound, ok := d.Data["min"].(int)
+		if !ok {
+			lowerBound = 0
+		}
+
+		upperBound, ok := d.Data["max"].(int)
+		if !ok {
+			upperBound = 60
+		}
+
+		step, ok := d.Data["step"].(int)
+		if !ok {
+			step = 0
+		}
+
+		emitter := utils.NewValueEmitter(utils.RandomWalk).WithLowerBound(lowerBound).WithUpperBound(upperBound).WithStep(step)
 		return utils.SetEmitter(d.GetID(), emitter)
 	},
 }
@@ -140,7 +205,22 @@ var ActionHumidityValueEmitterSetup = sdk.DeviceAction{
 		"type": {"humidity"},
 	},
 	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
-		emitter := utils.NewValueEmitter(utils.RandomWalk).WithLowerBound(0).WithUpperBound(100)
+		lowerBound, ok := d.Data["min"].(int)
+		if !ok {
+			lowerBound = 0
+		}
+
+		upperBound, ok := d.Data["max"].(int)
+		if !ok {
+			upperBound = 100
+		}
+
+		step, ok := d.Data["step"].(int)
+		if !ok {
+			step = 0
+		}
+
+		emitter := utils.NewValueEmitter(utils.RandomWalk).WithLowerBound(lowerBound).WithUpperBound(upperBound).WithStep(step)
 		return utils.SetEmitter(d.GetID(), emitter)
 	},
 }
@@ -179,7 +259,22 @@ var ActionPowerValueEmitterSetup = sdk.DeviceAction{
 		"type": {"power"},
 	},
 	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
-		emitter := utils.NewValueEmitter(utils.RandomWalk).WithLowerBound(1000).WithUpperBound(3000)
+		lowerBound, ok := d.Data["min"].(int)
+		if !ok {
+			lowerBound = 1000
+		}
+
+		upperBound, ok := d.Data["max"].(int)
+		if !ok {
+			upperBound = 3000
+		}
+
+		step, ok := d.Data["step"].(int)
+		if !ok {
+			step = 0
+		}
+
+		emitter := utils.NewValueEmitter(utils.RandomWalk).WithLowerBound(lowerBound).WithUpperBound(upperBound).WithStep(step)
 		return utils.SetEmitter(d.GetID(), emitter)
 	},
 }
@@ -191,7 +286,22 @@ var ActionPressureValueEmitterSetup = sdk.DeviceAction{
 		"type": {"pressure"},
 	},
 	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
-		emitter := utils.NewValueEmitter(utils.RandomWalk).WithLowerBound(-5).WithUpperBound(5)
+		lowerBound, ok := d.Data["min"].(int)
+		if !ok {
+			lowerBound = -5
+		}
+
+		upperBound, ok := d.Data["max"].(int)
+		if !ok {
+			upperBound = 5
+		}
+
+		step, ok := d.Data["step"].(int)
+		if !ok {
+			step = 0
+		}
+
+		emitter := utils.NewValueEmitter(utils.RandomWalk).WithLowerBound(lowerBound).WithUpperBound(upperBound).WithStep(step)
 		return utils.SetEmitter(d.GetID(), emitter)
 	},
 }
@@ -203,7 +313,22 @@ var ActionTemperatureValueEmitterSetup = sdk.DeviceAction{
 		"type": {"temperature"},
 	},
 	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
-		emitter := utils.NewValueEmitter(utils.RandomWalk).WithLowerBound(0).WithUpperBound(100)
+		lowerBound, ok := d.Data["min"].(int)
+		if !ok {
+			lowerBound = 0
+		}
+
+		upperBound, ok := d.Data["max"].(int)
+		if !ok {
+			upperBound = 100
+		}
+
+		step, ok := d.Data["step"].(int)
+		if !ok {
+			step = 0
+		}
+
+		emitter := utils.NewValueEmitter(utils.RandomWalk).WithLowerBound(lowerBound).WithUpperBound(upperBound).WithStep(step)
 		return utils.SetEmitter(d.GetID(), emitter)
 	},
 }
@@ -215,7 +340,22 @@ var ActionVoltageValueEmitterSetup = sdk.DeviceAction{
 		"type": {"voltage"},
 	},
 	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
-		emitter := utils.NewValueEmitter(utils.RandomWalk).WithLowerBound(100).WithUpperBound(500)
+		lowerBound, ok := d.Data["min"].(int)
+		if !ok {
+			lowerBound = 100
+		}
+
+		upperBound, ok := d.Data["max"].(int)
+		if !ok {
+			upperBound = 500
+		}
+
+		step, ok := d.Data["step"].(int)
+		if !ok {
+			step = 0
+		}
+
+		emitter := utils.NewValueEmitter(utils.RandomWalk).WithLowerBound(lowerBound).WithUpperBound(upperBound).WithStep(step)
 		return utils.SetEmitter(d.GetID(), emitter)
 	},
 }

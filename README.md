@@ -132,6 +132,66 @@ Handlers set up this way will have the `min`, `max`, and `current` write actions
 |             | `max`         | `int`      | The maximum bound for readings to be generated within. |
 |             | `current`     | `int`      | The static current reading value. |
 
+### Device Configurations
+
+In addition to allowing values to be set via writing to devices, the behaviors/data ranges
+for device readings may also be configured in the device configuration YAML for certain
+devices. These options should be set under a device's `data` configuration, e.g.
+
+```yaml
+version: 3
+devices:
+  - type: temperature
+    context:
+      model: emul8-temp
+    instances:
+      - info: Synse Temperature Sensor 1
+        data:
+          id: 1
+          min: 20
+          max: 40
+```
+
+The table below describes the supported configuration values for each type. None of the values
+are required to be set and falls back on sane defaults. Definitions for the settings follow:
+
+* `min`: The lower bound for a random walk. The walk will not subceed this value.
+* `max`: The upper bound for a random walk. The walk will not exceed this value.
+* `step`: The maximum size that a random walk may step by. For each iteration, the step is randomly chosen
+   between this max step size and 0.
+* `seed`: The starting value for the device.
+
+
+| Device Type | Setting | Type  | Default |
+| :---------: | :-----: | :---: | :-----: |
+| airflow     | `min`   | int   | -100 |
+|             | `max`   | int   | 100 |
+|             | `step`  | int   | 4 |
+| current     | `min`   | int   | 0 |
+|             | `max`   | int   | 30 |
+|             | `step`  | int   | 4 |
+| energy      | `min`   | int   | 0 |
+|             | `max`   | int   | 100000 |
+| fan         | `seed`  | int   | 0 |
+| frequency   | `min`   | int   | 0 |
+|             | `max`   | int   | 60 |
+|             | `step`  | int   | 4 |
+| humidity    | `min`   | int   | 0 |
+|             | `max`   | int   | 100 |
+|             | `step`  | int   | 4 |
+| power       | `min`   | int   | 1000 |
+|             | `max`   | int   | 3000 |
+|             | `step`  | int   | 4 |
+| pressure    | `min`   | int   | -5 |
+|             | `max`   | int   | 5 |
+|             | `step`  | int   | 4 |
+| temperature | `min`   | int   | 0 |
+|             | `max`   | int   | 100 |
+|             | `step`  | int   | 4 |
+| voltage     | `min`   | int   | 100 |
+|             | `max`   | int   | 500 |
+|             | `step`  | int   | 0 |
+
 ## Compatibility
 
 Below is a table describing the compatibility of plugin versions with Synse platform versions.
@@ -141,7 +201,6 @@ Below is a table describing the compatibility of plugin versions with Synse plat
 | plugin v1.x | ✗        | ✗        |
 | plugin v2.x | ✓        | ✗        |
 | plugin v3.x | ✗        | ✓        |
-
 
 ## Troubleshooting
 

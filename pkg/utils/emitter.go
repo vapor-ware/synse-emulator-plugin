@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"math"
 	"math/rand"
 	"sync"
 	"time"
@@ -36,6 +37,7 @@ type ValueEmitter struct {
 	prev       interface{}
 	upperBound int
 	lowerBound int
+	step       int
 }
 
 // NewValueEmitter creates a new ValueEmitter for the specified mode.
@@ -85,7 +87,7 @@ func (emitter *ValueEmitter) Next() interface{} {
 		emitter.prev = BoundedIncrement(emitter.prev, emitter.lowerBound, emitter.upperBound)
 
 	case RandomWalk:
-		emitter.prev = RandWalkInRange(emitter.prev, emitter.lowerBound, emitter.upperBound)
+		emitter.prev = RandWalkInRange(emitter.prev, emitter.lowerBound, emitter.upperBound, emitter.step)
 
 	case Store:
 	}
@@ -139,5 +141,12 @@ func (emitter *ValueEmitter) WithUpperBound(bound int) *ValueEmitter {
 //   	bound, it will start forcing the walk upwards.
 func (emitter *ValueEmitter) WithLowerBound(bound int) *ValueEmitter {
 	emitter.lowerBound = bound
+	return emitter
+}
+
+// WithStep allows the device to set the maximum step range for an emitter
+// implementation which performs a stepped walk.
+func (emitter *ValueEmitter) WithStep(step int) *ValueEmitter {
+	emitter.step = int(math.Abs(float64(step)))
 	return emitter
 }
