@@ -153,14 +153,14 @@ devices:
 ```
 
 The table below describes the supported configuration values for each type. None of the values
-are required to be set and falls back on sane defaults. Definitions for the settings follow:
+specified below are required to be set. If omitted, the plugin falls back on sane defaults.
+Definitions for the settings follow:
 
 * `min`: The lower bound for a random walk. The walk will not subceed this value.
 * `max`: The upper bound for a random walk. The walk will not exceed this value.
 * `step`: The maximum size that a random walk may step by. For each iteration, the step is randomly chosen
    between this max step size and 0.
 * `seed`: The starting value for the device.
-
 
 | Device Type | Setting | Type  | Default |
 | :---------: | :-----: | :---: | :-----: |
