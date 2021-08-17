@@ -25,6 +25,11 @@ func BoundedIncrement(start interface{}, lower, upper int) int {
 
 // RandWalkInRange creates a new value by walking a random distance from the
 // start value.
+//
+// The upper and lower bounds for the walk must be specified. All generated data
+// is guaranteed to fall within those bounds. The step size is a random value between
+// 0 and the specified max step; if the provided step size is 0, this defaults to a
+// maximum step size of 4.
 func RandWalkInRange(start interface{}, lower, upper, step int) int {
 	// Between readings, we allow the value to change between 0 and 4.
 	// This allows for some movement, but doesn't allow massive swings in
