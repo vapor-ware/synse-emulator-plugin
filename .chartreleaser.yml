@@ -14,12 +14,3 @@ commit:
   author:
     name: vio-bot
     email: marco+viogh@vapor.io
-extras:
-  - path: emulator/README.md
-    updates:
-      - search: '\| `image\.tag` \| The tag of the image to use\. \| `[0-9a-zA-Z.-]*` \|'
-        replace: '| `image.tag` | The tag of the image to use. | `{{ .App.NewVersion }}` |'
-  - path: emulator/values.yaml
-    updates:
-      - search: 'tag: "[0-9a-zA-Z.-]*"'
-        replace: 'tag: "{{ .App.NewVersion }}"'
