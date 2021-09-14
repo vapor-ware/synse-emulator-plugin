@@ -16,8 +16,10 @@ var Humidity = sdk.DeviceHandler{
 // humidityRead is the read handler for the emulated humidity device(s).
 func humidityRead(device *sdk.Device) ([]*output.Reading, error) {
 	emitter := utils.GetEmitter(device.GetID())
+	humidity := emitter.Next()
 	return []*output.Reading{
-		output.Humidity.MakeReading(emitter.Next()),
+		output.Humidity.MakeReading(humidity),
+		output.Percentage.MakeReading(humidity), // https://vaporio.atlassian.net/browse/VIO-1389
 		output.Temperature.MakeReading(emitter.Next()),
 	}, nil
 }
