@@ -33,13 +33,11 @@ dockers:
   -
    goos: linux
    goarch: amd64
-   binaries:
-     - synse-emulator-plugin
    image_templates:
-    - vaporio/emulator-plugin:{{ .Tag }}
-    - vaporio/emulator-plugin:{{ .Major }}
-    - vaporio/emulator-plugin:{{ .Major }}.{{ .Minor }}
-    - vaporio/emulator-plugin:latest
+    - docker.io/vaporio/emulator-plugin:{{ .Tag }}
+    - docker.io/vaporio/emulator-plugin:{{ .Major }}
+    - docker.io/vaporio/emulator-plugin:{{ .Major }}.{{ .Minor }}
+    - docker.io/vaporio/emulator-plugin:latest
    build_flag_templates:
     - "--label=org.label-schema.version={{ .Version }}"
     - "--label=org.label-schema.build-date={{ .Date }}"

@@ -9,7 +9,7 @@ library identifier: 'vapor@develop', retriever: modernSCM([
 
 
 golangPipeline([
-  'image': 'vaporio/emulator-plugin',
+  'image': 'docker.io/vaporio/emulator-plugin',
   'skipSetup': true,
   'skipUnitTest': true,
   'skipIntegrationTest': true,
