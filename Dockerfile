@@ -1,12 +1,12 @@
 #
 # Builder Image
 #
-FROM vaporio/golang:1.13 as builder
+FROM docker.io/vaporio/golang:1.13 as builder
 
 #
 # Final Image
 #
-FROM vaporio/scratch-ish:1.0.0
+FROM docker.io/vaporio/scratch-ish:1.0.0
 
 LABEL org.label-schema.schema-version="1.0" \
       org.label-schema.name="vaporio/emulator-plugin" \
