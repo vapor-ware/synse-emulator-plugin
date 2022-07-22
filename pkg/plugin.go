@@ -5,7 +5,7 @@ import (
 
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/devices"
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/outputs"
-	"github.com/vapor-ware/synse-sdk/sdk"
+	"github.com/vapor-ware/synse-sdk/v2/sdk"
 )
 
 // MakePlugin creates a new instance of the Synse Emulator Plugin.

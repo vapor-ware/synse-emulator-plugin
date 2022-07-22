@@ -1,6 +1,6 @@
 package outputs
 
-import "github.com/vapor-ware/synse-sdk/sdk/output"
+import "github.com/vapor-ware/synse-sdk/v2/sdk/output"
 
 var (
 	// Airflow is the output type for airflow readings.

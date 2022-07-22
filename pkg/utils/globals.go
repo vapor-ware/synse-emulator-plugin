@@ -3,7 +3,7 @@ package utils
 import (
 	"sync"
 
-	"github.com/vapor-ware/synse-sdk/sdk"
+	"github.com/vapor-ware/synse-sdk/v2/sdk"
 )
 
 // This file is used to hold any global references, e.g. to devices or anything else, which can be

@@ -2,8 +2,8 @@ package devices
 
 import (
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/utils"
-	"github.com/vapor-ware/synse-sdk/sdk"
-	"github.com/vapor-ware/synse-sdk/sdk/output"
+	"github.com/vapor-ware/synse-sdk/v2/sdk"
+	"github.com/vapor-ware/synse-sdk/v2/sdk/output"
 )
 
 // Frequency is the handler for the emulated frequency device(s).
@@ -16,7 +16,11 @@ var Frequency = sdk.DeviceHandler{
 // frequencyRead is the read handler for the emulated frequency device(s).
 func frequencyRead(device *sdk.Device) ([]*output.Reading, error) {
 	emitter := utils.GetEmitter(device.GetID())
+	frequency, err := output.Frequency.MakeReading(emitter.Next())
+	if err != nil {
+		return nil, err
+	}
 	return []*output.Reading{
-		output.Frequency.MakeReading(emitter.Next()),
+		frequency,
 	}, nil
 }
