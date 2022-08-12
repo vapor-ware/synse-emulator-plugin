@@ -8,8 +8,8 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/outputs"
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/utils"
-	"github.com/vapor-ware/synse-sdk/sdk"
-	"github.com/vapor-ware/synse-sdk/sdk/output"
+	"github.com/vapor-ware/synse-sdk/v2/sdk"
+	"github.com/vapor-ware/synse-sdk/v2/sdk/output"
 )
 
 const (
@@ -39,14 +39,17 @@ var CarouselJSON = sdk.DeviceHandler{
 // the emitter for the device type.
 func carouselRead(device *sdk.Device) ([]*output.Reading, error) {
 	emitter := utils.GetEmitter(device.GetID())
-
+	status, err := output.Status.MakeReading(emitter.Next())
+	if err != nil {
+		return nil, err
+	}
 	return []*output.Reading{
-		output.Status.MakeReading(emitter.Next()),
+		status,
 	}, nil
 }
 
 // carouselJSONRead is the read handler for emulated carousel json device(s). It
-// returns whether or not the carousel can be rotated.
+// returns whether the carousel can be rotated.
 func carouselJSONRead(device *sdk.Device) ([]*output.Reading, error) {
 	emitter := utils.GetEmitter(device.GetID())
 
@@ -54,9 +57,13 @@ func carouselJSONRead(device *sdk.Device) ([]*output.Reading, error) {
 	// under the "error" key. We can check whether we are in error mode or success
 	// mode by checking the "mode" key.
 	val := emitter.Next().(map[string]string)
+	JSONOutput, err := outputs.JSONOutput.MakeReading(val[val["mode"]])
+	if err != nil {
+		return nil, err
+	}
 
 	return []*output.Reading{
-		outputs.JSONOutput.MakeReading(val[val["mode"]]),
+		JSONOutput,
 	}, nil
 }
 

@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/utils"
-	"github.com/vapor-ware/synse-sdk/sdk"
-	"github.com/vapor-ware/synse-sdk/sdk/output"
+	"github.com/vapor-ware/synse-sdk/v2/sdk"
+	"github.com/vapor-ware/synse-sdk/v2/sdk/output"
 )
 
 const (
@@ -27,9 +27,17 @@ func ledRead(device *sdk.Device) ([]*output.Reading, error) {
 	emitter := utils.GetEmitter(device.GetID())
 
 	val := emitter.Next().(map[string]string)
+	state, err := output.State.MakeReading(val["state"])
+	if err != nil {
+		return nil, err
+	}
+	color, err := output.Color.MakeReading(val["color"])
+	if err != nil {
+		return nil, err
+	}
 	return []*output.Reading{
-		output.State.MakeReading(val["state"]),
-		output.Color.MakeReading(val["color"]),
+		state,
+		color,
 	}, nil
 }
 

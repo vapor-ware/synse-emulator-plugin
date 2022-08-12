@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/vapor-ware/synse-emulator-plugin/pkg"
-	"github.com/vapor-ware/synse-sdk/sdk"
+	"github.com/vapor-ware/synse-sdk/v2/sdk"
 )
 
 const (

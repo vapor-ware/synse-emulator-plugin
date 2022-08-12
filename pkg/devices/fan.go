@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/utils"
-	"github.com/vapor-ware/synse-sdk/sdk"
-	"github.com/vapor-ware/synse-sdk/sdk/output"
+	"github.com/vapor-ware/synse-sdk/v2/sdk"
+	"github.com/vapor-ware/synse-sdk/v2/sdk/output"
 )
 
 // Fan is the handler for the emulated fan device(s).
@@ -28,14 +28,22 @@ var FanMulti = sdk.DeviceHandler{
 func fanRead(device *sdk.Device) ([]*output.Reading, error) {
 	emitter := utils.GetEmitter(device.GetID())
 
-	speed := output.RPM.MakeReading(emitter.Next())
+	speed, err := output.RPM.MakeReading(emitter.Next())
 	speed.Context = map[string]string{
 		"min": "0",
 		"max": "2700",
 	}
+	if err != nil {
+		return nil, err
+	}
+
+	direction, err := output.Direction.MakeReading("forward")
+	if err != nil {
+		return nil, err
+	}
 
 	return []*output.Reading{
-		output.Direction.MakeReading("forward"),
+		direction,
 		speed,
 	}, nil
 }
@@ -51,19 +59,31 @@ func fanMultiRead(device *sdk.Device) ([]*output.Reading, error) {
 	}
 
 	// Current speed emulates the actual speed of the fan.
-	currentSpeed := output.RPM.MakeReading(
+	currentSpeed, err := output.RPM.MakeReading(
 		utils.RandIntInRange(setValue-10, setValue+10),
-	).WithContext(map[string]string{
+	)
+	if err != nil {
+		return nil, err
+	}
+	currentSpeed.WithContext(map[string]string{
 		"min": "0",
 		"max": "2700",
 	})
 
 	// Set speed emulates the value which the fan was set to spin at, which
 	// may be different than the current speed as it ramps up/down.
-	setSpeed := output.RPM.MakeReading(setValue)
+	setSpeed, err := output.RPM.MakeReading(setValue)
+	if err != nil {
+		return nil, err
+	}
+
+	direction, err := output.Direction.MakeReading("forward")
+	if err != nil {
+		return nil, err
+	}
 
 	return []*output.Reading{
-		output.Direction.MakeReading("forward"),
+		direction,
 		currentSpeed,
 		setSpeed,
 	}, nil

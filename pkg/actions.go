@@ -2,7 +2,7 @@ package pkg
 
 import (
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/utils"
-	"github.com/vapor-ware/synse-sdk/sdk"
+	"github.com/vapor-ware/synse-sdk/v2/sdk"
 )
 
 // ActionAirflowValueEmitterSetup initializes a ValueEmitter for each "airflow" type device.

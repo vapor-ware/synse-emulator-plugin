@@ -3,14 +3,14 @@
 #
 
 PLUGIN_NAME    := emulator
-PLUGIN_VERSION := 3.3.1
+PLUGIN_VERSION := 3.4.0
 IMAGE_NAME     := vaporio/emulator-plugin
 BIN_NAME       := synse-emulator-plugin
 
 GIT_COMMIT     ?= $(shell git rev-parse --short HEAD 2> /dev/null || true)
 GIT_TAG        ?= $(shell git describe --tags 2> /dev/null || true)
 BUILD_DATE     := $(shell date -u +%Y-%m-%dT%T 2> /dev/null)
-GO_VERSION     := $(shell go version | awk '{ print $$3 }')
+GO_VERSION     := $(shell go version | awk '{ print $3 }')
 
 PKG_CTX := github.com/vapor-ware/synse-sdk/sdk
 LDFLAGS := -w \
@@ -48,7 +48,7 @@ docker:  ## Build the production docker image locally
 
 .PHONY: docker-dev
 docker-dev:  ## Build the development docker image locally
-	docker build -f Dockerfile.dev -t ${IMAGE_NAME}:dev-${GIT_COMMIT} . || exit
+	docker build -f dev.Dockerfile -t ${IMAGE_NAME}:dev-${GIT_COMMIT} . || exit
 
 .PHONY: fmt
 fmt:  ## Run goimports on all go files

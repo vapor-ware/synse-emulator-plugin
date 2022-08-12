@@ -2,8 +2,8 @@ package devices
 
 import (
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/utils"
-	"github.com/vapor-ware/synse-sdk/sdk"
-	"github.com/vapor-ware/synse-sdk/sdk/output"
+	"github.com/vapor-ware/synse-sdk/v2/sdk"
+	"github.com/vapor-ware/synse-sdk/v2/sdk/output"
 )
 
 // Current is the handler for the emulated current device(s).
@@ -16,7 +16,11 @@ var Current = sdk.DeviceHandler{
 // currentRead is the read handler for the emulated current device(s).
 func currentRead(device *sdk.Device) ([]*output.Reading, error) {
 	emitter := utils.GetEmitter(device.GetID())
+	ec, err := output.ElectricCurrent.MakeReading(emitter.Next())
+	if err != nil {
+		return nil, err
+	}
 	return []*output.Reading{
-		output.ElectricCurrent.MakeReading(emitter.Next()),
+		ec,
 	}, nil
 }
