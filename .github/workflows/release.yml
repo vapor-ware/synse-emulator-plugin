@@ -41,6 +41,6 @@ jobs:
         name: Update Helm Chart
         uses: vapor-ware/chart-releaser-action@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.VIO_PUBLIC_REPO }}
         with:
           args: update --diff --debug
