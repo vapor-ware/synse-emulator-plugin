@@ -6,7 +6,7 @@ on:
       - completed
   push:
     tags:
-      - '*'
+      - 'v*'
 
 jobs:
   goreleaser:
