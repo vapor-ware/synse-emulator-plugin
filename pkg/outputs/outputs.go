@@ -19,4 +19,14 @@ var (
 		Name: "json",
 		Type: "json",
 	}
+
+	// UPS is the output type for duration readings.
+	UPS = output.Output{
+		Name: "duration",
+		Type: "duration",
+		Unit: &output.Unit{
+			Name:   "seconds",
+			Symbol: "s",
+		},
+	}
 )

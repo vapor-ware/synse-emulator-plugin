@@ -1,0 +1,9 @@
+version: 3
+devices:
+  - type: duration
+    context:
+      model: emul8-ups
+    instances:
+      - info: Seconds on battery power
+        data:
+          id: 1

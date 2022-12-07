@@ -19,6 +19,7 @@ func MakePlugin() *sdk.Plugin {
 	err = plugin.RegisterOutputs(
 		&outputs.Airflow,
 		&outputs.JSONOutput,
+		&outputs.UPS,
 	)
 	if err != nil {
 		log.Fatal(err)
@@ -37,6 +38,7 @@ func MakePlugin() *sdk.Plugin {
 		&devices.Humidity,
 		&devices.LED,
 		&devices.Lock,
+		&devices.UPS,
 		&devices.Power,
 		&devices.Pressure,
 		&devices.Temperature,
@@ -60,6 +62,7 @@ func MakePlugin() *sdk.Plugin {
 		&ActionHumidityValueEmitterSetup,
 		&ActionLEDValueEmitterSetup,
 		&ActionLockValueEmitterSetup,
+		&ActionUpsDurationValueEmitterSetup,
 		&ActionPowerValueEmitterSetup,
 		&ActionPressureValueEmitterSetup,
 		&ActionTemperatureValueEmitterSetup,
