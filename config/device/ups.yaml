@@ -1,6 +1,6 @@
 version: 3
 devices:
-  - type: duration
+  - type: seconds
     context:
       model: emul8-ups
     instances:

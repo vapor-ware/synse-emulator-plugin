@@ -19,7 +19,6 @@ func MakePlugin() *sdk.Plugin {
 	err = plugin.RegisterOutputs(
 		&outputs.Airflow,
 		&outputs.JSONOutput,
-		&outputs.UPS,
 	)
 	if err != nil {
 		log.Fatal(err)

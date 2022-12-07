@@ -256,7 +256,7 @@ var ActionLockValueEmitterSetup = sdk.DeviceAction{
 var ActionUpsDurationValueEmitterSetup = sdk.DeviceAction{
 	Name: "UPS Duration emitter setup",
 	Filter: map[string][]string{
-		"type": {"duration"},
+		"type": {"seconds"},
 	},
 	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
 		lowerBound, ok := d.Data["min"].(int)

@@ -8,7 +8,7 @@ import (
 
 // UPS is the handler for the emulated current device(s).
 var UPS = sdk.DeviceHandler{
-	Name:  "duration",
+	Name:  "seconds",
 	Read:  secondsRead,
 	Write: minMaxCurrentWrite,
 }
