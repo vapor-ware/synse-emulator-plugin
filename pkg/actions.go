@@ -252,7 +252,7 @@ var ActionLockValueEmitterSetup = sdk.DeviceAction{
 	},
 }
 
-// ActionUpsDurationValueEmitterSetup initializes a ValueEmitter for each "duration" type device
+// ActionUpsDurationValueEmitterSetup initializes a ValueEmitter for each "seconds" type device
 var ActionUpsDurationValueEmitterSetup = sdk.DeviceAction{
 	Name: "UPS Duration emitter setup",
 	Filter: map[string][]string{
