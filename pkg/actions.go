@@ -252,6 +252,33 @@ var ActionLockValueEmitterSetup = sdk.DeviceAction{
 	},
 }
 
+// ActionUpsDurationValueEmitterSetup initializes a ValueEmitter for each "seconds" type device
+var ActionUpsDurationValueEmitterSetup = sdk.DeviceAction{
+	Name: "UPS Duration emitter setup",
+	Filter: map[string][]string{
+		"type": {"seconds"},
+	},
+	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
+		lowerBound, ok := d.Data["min"].(int)
+		if !ok {
+			lowerBound = 0
+		}
+
+		upperBound, ok := d.Data["max"].(int)
+		if !ok {
+			upperBound = 0
+		}
+
+		step, ok := d.Data["step"].(int)
+		if !ok {
+			step = 0
+		}
+
+		emitter := utils.NewValueEmitter(utils.Accumulate).WithLowerBound(lowerBound).WithUpperBound(upperBound).WithStep(step)
+		return utils.SetEmitter(d.GetID(), emitter)
+	},
+}
+
 // ActionPowerValueEmitterSetup initializes a ValueEmitter for each "power" type device.
 var ActionPowerValueEmitterSetup = sdk.DeviceAction{
 	Name: "power value emitter setup",
