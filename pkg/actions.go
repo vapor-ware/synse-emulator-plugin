@@ -240,6 +240,20 @@ var ActionLEDValueEmitterSetup = sdk.DeviceAction{
 	},
 }
 
+// ActionCanaryValueEmitterSetup initializes a ValueEmitter for each "canary" type device.
+var ActionCanaryValueEmitterSetup = sdk.DeviceAction{
+	Name: "Canary Power value emitter setup",
+	Filter: map[string][]string{
+		"type": {"power"},
+	},
+	Action: func(_ *sdk.Plugin, d *sdk.Device) error {
+		emitter := utils.NewValueEmitter(utils.Store).WithSeed(map[string]string{
+			"state": "1.0",
+		})
+		return utils.SetEmitter(d.GetID(), emitter)
+	},
+}
+
 // ActionLockValueEmitterSetup initializes a ValueEmitter for each "lock" type device.
 var ActionLockValueEmitterSetup = sdk.DeviceAction{
 	Name: "lock value emitter setup",
