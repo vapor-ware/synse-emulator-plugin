@@ -1,6 +1,8 @@
 package pkg
 
 import (
+	"fmt"
+
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/utils"
 	"github.com/vapor-ware/synse-sdk/v2/sdk"
 )
@@ -302,6 +304,13 @@ var ActionPowerValueEmitterSetup = sdk.DeviceAction{
 		}
 
 		emitter := utils.NewValueEmitter(utils.RandomWalk).WithLowerBound(lowerBound).WithUpperBound(upperBound).WithStep(step)
+		emitterState := utils.NewValueEmitter(utils.Store).WithSeed(map[string]string{
+			"state": "1.0",
+		})
+		err := utils.SetEmitter(fmt.Sprintf("%s-state", d.GetID()), emitterState)
+		if err != nil {
+			return err
+		}
 		return utils.SetEmitter(d.GetID(), emitter)
 	},
 }
