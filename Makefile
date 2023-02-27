@@ -17,7 +17,6 @@ LDFLAGS := -w \
 	-X ${PKG_CTX}.BuildDate=${BUILD_DATE} \
 	-X ${PKG_CTX}.GitCommit=${GIT_COMMIT} \
 	-X ${PKG_CTX}.GitTag=${GIT_TAG} \
-	-X ${PKG_CTX}.GoVersion=${GO_VERSION} \
 	-X ${PKG_CTX}.PluginVersion=${PLUGIN_VERSION}
 
 
