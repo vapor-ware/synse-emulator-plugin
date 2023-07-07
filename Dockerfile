@@ -1,12 +1,14 @@
 #
 # Builder Image
 #
-FROM docker.io/vaporio/golang:1.16 as builder
+FROM docker.io/library/debian:stable-slim as builder
+
+RUN apt-get update && apt-get install -y ca-certificates
 
 #
 # Final Image
 #
-FROM docker.io/vaporio/scratch-ish:1.0.0
+FROM scratch
 
 LABEL org.label-schema.schema-version="1.0" \
       org.label-schema.name="vaporio/emulator-plugin" \

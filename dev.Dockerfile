@@ -6,8 +6,7 @@
 # Development images contain additional tooling that makes it easier
 # to exec into a contain and dig into whatever may be going on inside.
 #
-
-FROM vaporio/golang:1.16
+FROM docker.io/library/debian:stable-slim as builder
 
 WORKDIR /synse
 
