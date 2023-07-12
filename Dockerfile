@@ -1,32 +1,16 @@
 #
 # Builder Image
 #
-FROM docker.io/library/golang:1.16 as builder
+# FROM docker.io/library/golang:1.16 as builder
+FROM docker.io/library/debian:stable-slim as builder
 
 RUN apt-get update && apt-get install -y ca-certificates
 
 RUN useradd -M vaporio
 
-WORKDIR /app
-
-# Download dependencies
-COPY go.* ./
-RUN go mod download
-
-# Copy the project into the builder
-COPY . ./
-
-# Disable dynamic linking. The binary won't work on scratch otherwise
-ENV CGO_ENABLED=0
-
-# Build the binary.
-RUN make build-linux
-
-
 RUN mkdir -p /etc/synse/plugin/config \
  && mkdir -p /etc/synse/plugin/config \
- && chown -R vaporio /etc/synse \
- && chown -R vaporio /app
+ && chown -R vaporio /etc/synse
 
 #
 # Final Image
@@ -49,10 +33,9 @@ COPY --chown=vaporio config/device /etc/synse/plugin/config/device
 COPY --chown=vaporio config.yml    /etc/synse/plugin/config/config.yml
 
 # Copy the executable.
-COPY --chown=vaporio --from=builder /app/synse-emulator-plugin /app/plugin
-
+COPY --chown=vaporio synse-emulator-plugin /plugin
 
 EXPOSE 5001
 
 USER vaporio
-ENTRYPOINT ["/app/plugin"]
+ENTRYPOINT ["/plugin"]
