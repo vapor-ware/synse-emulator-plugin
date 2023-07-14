@@ -39,11 +39,7 @@ deploy:  ## Run a local deployment of the plugin with Synse Server
 
 .PHONY: docker
 docker:  ## Build the production docker image locally
-	docker build -f Dockerfile \
-		--label "org.label-schema.build-date=${BUILD_DATE}" \
-		--label "org.label-schema.vcs-ref=${GIT_COMMIT}" \
-		--label "org.label-schema.version=${PLUGIN_VERSION}" \
-		-t ${IMAGE_NAME}:latest . || exit
+	env GOLANG_VERSION=${GOLANG_VERSION} goreleaser release --snapshot --clean
 
 .PHONY: docker-dev
 docker-dev:  ## Build the development docker image locally

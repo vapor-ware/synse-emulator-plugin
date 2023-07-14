@@ -226,11 +226,21 @@ The plugin can be run in debug mode for additional logging. This is done by:
   docker run -e PLUGIN_DEBUG=true vaporio/emulator-plugin
   ```
 
+### Building
+
+To build the production image locally, you'll first need to [install the goreleaser binary](https://goreleaser.com/install/).
+
+```
+make docker
+```
+
+This will run `goreleaser` to build a local image tagged as the current release, i.e., `docker.io/vaporio/emulator-plugin:3.4.1`.
+
 ### Developing
 
 A [development/debug Dockerfile](Dockerfile.dev) is provided in the project repository to enable
 building image which may be useful when developing or debugging a plugin. Unlike the slim `scratch`-based
-production image, the development image uses an ubuntu base, bringing with it all the standard command line
+production image, the development image uses a Debian base, bringing with it all the standard command line
 tools one would expect. To build a development image:
 
 ```
