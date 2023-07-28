@@ -2,6 +2,8 @@ package pkg
 
 import (
 	"fmt"
+	"github.com/vapor-ware/synse-emulator-plugin/pkg/devices"
+	"strings"
 
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/utils"
 	"github.com/vapor-ware/synse-sdk/v2/sdk"
@@ -394,4 +396,48 @@ var ActionVoltageValueEmitterSetup = sdk.DeviceAction{
 		emitter := utils.NewValueEmitter(utils.RandomWalk).WithLowerBound(lowerBound).WithUpperBound(upperBound).WithStep(step)
 		return utils.SetEmitter(d.GetID(), emitter)
 	},
+}
+
+func OpenMetricsEmitterSetup() []*sdk.DeviceAction {
+	deviceActions := []*sdk.DeviceAction{}
+	dvs, err := devices.DevicesFromConfig()
+	if err != nil {
+		return deviceActions
+	}
+	for _, d := range dvs {
+		if len(d.Instances) == 0 {
+			continue
+		}
+		t := strings.ToLower(d.Instances[0].Data["type"].(string))
+		da := sdk.DeviceAction{
+			Name: fmt.Sprintf("openmetrics %s value emitter setup", t),
+			Filter: map[string][]string{
+				"type": {d.Type},
+			},
+			Action: emitterWalkActionFunc,
+		}
+
+		deviceActions = append(deviceActions, &da)
+	}
+	return deviceActions
+}
+
+func emitterWalkActionFunc(_ *sdk.Plugin, d *sdk.Device) error {
+	lowerBound, ok := d.Data["min"].(int)
+	if !ok {
+		lowerBound = 0
+	}
+
+	upperBound, ok := d.Data["max"].(int)
+	if !ok {
+		upperBound = 500
+	}
+
+	step, ok := d.Data["step"].(int)
+	if !ok {
+		step = 0
+	}
+
+	emitter := utils.NewValueEmitter(utils.RandomWalk).WithLowerBound(lowerBound).WithUpperBound(upperBound).WithStep(step)
+	return utils.SetEmitter(d.GetID(), emitter)
 }

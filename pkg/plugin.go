@@ -1,11 +1,10 @@
 package pkg
 
 import (
-	"log"
-
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/devices"
 	"github.com/vapor-ware/synse-emulator-plugin/pkg/outputs"
 	"github.com/vapor-ware/synse-sdk/v2/sdk"
+	"log"
 )
 
 // MakePlugin creates a new instance of the Synse Emulator Plugin.
@@ -24,8 +23,8 @@ func MakePlugin() *sdk.Plugin {
 		log.Fatal(err)
 	}
 
-	// Register device handlers
-	err = plugin.RegisterDeviceHandlers(
+	handlers := devices.JunosDeviceHandlers()
+	handlers = append(handlers,
 		&devices.Airflow,
 		&devices.CarouselJSON,
 		&devices.CarouselStatus,
@@ -43,13 +42,17 @@ func MakePlugin() *sdk.Plugin {
 		&devices.Temperature,
 		&devices.Voltage,
 	)
+
+	// Register device handlers
+	err = plugin.RegisterDeviceHandlers(
+		handlers...,
+	)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Register device setup actions. These will create the emulated
-	// devices' value emitters for each device.
-	err = plugin.RegisterDeviceSetupActions(
+	setupActions := OpenMetricsEmitterSetup()
+	setupActions = append(setupActions,
 		&ActionAirflowValueEmitterSetup,
 		&ActionCarouselStatusValueEmitterSetup,
 		&ActionCarouselJSONValueEmitterSetup,
@@ -66,6 +69,12 @@ func MakePlugin() *sdk.Plugin {
 		&ActionPressureValueEmitterSetup,
 		&ActionTemperatureValueEmitterSetup,
 		&ActionVoltageValueEmitterSetup,
+	)
+
+	// Register device setup actions. These will create the emulated
+	// devices' value emitters for each device.
+	err = plugin.RegisterDeviceSetupActions(
+		setupActions...,
 	)
 	if err != nil {
 		log.Fatal(err)

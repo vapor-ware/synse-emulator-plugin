@@ -19,4 +19,18 @@ var (
 		Name: "json",
 		Type: "json",
 	}
+
+	Counter = output.Output{
+		Name:      "openmetrics_counter",
+		Type:      "openmetrics_counter",
+		Precision: 1,
+		Unit:      &output.Unit{},
+	}
+
+	Gauge = output.Output{
+		Name:      "openmetrics_gauge",
+		Type:      "openmetrics_gauge",
+		Precision: 1,
+		Unit:      &output.Unit{},
+	}
 )
