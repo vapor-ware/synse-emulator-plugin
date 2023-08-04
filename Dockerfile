@@ -1,7 +1,7 @@
 #
 # Builder Image
 #
-FROM docker.io/vaporio/golang:1.16 as builder
+FROM golang:1.20 as builder
 
 #
 # Final Image
